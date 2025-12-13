@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventoryController;
 use App\Models\InventoryItem; // Pastikan Model InventoryItem sudah diimpor
+use App\Http\Controllers\InventoryUnitController;
 
 // 1. Rute Publik (Tambahkan kembali jika hilang, atau asumsikan ada di luar)
 // Misalnya:
@@ -14,15 +15,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // A. Rute Dashboard (TANPA middleware tambahan)
     Route::get('/', function () {
-        
+
         // 1. Ambil data summary (untuk 3 kotak di atas)
         $totalItems = InventoryItem::sum('total_stock');
         $functionalItems = InventoryItem::sum('available_stock');
         $damagedItems = InventoryItem::sum('damaged_stock');
-        
+
         // 2. Ambil data detail (SEMUA item inventaris)
-        $inventoryList = InventoryItem::orderBy('updated_at', 'desc')->get(); 
-        
+        $inventoryList = InventoryItem::orderBy('updated_at', 'desc')->get();
+
         $data = [
             'total' => $totalItems,
             'functional' => $functionalItems,
@@ -30,13 +31,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'inventoryList' => $inventoryList, // Kirim list detail ke view
         ];
 
-        return view('dashboard', $data); 
-        
+        return view('dashboard', $data);
     })->name('dashboard');
 
     // Rute CRUD Inventaris Baru
-    Route::resource('inventories', InventoryController::class);
+    Route::resource('inventories', InventoryController::class)->except(['destroy']);
+    Route::delete('/inventories/{inventory}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
     
+    // --- RUTE INVENTARIS UNIT SATUAN (NESTED RESOURCE) ---
+    Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
+
     // B. Rute Profil (Tambahkan semua rute profil di sini)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -45,4 +49,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 // 3. Rute Otentikasi Lainnya (Login, Register, Logout)
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

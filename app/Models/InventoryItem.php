@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\InventoryUnit;
 
 class InventoryItem extends Model
 {
@@ -40,4 +41,9 @@ class InventoryItem extends Model
         'available_stock' => 'integer',
         'damaged_stock' => 'integer',
     ];
+
+    public function units()
+    {
+        return $this->hasMany(InventoryUnit::class);
+    }
 }

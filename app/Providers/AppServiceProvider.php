@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\InventoryUnit; // Wajib diimport
+use App\Observers\InventoryUnitObserver; // Wajib diimport
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        InventoryUnit::observe(InventoryUnitObserver::class);
     }
 }

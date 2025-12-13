@@ -283,61 +283,41 @@
             }
         }
     </style>
-    <div class="form-container">
-        <div class="form-card">
-            <h2 class="form-title">Edit Item: {{ $inventory->name }}</h2>
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Edit Item: {{ $inventory->name }}</h2>
 
-            <form action="{{ route('inventories.update', $inventory->id) }}" method="POST">
-                @csrf
-                @method('PATCH')
+                <form action="{{ route('inventories.update', $inventory->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
 
-                @if ($errors->any())
-                <div class="error-alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-
-                <div class="form-group">
-                    <label for="name" class="form-label">Nama Barang <span>*</span></label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $inventory->name) }}" required
-                        class="form-input @error('name') input-error @enderror">
-                </div>
-
-                <div class="stock-grid">
-                    <div class="form-group stock-input-total">
-                        <label for="total_stock" class="form-label">📊 Total Stok</label>
-                        <input type="number" name="total_stock" id="total_stock" value="{{ old('total_stock', $inventory->total_stock) }}" required
-                            class="form-input" min="0">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nama Barang:</label>
+                        <input type="text" name="name" id="name" value="{{ old('name', $inventory->name) }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('name') border-red-500 @enderror">
                     </div>
 
-                    <div class="form-group stock-input-available">
-                        <label for="available_stock" class="form-label">✅ Tersedia</label>
-                        <input type="number" name="available_stock" id="available_stock" value="{{ old('available_stock', $inventory->available_stock) }}" required
-                            class="form-input" min="0">
+                    <div class="mb-4">
+                        <label for="total_stock" class="block text-gray-700 text-sm font-bold mb-2">Total Stok:</label>
+                        <input type="number" name="total_stock" id="total_stock" value="{{ old('total_stock', $inventory->total_stock) }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('total_stock') border-red-500 @enderror">
                     </div>
 
-                    <div class="form-group stock-input-damaged">
-                        <label for="damaged_stock" class="form-label">⚠️ Rusak</label>
-                        <input type="number" name="damaged_stock" id="damaged_stock" value="{{ old('damaged_stock', $inventory->damaged_stock) }}" required
-                            class="form-input" min="0">
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Simpan Perubahan
+                        </button>
+                        <a href="{{ route('inventories.index') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Batal
+                        </a>
                     </div>
-                </div>
-                <p class="form-helper">* Stok Tersedia + Rusak = Total Stok</p>
+                </form>
 
-                <div class="form-actions">
-                    <a href="{{ route('inventories.index') }}" class="btn-cancel">← Batal</a>
-                    <button type="submit" class="btn-submit">Simpan Perubahan</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    {{-- Script untuk Logika Sinkronisasi Stok Real-Time --}}
     <script>
-        // Script sinkronisasi sama seperti create
         document.addEventListener('DOMContentLoaded', function() {
             const totalStockInput = document.getElementById('total_stock');
             const availableStockInput = document.getElementById('available_stock');
@@ -348,20 +328,25 @@
                 let available = parseInt(availableStockInput.value) || 0;
                 let damaged = parseInt(damagedStockInput.value) || 0;
 
-                if (total < 0) total = 0;
-                if (available < 0) available = 0;
-                if (damaged < 0) damaged = 0;
+                // Pastikan nilai minimum adalah 0
+                total = Math.max(0, total);
+                available = Math.max(0, available);
+                damaged = Math.max(0, damaged);
+
 
                 if (changedInput === damagedStockInput) {
                     let newAvailable = total - damaged;
+
                     if (newAvailable < 0) {
                         damagedStockInput.value = total;
                         availableStockInput.value = 0;
                     } else {
                         availableStockInput.value = newAvailable;
                     }
+
                 } else if (changedInput === availableStockInput) {
                     let newDamaged = total - available;
+
                     if (newDamaged < 0) {
                         availableStockInput.value = total;
                         damagedStockInput.value = 0;
@@ -369,6 +354,7 @@
                         damagedStockInput.value = newDamaged;
                     }
                 } else if (changedInput === totalStockInput) {
+                    // Jika Total berubah, hitung kembali kerusakan berdasarkan stok tersedia saat ini
                     let newDamaged = total - available;
                     if (newDamaged < 0) {
                         availableStockInput.value = total;
@@ -377,11 +363,32 @@
                         damagedStockInput.value = newDamaged;
                     }
                 }
+
+                // Update nilai di form agar selalu positif
+                totalStockInput.value = total;
+                availableStockInput.value = availableStockInput.value < 0 ? 0 : availableStockInput.value;
+                damagedStockInput.value = damagedStockInput.value < 0 ? 0 : damagedStockInput.value;
             }
 
-            damagedStockInput.addEventListener('input', () => syncStock(damagedStockInput));
-            availableStockInput.addEventListener('input', () => syncStock(availableStockInput));
-            totalStockInput.addEventListener('input', () => syncStock(totalStockInput));
+            // --- Event Listeners ---
+
+            // Inisialisasi: Sinkronkan stok saat halaman dimuat (untuk memastikan nilai yang di-load dari DB seimbang)
+            syncStock(totalStockInput);
+
+            // Pemicu dari Stok Rusak
+            damagedStockInput.addEventListener('input', function() {
+                syncStock(damagedStockInput);
+            });
+
+            // Pemicu dari Stok Tersedia
+            availableStockInput.addEventListener('input', function() {
+                syncStock(availableStockInput);
+            });
+
+            // Pemicu dari Total Stok
+            totalStockInput.addEventListener('input', function() {
+                syncStock(totalStockInput);
+            });
         });
     </script>
 </x-app-layout>
