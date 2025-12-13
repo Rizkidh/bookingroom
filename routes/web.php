@@ -1,0 +1,48 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InventoryController;
+use App\Models\InventoryItem; // Pastikan Model InventoryItem sudah diimpor
+
+// 1. Rute Publik (Tambahkan kembali jika hilang, atau asumsikan ada di luar)
+// Misalnya:
+
+
+// 2. Rute Terotentikasi dan Terverifikasi
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // A. Rute Dashboard (TANPA middleware tambahan)
+    Route::get('/', function () {
+        
+        // 1. Ambil data summary (untuk 3 kotak di atas)
+        $totalItems = InventoryItem::sum('total_stock');
+        $functionalItems = InventoryItem::sum('available_stock');
+        $damagedItems = InventoryItem::sum('damaged_stock');
+        
+        // 2. Ambil data detail (SEMUA item inventaris)
+        $inventoryList = InventoryItem::orderBy('updated_at', 'desc')->get(); 
+        
+        $data = [
+            'total' => $totalItems,
+            'functional' => $functionalItems,
+            'damaged' => $damagedItems,
+            'inventoryList' => $inventoryList, // Kirim list detail ke view
+        ];
+
+        return view('dashboard', $data); 
+        
+    })->name('dashboard');
+
+    // Rute CRUD Inventaris Baru
+    Route::resource('inventories', InventoryController::class);
+    
+    // B. Rute Profil (Tambahkan semua rute profil di sini)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+// 3. Rute Otentikasi Lainnya (Login, Register, Logout)
+require __DIR__.'/auth.php';
