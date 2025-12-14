@@ -397,11 +397,15 @@
                                 <div class="action-buttons">
                                     <a href="{{ route('inventories.units.show', [$inventory->id, $unit->id]) }}" class="btn-action btn-detail">Detail</a>
                                     <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}" class="btn-action btn-edit">Edit</a>
-                                    <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}" method="POST" onsubmit="return confirm('Yakin hapus unit {{ $unit->serial_number ?? $unit->id }}?');">
+                                    @can('delete', $unit)
+                                    <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-action btn-delete">Hapus</button>
+                                        <button class="bg-red-600 text-white px-4 py-2 rounded">
+                                            Hapus Unit
+                                        </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -409,7 +413,7 @@
                         <tr>
                             <td colspan="5">
                                 <div class="empty-state">
-                                    <div class="empty-state-icon">📦</div>
+                                    <div class="empty-state-icon"></div>
                                     <p class="empty-state-text">Belum ada unit satuan yang terdaftar.</p>
                                 </div>
                             </td>

@@ -512,61 +512,98 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Detail Unit: {{ $unit->serial_number ?? 'Unit #' . $unit->id }}</h2>
-                <p class="text-gray-500 mb-6">Bagian dari item: <a href="{{ route('inventories.show', $inventory->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium">{{ $inventory->name }}</a></p>
 
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                    Detail Unit: {{ $unit->serial_number ?? 'Unit #' . $unit->id }}
+                </h2>
+
+                <p class="text-gray-500 mb-6">
+                    Bagian dari item:
+                    <a href="{{ route('inventories.show', $inventory->id) }}"
+                        class="text-indigo-600 hover:text-indigo-800 font-medium">
+                        {{ $inventory->name }}
+                    </a>
+                </p>
+
+                {{-- GRID --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <div class="md:col-span-1">
+
+                    {{-- FOTO --}}
+                    <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
+
                         @if ($unit->photo)
-                            <img src="{{ Storage::url($unit->photo) }}" alt="Foto Unit {{ $unit->serial_number }}" class="w-full h-auto object-cover rounded-lg shadow-md border border-gray-200">
+                        <img src="{{ Storage::url($unit->photo) }}"
+                            class="w-full h-auto rounded-lg shadow border"
+                            alt="Foto Unit">
                         @else
-                            <div class="bg-gray-100 p-8 rounded-lg text-center text-gray-500">
-                                Tidak ada foto unit.
-                            </div>
+                        <div class="bg-gray-100 p-8 rounded text-center text-gray-500">
+                            Tidak ada foto unit
+                        </div>
                         @endif
                     </div>
-                    
-                    <div class="md:col-span-1">
+
+                    {{-- INFO --}}
+                    <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Informasi Unit</p>
-                        
+
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">Nomor Serial/ID:</p>
-                            <p class="text-gray-900 font-bold">{{ $unit->serial_number ?? 'N/A' }}</p>
+                            <p class="text-sm text-gray-500">Nomor Serial</p>
+                            <p class="font-bold">{{ $unit->serial_number ?? 'N/A' }}</p>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">Status Kondisi:</p>
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
+                            <p class="text-sm text-gray-500">Status</p>
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold
                                 @if ($unit->condition_status === 'available') bg-green-100 text-green-800
                                 @elseif ($unit->condition_status === 'in_use') bg-yellow-100 text-yellow-800
-                                @elseif ($unit->condition_status === 'damaged' || $unit->condition_status === 'maintenance') bg-red-100 text-red-800
+                                @else bg-red-100 text-red-800
                                 @endif">
                                 {{ ucfirst(str_replace('_', ' ', $unit->condition_status)) }}
                             </span>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">Pemegang Saat Ini:</p>
-                            <p class="text-gray-900">{{ $unit->current_holder ?? 'Gudang' }}</p>
+                            <p class="text-sm text-gray-500">Pemegang</p>
+                            <p>{{ $unit->current_holder ?? 'Gudang' }}</p>
                         </div>
 
                         <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">Ditambahkan Pada:</p>
-                            <p class="text-gray-900">{{ $unit->created_at->format('d M Y H:i') }}</p>
+                            <p class="text-sm text-gray-500">Dibuat</p>
+                            <p>{{ $unit->created_at->format('d M Y H:i') }}</p>
                         </div>
-                        
                     </div>
                 </div>
-                
-                <div class="flex space-x-3 mt-8 pt-4 border-t">
-                    <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150">
-                        Edit Unit Ini
+
+                {{-- ACTION BUTTONS --}}
+                <div class="flex flex-wrap gap-3 mt-8 pt-4 border-t">
+
+                    {{-- EDIT (ADMIN + PEGAWAI) --}}
+                    @can('update', $unit)
+                    <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Edit Unit
                     </a>
-                    <a href="{{ route('inventories.show', $inventory->id) }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-150">
-                        Kembali ke Detail Item Induk
+                    @endcan
+
+                    {{-- DELETE (ADMIN SAJA) --}}
+                    @can('delete', $unit)
+                    <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}"
+                        method="POST"
+                        onsubmit="return confirm('Yakin ingin menghapus unit ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Hapus Unit
+                        </button>
+                    </form>
+                    @endcan
+
+                    {{-- BACK --}}
+                    <a href="{{ route('inventories.show', $inventory->id) }}"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Kembali
                     </a>
                 </div>
 

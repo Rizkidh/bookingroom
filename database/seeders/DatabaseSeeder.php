@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class, // Untuk tabel users
             // Tambahkan Seeder Inventaris Anda di sini:
             InventoryItemSeeder::class, // Untuk tabel inventory_items
+            RolesAndPermissionsSeeder::class,
         ]);
     }
 }

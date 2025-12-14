@@ -2,24 +2,34 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'), // Kata sandi: password
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // PENTING: Gunakan firstOrCreate untuk menghindari duplikasi
+        User::firstOrCreate(
+            ['email' => 'admin@example.com'], // Kunci yang akan dicek
+            [
+                'name' => 'Admin User',
+                'role' => 'admin', // Role yang baru ditambahkan
+                'password' => Hash::make('password'), // Ganti dengan password yang kuat
+            ]
+        );
+
+        // Tambahkan user pegawai
+        User::firstOrCreate(
+            ['email' => 'pegawai@example.com'],
+            [
+                'name' => 'Pegawai User',
+                'role' => 'pegawai',
+                'password' => Hash::make('password'),
+            ]
+        );
+
+        // ... tambahkan user lain jika perlu
     }
 }

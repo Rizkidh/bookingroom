@@ -225,12 +225,14 @@
                                 <div class="action-buttons">
                                     <a href="{{ route('inventories.edit', $item->id) }}" class="btn-edit">Edit</a>
 
+                                    @can('delete', $item)
                                     {{-- Tombol Hapus --}}
                                     <form action="{{ route('inventories.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus item {{ $item->name }}?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-delete">Hapus</button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
