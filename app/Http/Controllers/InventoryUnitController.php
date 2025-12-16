@@ -20,7 +20,7 @@ class InventoryUnitController extends Controller
     {
         $this->authorize('create', InventoryUnit::class);
 
-        $conditionStatuses = ['available', 'in_use', 'damaged', 'maintenance', 'retired'];
+        $conditionStatuses = ['available', 'in_use', 'damaged',];
 
         return view('inventory_units.create', compact('inventory', 'conditionStatuses'));
     }
