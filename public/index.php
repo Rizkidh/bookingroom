@@ -1,20 +1,35 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-// Determine if the application is in maintenance mode...
+// 1. Cek Mode Maintenance
+// Pastikan path ke folder 'bookingroom' sudah benar
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
-// Register the Composer autoloader...
+// 2. Register Autoloader
+// Pastikan path ke folder 'bookingroom' sudah benar
 require __DIR__.'/../vendor/autoload.php';
 
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
+// 3. Bootstrap Laravel (Membuat variabel $app)
+// Pastikan path ke folder 'bookingroom' sudah benar
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$app->handleRequest(Request::capture());
+// --- BAGIAN PENTING (HANYA BOLEH DI SINI) ---
+// Memberitahu Laravel bahwa folder ini (public_html) adalah public path-nya
+// Kode ini harus diletakkan SETELAH $app dibuat, tapi SEBELUM $kernel dijalankan.
+$app->usePublicPath(__DIR__);
+// --------------------------------------------
+
+// 4. Jalankan Aplikasi
+$kernel = $app->make(Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);
