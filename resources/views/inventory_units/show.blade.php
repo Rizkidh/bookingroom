@@ -20,13 +20,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     {{-- FOTO --}}
-                    <div>
+                        <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
-
-                        <img
-                            src="{{secure_asset('storage/' . $unit->photo) }}"
-                            class="w-full h-auto rounded-lg shadow border"
-                            alt="Foto Unit">
+                    
+                        @if ($unit->photo && file_exists(public_path($unit->photo)))
+                            <img
+                                src="{{ asset($unit->photo) }}"
+                                class="w-full h-auto rounded-lg shadow border"
+                                alt="Foto Unit">
+                        @else
+                            <div class="bg-gray-100 p-8 rounded text-center text-gray-500">
+                                Tidak ada foto unit
+                            </div>
+                        @endif
                     </div>
 
                     {{-- INFO --}}

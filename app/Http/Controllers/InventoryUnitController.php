@@ -44,11 +44,11 @@ class InventoryUnitController extends Controller
             ->with('success', 'Unit berhasil ditambahkan');
     }
 
-    public function update(Request $request, InventoryItem $inventory, InventoryUnit $unit)
+    public function update(Request $request, InventoryItem $inventory, string $unitId)
     {
-        $this->authorize('update', $unit);
 
-        abort_if($unit->inventory_item_id !== $inventory->id, 404);
+        $unit = $inventory->units()->findOrFail($unitId);
+        $this->authorize('update', $unit);
 
         $data = $request->validate([
             'serial_number'    => 'nullable|string|max:255',
@@ -73,11 +73,12 @@ class InventoryUnitController extends Controller
             ->with('success', 'Unit berhasil diperbarui');
     }
 
-    public function destroy(InventoryItem $inventory, InventoryUnit $unit)
+    public function destroy(InventoryItem $inventory, string $unitId)
     {
-        $this->authorize('delete', $unit);
+        // Cari manual
+        $unit = $inventory->units()->findOrFail($unitId);
 
-        abort_if($unit->inventory_item_id !== $inventory->id, 404);
+        $this->authorize('delete', $unit);
 
         ImageHelper::delete($unit->photo);
         $unit->delete();
@@ -87,12 +88,33 @@ class InventoryUnitController extends Controller
             ->with('success', 'Unit berhasil dihapus');
     }
 
-    public function show(InventoryItem $inventory, InventoryUnit $unit)
+    public function show(InventoryItem $inventory, string $unitId)
     {
+        // Cari unit SECARA MANUAL melalui relasi inventory agar foreign key 'inventory_item_id' terbaca
+        $unit = $inventory->units()->findOrFail($unitId);
+
         $this->authorize('view', $unit);
 
-        abort_if($unit->inventory_item_id !== $inventory->id, 404);
+        // Baris ini sebenarnya sudah tidak perlu karena findOrFail di atas sudah memastikan unit milik inventory tersebut
+        // abort_if($unit->inventory_item_id !== $inventory->id, 404);
 
         return view('inventory_units.show', compact('inventory', 'unit'));
+    }
+
+    public function edit(InventoryItem $inventory, string $unitId)
+    {
+        // 1. Cari unit
+        $unit = $inventory->units()->findOrFail($unitId);
+
+        // 2. Otorisasi
+        $this->authorize('update', $unit);
+
+        // 3. --- TAMBAHAN PENTING ---
+        // Definisikan daftar status yang bisa dipilih.
+        // Sesuaikan isi array ini dengan kebutuhan aplikasimu (misal: 'available', 'damaged', 'maintenance', dll)
+        $conditionStatuses = ['available', 'in_use', 'maintenance', 'damaged', 'lost'];
+
+        // 4. Kirim variabel $conditionStatuses ke view menggunakan compact
+        return view('inventory_units.edit', compact('inventory', 'unit', 'conditionStatuses'));
     }
 }
