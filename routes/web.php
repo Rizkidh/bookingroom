@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rute CRUD Inventaris Baru
     Route::resource('inventories', InventoryController::class)->except(['destroy']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
-    
+
     // --- RUTE INVENTARIS UNIT SATUAN (NESTED RESOURCE) ---
     Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
 
