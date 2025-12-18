@@ -1,4 +1,6 @@
 import './bootstrap';
+import '../css/inventory.css';
+
 
 import Alpine from 'alpinejs';
 
