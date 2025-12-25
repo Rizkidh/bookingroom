@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -49,12 +49,11 @@ return [
 
         'public_uploads' => [
             'driver' => 'local',
-            'root' => base_path('../public_html/storage/unit_photos'),
-            'url' => env('APP_URL') . '/storage/unit_photos',
+            'root' => base_path('../public_html/unit_photos'),
+            'url' => env('APP_URL') . '/unit_photos',
             'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
         ],
+
 
         's3' => [
             'driver' => 's3',
@@ -83,7 +82,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage') => storage_path('../public_html'),
     ],
 
 ];

@@ -21,7 +21,7 @@
                         <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
                     
-                        @if ($unit->photo && file_exists(public_path($unit->photo)))
+                        @if ($unit->photo)
                             <img
                                 src="{{ asset($unit->photo) }}"
                                 class="w-full h-auto rounded-lg shadow border"

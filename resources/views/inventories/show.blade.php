@@ -30,17 +30,17 @@
                         @forelse ($units as $unit)
                         <tr>
                             <td>
-                            @if ($unit->photo && file_exists(public_path($unit->photo)))
-                                <img 
+                                @if ($unit->photo)
+                                <img
                                     src="{{ asset($unit->photo) }}"
-                                    class="w-full h-auto rounded-lg shadow border"
+                                    class="w-full h-40 object-cover rounded-lg shadow border"
                                     alt="Foto Unit"
-                                >
-                            @else
+                                    onerror="this.onerror=null;this.src='https:placehold.co/600x400?text=Foto+Tidak+Ditemukan';">
+                                @else
                                 <div class="bg-gray-100 p-8 rounded text-center text-gray-500">
                                     Tidak ada foto unit
                                 </div>
-                            @endif
+                                @endif
                             </td>
                             <td><span class="serial-number">{{ $unit->serial_number ?? 'N/A' }}</span></td>
                             <td>
