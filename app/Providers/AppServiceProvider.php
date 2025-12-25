@@ -8,6 +8,7 @@ use App\Observers\InventoryUnitObserver; // Wajib diimport
 use App\Policies\InventoryItemPolicy;
 use App\Models\InventoryItem;
 use App\Policies\InventoryUnitPolicy;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('path.public', function() {
-        return base_path('../public_html'); 
-    });
+        $this->app->bind('path.public', function () {
+            return base_path('../public_html');
+        });
     }
 
     /**
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         InventoryUnit::observe(InventoryUnitObserver::class);
     }
 }
