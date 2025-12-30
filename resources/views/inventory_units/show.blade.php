@@ -10,7 +10,7 @@
                 <p class="text-gray-500 mb-6">
                     Bagian dari item:
                     <a href="{{ route('inventories.show', $inventory->id) }}"
-                       class="text-indigo-600 hover:text-indigo-800 font-medium">
+                        class="text-indigo-600 hover:text-indigo-800 font-medium">
                         {{ $inventory->name }}
                     </a>
                 </p>
@@ -18,19 +18,39 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     {{-- FOTO --}}
-                        <div>
+                    <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
-                    
+
                         @if ($unit->photo)
-                            <img
-                                src="{{ asset($unit->photo) }}"
-                                class="w-full h-auto rounded-lg shadow border"
-                                alt="Foto Unit">
+                        <img
+                            src="{{ asset($unit->photo) }}"
+                            class="w-full h-auto rounded-lg shadow border mb-4"
+                            alt="Foto Unit">
                         @else
-                            <div class="bg-gray-100 p-8 rounded text-center text-gray-500">
-                                Tidak ada foto unit
-                            </div>
+                        <div class="bg-gray-100 p-8 rounded text-center text-gray-500 mb-4">
+                            Tidak ada foto unit
+                        </div>
                         @endif
+
+                        {{-- QR CODE --}}
+                        <div class="mt-4 text-center">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">QR Code</p>
+
+                            @if($unit->qr_code)
+                            <img
+                                src="{{ asset($unit->qr_code) }}"
+                                alt="QR Code"
+                                class="mx-auto w-40 h-40 border rounded shadow">
+
+                            <a href="{{ asset($unit->qr_code) }}"
+                                download
+                                class="inline-block mt-2 text-sm text-indigo-600 hover:underline">
+                                Download QR Code
+                            </a>
+                            @else
+                            <p class="text-sm text-gray-500">QR Code belum tersedia</p>
+                            @endif
+                        </div>
                     </div>
 
                     {{-- INFO --}}
@@ -70,26 +90,26 @@
                 <div class="flex flex-wrap gap-3 mt-8 pt-4 border-t">
 
                     @can('update', $unit)
-                        <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}"
-                           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Edit Unit
-                        </a>
+                    <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Edit Unit
+                    </a>
                     @endcan
 
                     @can('delete', $unit)
-                        <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}"
-                              method="POST"
-                              onsubmit="return confirm('Yakin ingin menghapus unit ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Hapus Unit
-                            </button>
-                        </form>
+                    <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}"
+                        method="POST"
+                        onsubmit="return confirm('Yakin ingin menghapus unit ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Hapus Unit
+                        </button>
+                    </form>
                     @endcan
 
                     <a href="{{ route('inventories.show', $inventory->id) }}"
-                       class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                         Kembali
                     </a>
                 </div>

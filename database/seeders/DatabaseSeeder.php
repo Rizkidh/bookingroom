@@ -13,9 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class, // Untuk tabel users
-            // Tambahkan Seeder Inventaris Anda di sini:
-            InventoryItemSeeder::class, // Untuk tabel inventory_items
-            RolesAndPermissionsSeeder::class,
         ]);
     }
 }

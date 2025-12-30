@@ -38,6 +38,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('inventories', InventoryController::class)->except(['destroy']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
 
+    // --- RUTE SCAN BARCODE ---
+    Route::get('/scan', [InventoryUnitController::class, 'scanPage'])->name('units.scan');
+    Route::post('/scan/process', [InventoryUnitController::class, 'processScan'])->name('units.process-scan');
+
     // --- RUTE INVENTARIS UNIT SATUAN (NESTED RESOURCE) ---
     Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
 
