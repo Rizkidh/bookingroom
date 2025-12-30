@@ -1,6 +1,10 @@
 import './bootstrap';
-import '../css/inventory.css';
 
+// Import all CSS files
+import '../css/theme.css';
+import '../css/dashboard.css';
+import '../css/forms.css';
+import '../css/inventory.css';
 
 import Alpine from 'alpinejs';
 

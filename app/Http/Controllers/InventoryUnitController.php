@@ -89,7 +89,7 @@ class InventoryUnitController extends Controller
             'serial_number'    => 'nullable|string|max:255|unique:inventory_units,serial_number',
             'photo'            => 'nullable|image|max:2048',
             'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
-            'current_holder'   => 'nullable|string|max:255',
+            'current_holder'   => 'required|string|max:255',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -104,7 +104,7 @@ class InventoryUnitController extends Controller
 
         return redirect()
             ->route('inventories.show', $inventory)
-            ->with('success', 'Unit berhasil ditambahkan dan QR code sudah di-generate');
+            ->with('success', 'Unit berhasil ditambahkan! QR code sudah di-generate otomatis.');
     }
 
     public function update(Request $request, InventoryItem $inventory, string $unitId)
@@ -117,7 +117,7 @@ class InventoryUnitController extends Controller
             'serial_number'    => 'nullable|string|max:255|unique:inventory_units,serial_number,' . $unitId . ',id',
             'photo'            => 'nullable|image|max:2048',
             'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
-            'current_holder'   => 'nullable|string|max:255',
+            'current_holder'   => 'required|string|max:255',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -133,7 +133,7 @@ class InventoryUnitController extends Controller
 
         return redirect()
             ->route('inventories.show', $inventory)
-            ->with('success', 'Unit berhasil diperbarui');
+            ->with('success', 'Unit berhasil diperbarui!');
     }
 
     public function destroy(InventoryItem $inventory, string $unitId)

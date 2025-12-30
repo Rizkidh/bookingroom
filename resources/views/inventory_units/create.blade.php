@@ -1,121 +1,108 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+    <div class="form-container">
+        <div class="form-card">
+            <h2 class="form-title">Tambah Unit untuk: {{ $inventory->name }}</h2>
 
-                <h2 class="text-2xl font-semibold text-gray-800 mb-6">
-                    Tambah Unit untuk: <strong>{{ $inventory->name }}</strong>
-                </h2>
+            <form action="{{ route('inventories.units.store', $inventory->id) }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  id="unitForm">
+                @csrf
 
-                <form action="{{ route('inventories.units.store', $inventory->id) }}"
-                      method="POST"
-                      enctype="multipart/form-data">
-                    @csrf
-
-                    {{-- ERROR --}}
-                    @if ($errors->any())
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    {{-- SCAN BARCODE --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Scan Barcode (HP)
-                        </label>
-
-                        <button type="button"
-                                id="startScanBtn"
-                                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded mb-2">
-                            Mulai Scan
-                        </button>
-
-                        <button type="button"
-                                id="stopScanBtn"
-                                class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded mb-2 hidden">
-                            Hentikan Scan
-                        </button>
-
-                        <div id="reader"
-                             class="border rounded p-2 mt-2"
-                             style="max-width:320px; display:none;"></div>
-
-                        <small class="text-gray-500 block mt-1">
-                            Klik tombol scan untuk mengaktifkan kamera
-                        </small>
+                @if ($errors->any())
+                    <div class="error-alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
+                @endif
 
-                    {{-- SERIAL NUMBER --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Nomor Serial / Barcode
-                        </label>
+                <div class="form-group">
+                    <label class="form-label">Scan Barcode (HP)</label>
 
-                        <input type="text"
-                               name="serial_number"
-                               id="serial_number"
-                               value="{{ old('serial_number') }}"
-                               class="border rounded w-full p-2"
-                               placeholder="Scan barcode atau ketik manual">
-                    </div>
+                    <button type="button"
+                            id="startScanBtn"
+                            class="btn-submit" style="margin-bottom: 0.5rem;">
+                        Mulai Scan
+                    </button>
 
-                    {{-- FOTO --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Foto Unit (Opsional)
-                        </label>
-                        <input type="file" name="photo" class="border rounded w-full p-2">
-                    </div>
+                    <button type="button"
+                            id="stopScanBtn"
+                            class="btn-submit" style="margin-bottom: 0.5rem; display:none;">
+                        Hentikan Scan
+                    </button>
 
-                    {{-- KONDISI --}}
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Status Kondisi
-                        </label>
-                        <select name="condition_status" required class="border rounded w-full p-2">
-                            <option value="available">Tersedia</option>
-                            <option value="in_use">Sedang Dipakai</option>
-                            <option value="maintenance">Perawatan</option>
-                            <option value="damaged">Rusak</option>
-                        </select>
-                    </div>
+                    <div id="reader"
+                         class="border rounded p-2 mt-2"
+                         style="max-width:320px; display:none;"></div>
 
-                    {{-- PEMEGANG --}}
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Pemegang Saat Ini (Opsional)
-                        </label>
-                        <input type="text" name="current_holder" class="border rounded w-full p-2">
-                    </div>
+                    <small class="form-helper" style="display: block; margin-top: 0.5rem;">
+                        Klik tombol scan untuk mengaktifkan kamera
+                    </small>
+                </div>
 
-                    {{-- BUTTON --}}
-                    <div class="flex justify-between">
-                        <button type="submit"
-                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Simpan Unit
-                        </button>
+                <div class="form-group">
+                    <label class="form-label">Nomor Serial / Barcode <span>*</span></label>
+                    <input type="text"
+                           name="serial_number"
+                           id="serial_number"
+                           value="{{ old('serial_number') }}"
+                           class="form-input"
+                           placeholder="Scan barcode atau ketik manual">
+                </div>
 
-                        <a href="{{ route('inventories.show', $inventory->id) }}"
-                           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Batal
-                        </a>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <label class="form-label">Foto Unit (Opsional)</label>
+                    <input type="file" name="photo" class="form-input">
+                </div>
 
-            </div>
+                <div class="form-group">
+                    <label class="form-label">Status Kondisi <span>*</span></label>
+                    <select name="condition_status" required class="form-input">
+                        <option value="">-- Pilih Status --</option>
+                        <option value="available">Tersedia</option>
+                        <option value="in_use">Sedang Dipakai</option>
+                        <option value="maintenance">Perawatan</option>
+                        <option value="damaged">Rusak</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pemegang Saat Ini <span>*</span></label>
+                    <select name="current_holder" required class="form-input">
+                        <option value="">-- Pilih Pemegang --</option>
+                        <option value="angpen">Angpen</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit"
+                            class="btn-submit">
+                        Simpan Unit
+                    </button>
+
+                    <a href="{{ route('inventories.show', $inventory->id) }}"
+                       class="btn-cancel">
+                        Batal
+                    </a>
+                </div>
+            </form>
+
         </div>
     </div>
 
-    {{-- LIBRARY --}}
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    @php
+        $successMessage = session('success');
+        $successRoute = route('inventories.show', $inventory->id);
+    @endphp
 
-    {{-- SCRIPT --}}
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        /* eslint-disable */
         let html5QrCode;
         const reader = document.getElementById('reader');
         const serialInput = document.getElementById('serial_number');
@@ -150,5 +137,76 @@
                 });
             }
         }
+
+        document.getElementById('unitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const conditionStatus = document.querySelector('select[name="condition_status"]').value;
+            const currentHolder = document.querySelector('select[name="current_holder"]').value;
+
+            if (!conditionStatus) {
+                Swal.fire({
+                    title: 'Peringatan',
+                    text: 'Pilih status kondisi terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return;
+            }
+
+            if (!currentHolder) {
+                Swal.fire({
+                    title: 'Peringatan',
+                    text: 'Pilih pemegang terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Menambahkan Unit...',
+                html: 'Mohon tunggu',
+                icon: 'info',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            setTimeout(() => {
+                this.submit();
+            }, 500);
+        });
+        /* eslint-enable */
     </script>
+
+    @if ($successMessage)
+    <script>
+        /* eslint-disable */
+        window.addEventListener('load', function() {
+            if (Swal.isVisible()) {
+                Swal.hideLoading();
+                Swal.close();
+            }
+            
+            Swal.fire({
+                title: 'Berhasil!',
+                text: '{{ $successMessage }}',
+                icon: 'success',
+                confirmButtonText: 'Lanjut',
+                confirmButtonColor: '#3b82f6',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ $successRoute }}';
+                }
+            });
+        });
+        /* eslint-enable */
+    </script>
+    @endif
 </x-app-layout>

@@ -1,4 +1,12 @@
 <x-app-layout>
+    {{-- Store session data in PHP variable to avoid Blade syntax in JavaScript --}}
+    @php
+        $successMessage = session('success');
+    @endphp
+
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <div class="management-container">
         <div class="management-card">
 
@@ -8,12 +16,6 @@
                     + Tambah Barang Baru
                 </a>
             </div>
-
-            @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-            @endif
 
             <div class="table-container">
                 <table class="management-table">
@@ -62,11 +64,28 @@
 
             @if ($inventoryItems->isEmpty())
             <div class="empty-state">
-                <div class="empty-state-icon">📦</div>
                 <p>Belum ada item inventaris yang ditambahkan.</p>
             </div>
             @endif
 
         </div>
     </div>
+
+    @if ($successMessage)
+    <script>
+        /* eslint-disable */
+        window.addEventListener('load', function() {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: '{{ $successMessage }}',
+                icon: 'success',
+                confirmButtonText: 'Lanjut',
+                confirmButtonColor: '#3b82f6',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            });
+        });
+        /* eslint-enable */
+    </script>
+    @endif
 </x-app-layout>

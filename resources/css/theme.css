@@ -1,0 +1,380 @@
+/* ==================== GLOBAL THEME - PROFESSIONAL BLUE ==================== */
+
+:root {
+    --primary-blue: #1e3a8a;
+    --secondary-blue: #3b82f6;
+    --light-blue: #dbeafe;
+    --dark-blue: #1e293b;
+    --border-gray: #e2e8f0;
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --success-green: #16a34a;
+    --warning-orange: #f97316;
+    --danger-red: #dc2626;
+    --light-bg: #f8fafc;
+}
+
+/* ==================== NAVBAR STYLES ==================== */
+
+.navbar-bg {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%) !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+    border: none !important;
+}
+
+nav {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+nav a, nav button {
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+nav a:hover, nav button:hover {
+    color: var(--light-blue) !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 6px;
+}
+
+nav .dropdown-toggle, nav .x-dropdown > button {
+    background-color: transparent !important;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+nav .dropdown-toggle:hover, nav .x-dropdown > button:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-link {
+    position: relative;
+    padding-bottom: 2px;
+    color: white !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: var(--light-blue);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ==================== DROPDOWN STYLES ==================== */
+
+.dropdown-content, [x-cloak] [x-show], .x-dropdown > div {
+    background: white !important;
+    border: 2px solid #d1d5db !important;
+    border-radius: 10px !important;
+    box-shadow: 0 20px 35px rgba(30, 58, 138, 0.3), 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.dropdown-link, .x-dropdown a, [x-dropdown] a {
+    color: #374151 !important;
+    padding: 14px 18px !important;
+    transition: all 0.2s ease !important;
+    display: block !important;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: 500;
+}
+
+.dropdown-link:hover, .x-dropdown a:hover, [x-dropdown] a:hover {
+    background-color: #dbeafe !important;
+    color: #1e3a8a !important;
+    padding-left: 20px !important;
+    border-bottom-color: #bfdbfe;
+}
+
+.dropdown-link:last-child, .x-dropdown a:last-child, [x-dropdown] a:last-child {
+    border-bottom: none;
+}
+
+
+/* ==================== HEADER STYLES ==================== */
+
+header {
+    background: white;
+    border-bottom: 3px solid var(--secondary-blue);
+}
+
+header h1, header h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+/* ==================== FORM STYLES ==================== */
+
+.form-label {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.form-input, input, select, textarea {
+    border: 2px solid var(--border-gray);
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus, input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--secondary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ==================== BUTTON STYLES ==================== */
+
+.btn-primary, .btn-submit, button[type="submit"] {
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:hover, .btn-submit:hover, button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary, button[type="button"] {
+    background: var(--text-light);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover, button[type="button"]:hover {
+    background: var(--text-dark);
+    transform: translateY(-2px);
+}
+
+.btn-danger, .btn-delete, .btn-cancel {
+    background: var(--danger-red);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover, .btn-delete:hover, .btn-cancel:hover {
+    background: #b91c1c;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--success-green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background: #15803d;
+    transform: translateY(-2px);
+}
+
+/* ==================== CARD & CONTAINER STYLES ==================== */
+
+.card, .form-card, .unit-detail-card, .management-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(30, 58, 138, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover, .form-card:hover {
+    box-shadow: 0 8px 30px rgba(30, 58, 138, 0.12);
+}
+
+/* ==================== BADGE & STATUS STYLES ==================== */
+
+.badge, .status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-primary, .status-available {
+    background: #dbeafe;
+    color: var(--primary-blue);
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: var(--success-green);
+}
+
+.badge-danger, .status-damaged {
+    background: #fee2e2;
+    color: var(--danger-red);
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: var(--warning-orange);
+}
+
+.badge-info {
+    background: #dbeafe;
+    color: var(--secondary-blue);
+}
+
+/* ==================== TABLE STYLES ==================== */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table thead {
+    background: var(--light-bg);
+    border-bottom: 2px solid var(--secondary-blue);
+}
+
+table th {
+    padding: 12px;
+    text-align: left;
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-gray);
+    color: var(--text-dark);
+}
+
+table tbody tr:hover {
+    background: var(--light-bg);
+}
+
+/* ==================== ALERT STYLES ==================== */
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: var(--success-green);
+    border-left: 4px solid var(--success-green);
+}
+
+.alert-danger {
+    background: #fee2e2;
+    color: var(--danger-red);
+    border-left: 4px solid var(--danger-red);
+}
+
+.alert-warning {
+    background: #fef3c7;
+    color: var(--warning-orange);
+    border-left: 4px solid var(--warning-orange);
+}
+
+.alert-info {
+    background: #dbeafe;
+    color: var(--primary-blue);
+    border-left: 4px solid var(--secondary-blue);
+}
+
+/* ==================== LINK STYLES ==================== */
+
+a {
+    color: var(--secondary-blue);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-blue);
+    text-decoration: underline;
+}
+
+/* ==================== TEXT STYLES ==================== */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.text-muted {
+    color: var(--text-light);
+}
+
+.text-dark {
+    color: var(--text-dark);
+}
+
+.text-primary {
+    color: var(--primary-blue);
+}
+
+.text-secondary {
+    color: var(--secondary-blue);
+}
+
+/* ==================== BORDER & DIVIDER ==================== */
+
+hr {
+    border: none;
+    border-top: 2px solid var(--border-gray);
+    margin: 20px 0;
+}
+
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--secondary-blue), transparent);
+    margin: 20px 0;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .card, .form-card {
+        border-radius: 8px;
+    }
+
+    button, .btn-primary, .btn-secondary {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}

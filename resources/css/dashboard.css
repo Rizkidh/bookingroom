@@ -1,0 +1,322 @@
+/* ==================== DASHBOARD CONTAINER ==================== */
+
+.dashboard-container {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    padding: 40px 20px;
+    min-height: calc(100vh - 64px);
+    margin-top: 0;
+}
+
+/* ==================== DASHBOARD HEADER ==================== */
+
+.dashboard-header {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* ==================== STATS GRID ==================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-blue), #2563eb);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(30, 58, 138, 0.12);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.stat-subtext {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.stat-card.total .stat-value {
+    color: var(--primary-blue);
+}
+
+.stat-card.available .stat-value {
+    color: var(--success-green);
+}
+
+.stat-card.damaged .stat-value {
+    color: var(--danger-red);
+}
+
+.stat-card.units .stat-value {
+    color: var(--secondary-blue);
+}
+
+/* ==================== INVENTORY SECTION ==================== */
+
+.inventory-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.08);
+    overflow: hidden;
+}
+
+.section-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    color: white;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+}
+
+.add-btn {
+    background: white;
+    color: var(--primary-blue);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    color: var(--primary-blue);
+}
+
+/* ==================== TABLE WRAPPER ==================== */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table thead {
+    background: var(--light-bg);
+    border-bottom: 2px solid var(--secondary-blue);
+}
+
+.inventory-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-blue);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inventory-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border-gray);
+    color: var(--text-dark);
+}
+
+.inventory-table tbody tr:hover {
+    background-color: var(--light-bg);
+}
+
+.item-name {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.stock-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-total {
+    background: #dbeafe;
+    color: var(--primary-blue);
+}
+
+.badge-available {
+    background: #dcfce7;
+    color: var(--success-green);
+}
+
+.badge-damaged {
+    background: #fee2e2;
+    color: var(--danger-red);
+}
+
+.updated-time {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.action-link {
+    color: var(--secondary-blue);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.action-link:hover {
+    color: var(--primary-blue);
+    text-decoration: underline;
+}
+
+/* ==================== EMPTY STATE ==================== */
+
+.empty-state {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: var(--secondary-blue);
+}
+
+.empty-state-text {
+    color: var(--text-light);
+    margin-bottom: 24px;
+    font-size: 1rem;
+}
+
+.empty-state-btn {
+    background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.empty-state-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+    text-decoration: none;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .inventory-table th,
+    .inventory-table td {
+        padding: 10px 8px;
+        font-size: 0.75rem;
+    }
+}

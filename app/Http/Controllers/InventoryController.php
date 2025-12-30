@@ -31,27 +31,20 @@ class InventoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:inventory_items,name',
-            'photo' => 'nullable|image|max:2048',
-            'total_stock' => 'required|integer|min:0',
-            'available_stock' => 'required|integer|min:0',
-            'damaged_stock' => 'required|integer|min:0',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $path = $request->file('photo')?->store('inventory_photos', 'public');
-
         InventoryItem::create([
             'name' => $request->name,
-            'photo' => $path,
-            'total_stock' => $request->total_stock,
-            'available_stock' => $request->available_stock,
-            'damaged_stock' => $request->damaged_stock,
+            'total_stock' => 0,
+            'available_stock' => 0,
+            'damaged_stock' => 0,
         ]);
 
-        return redirect()->route('inventories.index')->with('success', 'Item berhasil ditambahkan');
+        return redirect()->route('inventories.index')->with('success', 'Item berhasil ditambahkan! Anda dapat menambahkan unit sekarang.');
     }
 
     public function show(InventoryItem $inventory)
@@ -73,23 +66,13 @@ class InventoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', Rule::unique('inventory_items')->ignore($inventory->id)],
-            'photo' => 'nullable|image|max:2048',
-            'total_stock' => 'required|integer|min:0',
-            'available_stock' => 'required|integer|min:0',
-            'damaged_stock' => 'required|integer|min:0',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $data = $request->only(['name', 'total_stock', 'available_stock', 'damaged_stock']);
-
-        if ($request->hasFile('photo')) {
-            Storage::disk('public')->delete($inventory->photo);
-            $data['photo'] = $request->file('photo')->store('inventory_photos', 'public');
-        }
-
+        $data = $request->only(['name']);
         $inventory->update($data);
 
         return redirect()->route('inventories.index')->with('success', 'Item berhasil diperbarui');

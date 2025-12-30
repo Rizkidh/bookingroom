@@ -4,7 +4,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
-                    📱 Scan Barcode/QR Code
+                     Scan Barcode/QR Code
                 </h2>
 
                 {{-- Success Message --}}
@@ -29,7 +29,7 @@
                         <button type="button" 
                                 id="startScanBtn"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
-                            🎬 Mulai Scan
+                             Mulai Scan
                         </button>
 
                         <button type="button" 
@@ -79,7 +79,7 @@
 
                 {{-- Information Card --}}
                 <div class="bg-blue-50 rounded-lg p-4 mt-6 border border-blue-200">
-                    <h3 class="text-sm font-semibold text-blue-900 mb-2">💡 Tips:</h3>
+                    <h3 class="text-sm font-semibold text-blue-900 mb-2">Tips:</h3>
                     <ul class="text-sm text-blue-800 space-y-1">
                         <li>✓ Pastikan cahaya cukup untuk scan yang lebih baik</li>
                         <li>✓ Arahkan kamera ke QR code secara tegak lurus</li>
