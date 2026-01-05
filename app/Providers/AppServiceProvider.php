@@ -10,6 +10,9 @@ use App\Observers\InventoryItemObserver;
 use App\Policies\InventoryItemPolicy;
 use App\Policies\InventoryUnitPolicy;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +38,10 @@ class AppServiceProvider extends ServiceProvider
         // Register observers for activity logging
         InventoryUnit::observe(InventoryUnitObserver::class);
         InventoryItem::observe(InventoryItemObserver::class);
+
+        // Define rate limiters
+        RateLimiter::for('form', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
     }
 }
