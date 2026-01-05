@@ -32,7 +32,6 @@ class InventoryUnit extends Model
     {
         static::creating(function ($model) {
             try {
-                // Generate ID
                 if (!$model->id) {
                     $lastId = self::orderBy('id', 'desc')->value('id');
                     $model->id = $lastId
@@ -40,12 +39,10 @@ class InventoryUnit extends Model
                         : '00001';
                 }
 
-                // Validate inventory_item_id exists
                 if (!$model->inventory_item_id) {
                     throw new Exception('inventory_item_id is required');
                 }
 
-                // Ensure folder exists
                 $dir = public_path('qrcodes');
                 if (!is_dir($dir)) {
                     if (!mkdir($dir, 0755, true)) {
@@ -53,17 +50,14 @@ class InventoryUnit extends Model
                     }
                 }
 
-                // Validate folder is writable
                 if (!is_writable($dir)) {
                     throw new Exception('qrcodes directory is not writable: ' . $dir);
                 }
 
-                // Validate GD extension is available
                 if (!extension_loaded('gd')) {
                     throw new Exception('GD extension is required for QR code generation. Please enable php_gd2 in php.ini');
                 }
 
-                // Generate QR Code using Endroid v6 API
                 $builder = new Builder(
                     writer: new PngWriter(),
                     data: (string) $model->id,
@@ -78,15 +72,12 @@ class InventoryUnit extends Model
                 $path = 'qrcodes/' . $model->id . '.png';
                 $fullPath = public_path($path);
                 
-                // Save QR code file
                 $result->saveToFile($fullPath);
 
-                // Verify file was created
                 if (!file_exists($fullPath)) {
                     throw new Exception('QR code file was not created at: ' . $fullPath);
                 }
 
-                // Verify file has content
                 if (filesize($fullPath) === 0) {
                     throw new Exception('QR code file is empty at: ' . $fullPath);
                 }
@@ -106,7 +97,6 @@ class InventoryUnit extends Model
                     'stack_trace' => $e->getTraceAsString(),
                 ]);
                 
-                // Log error to file for easier debugging
                 $logFile = storage_path('logs/qrcode_errors.log');
                 file_put_contents(
                     $logFile,
@@ -114,8 +104,6 @@ class InventoryUnit extends Model
                     FILE_APPEND
                 );
                 
-                // Set qr_code to null if generation fails
-                // Model will still be created but without QR code
                 $model->qr_code = null;
             }
         });

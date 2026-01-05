@@ -17,7 +17,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    {{-- FOTO --}}
                     <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
 
@@ -32,7 +31,6 @@
                         </div>
                         @endif
 
-                        {{-- QR CODE --}}
                         <div class="mt-4 text-center">
                             <p class="text-sm font-semibold text-gray-700 mb-2">QR Code</p>
 
@@ -53,7 +51,6 @@
                         </div>
                     </div>
 
-                    {{-- INFO --}}
                     <div>
                         <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Informasi Unit</p>
 
@@ -86,7 +83,6 @@
                     </div>
                 </div>
 
-                {{-- ACTION --}}
                 <div class="flex flex-wrap gap-3 mt-8 pt-4 border-t">
 
                     @can('update', $unit)

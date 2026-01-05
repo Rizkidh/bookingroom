@@ -4,7 +4,6 @@
         <p class="text-gray-600 mt-2">Riwayat lengkap semua aktivitas dan perubahan data dalam sistem</p>
     </div>
 
-    <!-- Filter dan Search -->
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <form method="GET" action="{{ route('activity-logs.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
@@ -40,7 +39,6 @@
         </form>
     </div>
 
-    <!-- Table Activity Log -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto max-h-[400px] overflow-y-auto">
             <table class="w-full">
@@ -98,7 +96,6 @@
         </div>
     </div>
 
-    <!-- Pagination -->
     @if ($logs->count() > 0)
         <div class="mt-6">
             {{ $logs->links() }}

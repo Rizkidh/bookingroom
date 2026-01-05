@@ -7,21 +7,18 @@
                      Scan Barcode/QR Code
                 </h2>
 
-                {{-- Success Message --}}
                 @if (session('success'))
                     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                {{-- Error Message --}}
                 @if (session('error'))
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                         {{ session('error') }}
                     </div>
                 @endif
 
-                {{-- Video Scanner Area --}}
                 <div class="bg-gray-100 rounded-lg p-4 mb-6">
                     <div id="reader" class="mb-4"></div>
                     
@@ -35,13 +32,13 @@
                         <button type="button" 
                                 id="stopScanBtn"
                                 class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded hidden">
-                            ⏹️ Hentikan
+                            Hentikan
                         </button>
 
                         <button type="button"
                                 id="switchCameraBtn"
                                 class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded hidden">
-                            🔄 Tukar Kamera
+                            Tukar Kamera
                         </button>
                     </div>
 
@@ -50,7 +47,6 @@
                     </p>
                 </div>
 
-                {{-- Manual Input Fallback --}}
                 <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-700 mb-3">
                         Atau Masukkan Manual
@@ -77,13 +73,12 @@
                     @enderror
                 </div>
 
-                {{-- Information Card --}}
                 <div class="bg-blue-50 rounded-lg p-4 mt-6 border border-blue-200">
                     <h3 class="text-sm font-semibold text-blue-900 mb-2">Tips:</h3>
                     <ul class="text-sm text-blue-800 space-y-1">
-                        <li>✓ Pastikan cahaya cukup untuk scan yang lebih baik</li>
-                        <li>✓ Arahkan kamera ke QR code secara tegak lurus</li>
-                        <li>✓ QR code akan ter-scan otomatis dan menampilkan detail unit</li>
+                        <li>Pastikan cahaya cukup untuk scan yang lebih baik</li>
+                        <li>Arahkan kamera ke QR code secara tegak lurus</li>
+                        <li>QR code akan ter-scan otomatis dan menampilkan detail unit</li>
                     </ul>
                 </div>
 
@@ -91,7 +86,6 @@
         </div>
     </div>
 
-    {{-- QR Code Scanner Library --}}
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <script>
@@ -103,7 +97,6 @@
         const switchCameraBtn = document.getElementById('switchCameraBtn');
         const manualInput = document.getElementById('manualBarcode');
 
-        // Start scanning when button clicked
         startBtn.addEventListener('click', startScanning);
         stopBtn.addEventListener('click', stopScanning);
         switchCameraBtn.addEventListener('click', switchCamera);
@@ -166,27 +159,18 @@
         }
 
         function onScanSuccess(decodedText) {
-            // Stop scanning
             stopScanning();
-
-            // Set manual input value dan submit
             manualInput.value = decodedText;
-            
-            // Highlight success
             manualInput.classList.add('border-green-500', 'bg-green-50');
             
-            // Submit form after 500ms
             setTimeout(() => {
                 manualInput.closest('form').submit();
             }, 500);
         }
 
         function onScanError(errorMessage) {
-            // Silently handle error - no need to log every frame
-            // console.log(errorMessage);
         }
 
-        // Set default facing mode
         switchCameraBtn.dataset.facingMode = 'environment';
     </script>
 </x-app-layout>

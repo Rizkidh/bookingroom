@@ -1,6 +1,5 @@
 import './bootstrap';
 
-// Import all CSS files
 import '../css/theme.css';
 import '../css/dashboard.css';
 import '../css/forms.css';

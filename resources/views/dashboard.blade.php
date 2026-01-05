@@ -1,13 +1,10 @@
 <x-app-layout>
-    <!-- Header -->
     <div class="dashboard-header mb-4 sm:mb-6">
         <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Dashboard Inventaris</h1>
         <p class="text-sm sm:text-base text-gray-600 hidden sm:block">Monitoring dan pengelolaan inventaris barang Anda secara real-time</p>
     </div>
 
-    <!-- Stat Cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <!-- Total Barang Card -->
         <a href="{{ route('dashboard') }}" class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-3 sm:p-5 text-white cursor-pointer hover:shadow-xl transition-shadow transform hover:scale-105">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
@@ -21,7 +18,6 @@
             </div>
         </a>
 
-        <!-- Tersedia Card -->
         <a href="?condition=available" class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-3 sm:p-5 text-white cursor-pointer hover:shadow-xl transition-shadow transform hover:scale-105">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
@@ -35,7 +31,6 @@
             </div>
         </a>
 
-        <!-- Rusak Card -->
         <a href="?condition=damaged" class="bg-gradient-to-br from-red-500 to-red-600 rounded-lg shadow-lg p-3 sm:p-5 text-white cursor-pointer hover:shadow-xl transition-shadow transform hover:scale-105">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
@@ -49,7 +44,6 @@
             </div>
         </a>
 
-        <!-- Jenis Barang Card -->
         <a href="{{ route('inventories.index') }}" class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg p-3 sm:p-5 text-white cursor-pointer hover:shadow-xl transition-shadow transform hover:scale-105">
             <div class="flex items-center justify-between">
                 <div class="flex-1">
@@ -64,7 +58,6 @@
         </a>
     </div>
 
-    <!-- Inventory Table Section -->
     <div class="inventory-section">
         <div class="section-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 p-4 sm:p-6">
             <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-white">
@@ -91,7 +84,6 @@
                 <a href="{{ route('inventories.create') }}" class="empty-state-btn">Tambah Jenis Barang Pertama</a>
             </div>
         @else
-            <!-- Desktop Table View -->
             <div class="hidden md:block table-wrapper max-h-[400px] overflow-y-auto border rounded-lg">
                 <table class="inventory-table">
                         <thead class="sticky top-0 bg-gray-50 z-10">
@@ -161,7 +153,6 @@
                     </table>
                 </div>
 
-            <!-- Mobile Card View -->
             <div class="md:hidden space-y-4 p-4">
                 @foreach ($units as $unit)
                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4">

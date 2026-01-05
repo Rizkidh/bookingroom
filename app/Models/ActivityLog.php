@@ -33,17 +33,11 @@ class ActivityLog extends Model
         'updated_at' => 'datetime',
     ];
 
-    /**
-     * Get user associated with this activity log
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Scope: Filter by model type
-     */
     public function scopeByModel(Builder $query, $modelType, $modelId = null)
     {
         $query->where('model_type', $modelType);
@@ -55,33 +49,21 @@ class ActivityLog extends Model
         return $query;
     }
 
-    /**
-     * Scope: Filter by action
-     */
     public function scopeByAction(Builder $query, $action)
     {
         return $query->where('action', $action);
     }
 
-    /**
-     * Scope: Filter by user
-     */
     public function scopeByUser(Builder $query, $userId)
     {
         return $query->where('user_id', $userId);
     }
 
-    /**
-     * Scope: Filter by date range
-     */
     public function scopeByDateRange(Builder $query, $startDate, $endDate)
     {
         return $query->whereBetween('created_at', [$startDate, $endDate]);
     }
 
-    /**
-     * Scope: Search in description and note
-     */
     public function scopeSearch(Builder $query, $searchTerm)
     {
         return $query->where(function ($q) use ($searchTerm) {
@@ -91,9 +73,6 @@ class ActivityLog extends Model
         });
     }
 
-    /**
-     * Get the attribute change description
-     */
     public function getChangeDescription()
     {
         if (!$this->old_values || !$this->new_values) {

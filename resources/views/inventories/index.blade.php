@@ -1,10 +1,8 @@
 <x-app-layout>
-    {{-- Store session data in PHP variable to avoid Blade syntax in JavaScript --}}
     @php
         $successMessage = session('success');
     @endphp
 
-    {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <div class="management-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
@@ -19,7 +17,6 @@
             <p class="text-gray-600">Belum ada item inventaris yang ditambahkan.</p>
         </div>
     @else
-        <!-- Desktop Table View -->
         <div class="hidden md:block table-container max-h-[400px] overflow-y-auto border rounded-lg">
             <table class="management-table">
                 <thead class="sticky top-0 bg-gray-50 z-10">
@@ -60,7 +57,6 @@
             </table>
         </div>
 
-        <!-- Mobile Card View -->
         <div class="md:hidden space-y-4">
             @foreach ($inventoryItems as $item)
             <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
@@ -107,7 +103,6 @@
 
     @if ($successMessage)
     <script>
-        /* eslint-disable */
         window.addEventListener('load', function() {
             Swal.fire({
                 title: 'Berhasil!',
@@ -119,7 +114,6 @@
                 allowEscapeKey: false
             });
         });
-        /* eslint-enable */
     </script>
     @endif
 </x-app-layout>

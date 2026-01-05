@@ -2,5 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import mobile responsive styles */
 @import './mobile.css';

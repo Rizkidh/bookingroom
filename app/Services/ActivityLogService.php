@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Request;
 
 class ActivityLogService
 {
-    /**
-     * Log model creation
-     */
     public static function logCreate(Model $model, ?string $note = null)
     {
         return self::log(
@@ -24,9 +21,6 @@ class ActivityLogService
         );
     }
 
-    /**
-     * Log model update
-     */
     public static function logUpdate(Model $model, array $oldValues, ?string $note = null)
     {
         $newValues = $model->getAttributes();
@@ -48,9 +42,6 @@ class ActivityLogService
         );
     }
 
-    /**
-     * Log model deletion
-     */
     public static function logDelete(Model $model, ?string $note = null)
     {
         return self::log(
@@ -63,9 +54,6 @@ class ActivityLogService
         );
     }
 
-    /**
-     * Main logging method
-     */
     private static function log(
         string $action,
         Model $model,
@@ -77,7 +65,6 @@ class ActivityLogService
         try {
             $user = Auth::user();
 
-            // Sanitize note input
             $note = $note ? self::sanitizeNote($note) : null;
 
             return ActivityLog::create([
@@ -104,9 +91,6 @@ class ActivityLogService
         }
     }
 
-    /**
-     * Sanitize note input (XSS protection)
-     */
     private static function sanitizeNote(?string $note): ?string
     {
         if (!$note) {
@@ -116,9 +100,6 @@ class ActivityLogService
         return strip_tags(trim($note));
     }
 
-    /**
-     * Get client IP address
-     */
     private static function getClientIp(): ?string
     {
         if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
@@ -133,18 +114,12 @@ class ActivityLogService
         return null;
     }
 
-    /**
-     * Get activity logs for a model
-     */
     public static function getModelLogs($modelType, $modelId = null, $limit = 50)
     {
         $query = ActivityLog::byModel($modelType, $modelId);
         return $query->latest()->paginate($limit);
     }
 
-    /**
-     * Get user activity
-     */
     public static function getUserLogs($userId, $limit = 50)
     {
         return ActivityLog::byUser($userId)

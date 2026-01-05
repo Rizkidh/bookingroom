@@ -12,10 +12,10 @@ class InventoryItemPolicy
     public function before(User $user, string $ability): bool|null
     {
         if ($user->role === 'admin') {
-            return true; // Beri akses penuh (Super Admin)
+            return true;
         }
         
-        return null; // Lanjutkan ke pengecekan method spesifik (delete/update, dll.)
+        return null;
     }
     
     public function viewAny(User $user)
@@ -40,7 +40,6 @@ class InventoryItemPolicy
 
     public function delete(User $user, InventoryItem $inventory)
     {
-        // Perbaikan menggunakan Response::allow/deny untuk pesan yang lebih jelas
         return $user->role === 'admin'
             ? Response::allow()
             : Response::deny('Role Pegawai tidak memiliki izin untuk menghapus data inventaris.');

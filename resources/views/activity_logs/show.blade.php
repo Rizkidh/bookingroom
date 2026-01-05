@@ -1,5 +1,4 @@
 <div class="space-y-6">
-    <!-- Header -->
     <div class="border-b pb-4">
         <div class="flex justify-between items-start mb-4">
             <h2 class="text-2xl font-bold text-gray-900">Detail Activity Log</h2>
@@ -7,7 +6,6 @@
         </div>
     </div>
 
-    <!-- Info Dasar -->
     <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
         <div>
             <p class="text-xs font-semibold text-gray-500 uppercase">Action</p>
@@ -40,7 +38,6 @@
         </div>
     </div>
 
-    <!-- User Info -->
     <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
         <p class="text-xs font-semibold text-gray-500 uppercase mb-2">User Information</p>
         <div class="grid grid-cols-2 gap-4 text-sm">
@@ -63,7 +60,6 @@
         </div>
     </div>
 
-    <!-- Catatan User -->
     @if ($activityLog->note)
         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
             <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Catatan</p>
@@ -71,7 +67,6 @@
         </div>
     @endif
 
-    <!-- Old vs New Values -->
     @if ($activityLog->action === 'UPDATE' && ($activityLog->old_values || $activityLog->new_values))
         <div class="space-y-4">
             <h3 class="text-lg font-semibold text-gray-900">Perubahan Data</h3>
@@ -104,7 +99,6 @@
         </div>
     @endif
 
-    <!-- Raw JSON Data -->
     @if ($activityLog->old_values || $activityLog->new_values)
         <details class="border rounded-lg p-4">
             <summary class="cursor-pointer font-semibold text-gray-900 hover:text-blue-600">Raw JSON Data</summary>
@@ -126,7 +120,6 @@
         </details>
     @endif
 
-    <!-- Description -->
     @if ($activityLog->description)
         <div class="bg-gray-50 p-4 rounded-lg">
             <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Deskripsi</p>
@@ -134,7 +127,6 @@
         </div>
     @endif
 
-    <!-- Close Button -->
     <div class="flex justify-end pt-4 border-t">
         <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 transition">
             Tutup

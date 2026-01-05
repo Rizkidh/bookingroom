@@ -1,10 +1,8 @@
 <x-app-layout>
-    {{-- Store session data in PHP variable to avoid Blade syntax in JavaScript --}}
     @php
         $successMessage = session('success');
     @endphp
 
-    {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <div class="unit-detail-header">
@@ -90,7 +88,6 @@
 
         @if ($successMessage)
     <script>
-        /* eslint-disable */
         window.addEventListener('load', function() {
             Swal.fire({
                 title: 'Berhasil!',
@@ -102,7 +99,6 @@
                 allowEscapeKey: false
             });
         });
-        /* eslint-enable */
     </script>
     @endif
 </x-app-layout>
