@@ -12,57 +12,28 @@ use App\Http\Controllers\InventoryUnitController;
 // Misalnya:
 
 
+use App\Http\Controllers\DashboardController;
+
 // 2. Rute Terotentikasi dan Terverifikasi
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // A. Rute Dashboard (TANPA middleware tambahan)
-    Route::get('/', function () {
-        // 1. Ambil data summary (untuk 3 kotak di atas) - berdasarkan unit
-        $totalUnits = InventoryUnit::count();
-        $availableUnits = InventoryUnit::where('condition_status', 'available')->count();
-        $damagedUnits = InventoryUnit::where('condition_status', 'damaged')->count();
-        $inUseUnits = InventoryUnit::where('condition_status', 'in_use')->count();
-        $maintenanceUnits = InventoryUnit::where('condition_status', 'maintenance')->count();
-
-        // 2. Ambil data detail (SEMUA unit inventaris dengan relasi item)
-        $units = InventoryUnit::with('item')
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        // Filter berdasarkan kondisi jika ada query parameter
-        if (request('condition') === 'available') {
-            $units = $units->filter(fn($unit) => $unit->condition_status === 'available');
-        } elseif (request('condition') === 'damaged') {
-            $units = $units->filter(fn($unit) => $unit->condition_status === 'damaged');
-        } elseif (request('condition') === 'in_use') {
-            $units = $units->filter(fn($unit) => $unit->condition_status === 'in_use');
-        } elseif (request('condition') === 'maintenance') {
-            $units = $units->filter(fn($unit) => $unit->condition_status === 'maintenance');
-        }
-
-        $data = [
-            'total' => $totalUnits,
-            'available' => $availableUnits,
-            'damaged' => $damagedUnits,
-            'in_use' => $inUseUnits,
-            'maintenance' => $maintenanceUnits,
-            'units' => $units,
-            'totalItemTypes' => InventoryItem::count(), // Untuk card jenis barang
-        ];
-
-        return view('dashboard', $data);
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Rute CRUD Inventaris Baru
+    Route::get('/inventories/export', [InventoryController::class, 'export'])->name('inventories.export');
     Route::resource('inventories', InventoryController::class)->except(['destroy']);
     Route::delete('/inventories/{inventory}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
 
     // --- RUTE SCAN BARCODE ---
     Route::get('/scan', [InventoryUnitController::class, 'scanPage'])->name('units.scan');
-    Route::post('/scan/process', [InventoryUnitController::class, 'processScan'])->name('units.process-scan');
+    Route::post('/scan/process', [InventoryUnitController::class, 'processScan'])
+        ->middleware('throttle:form')
+        ->name('units.process-scan');
 
     // --- RUTE INVENTARIS UNIT SATUAN (NESTED RESOURCE) ---
-    Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
+    Route::resource('inventories.units', InventoryUnitController::class)
+        ->except(['index'])
+        ->middleware(['throttle:form']);
 
     // --- RUTE ACTIVITY LOG (Audit Trail) ---
     Route::get('/activity-logs/export', [ActivityLogController::class, 'export'])->name('activity-logs.export');

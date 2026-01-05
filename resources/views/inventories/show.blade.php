@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), $inventory->name => route('inventories.show', $inventory->id)]" />
     @php
         $successMessage = session('success');
     @endphp

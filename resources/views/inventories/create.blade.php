@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), 'Tambah Barang' => route('inventories.create')]" />
     <div class="form-container">
         <div class="form-card">
             <h2 class="form-title">Tambah Item Inventaris Baru</h2>

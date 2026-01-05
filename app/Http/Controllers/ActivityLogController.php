@@ -80,7 +80,11 @@ class ActivityLogController extends Controller
         $columns = ['ID', 'Waktu', 'Action', 'Model', 'Model ID', 'User', 'Role', 'Catatan', 'IP Address'];
         $callback = function () use ($logs, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns, ';');
+            
+            // Add BOM for Excel UTF-8 compatibility
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            fputcsv($file, $columns);
 
             foreach ($logs as $log) {
                 fputcsv($file, [
@@ -93,7 +97,7 @@ class ActivityLogController extends Controller
                     $log->user_role,
                     $log->note,
                     $log->ip_address,
-                ], ';');
+                ]);
             }
 
             fclose($file);

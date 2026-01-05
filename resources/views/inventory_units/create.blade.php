@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), $inventory->name => route('inventories.show', $inventory->id), 'Tambah Unit' => route('inventories.units.create', $inventory->id)]" />
     <div class="form-container">
         <div class="form-card">
             <h2 class="form-title">Tambah Unit untuk: {{ $inventory->name }}</h2>

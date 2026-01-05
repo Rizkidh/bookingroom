@@ -91,4 +91,40 @@ class InventoryController extends Controller
 
         return redirect()->route('inventories.index')->with('success', 'Item berhasil dihapus');
     }
+
+    public function export()
+    {
+        $this->authorize('viewAny', InventoryItem::class);
+
+        $items = InventoryItem::orderBy('name')->get();
+
+        $filename = 'inventory-items-' . now()->format('Y-m-d-His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $columns = ['ID', 'Nama Barang', 'Total Stok', 'Tersedia', 'Rusak', 'Terakhir Update'];
+        
+        $callback = function () use ($items, $columns) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($file, $columns);
+
+            foreach ($items as $item) {
+                fputcsv($file, [
+                    $item->id,
+                    $item->name,
+                    $item->total_stock,
+                    $item->available_stock,
+                    $item->damaged_stock,
+                    $item->updated_at->format('d/m/Y H:i:s'),
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

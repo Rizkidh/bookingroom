@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), $inventory->name => route('inventories.show', $inventory->id), 'Edit Unit' => route('inventories.units.edit', [$inventory->id, $unit->id])]" />
     <div class="form-container">
         <div class="form-card">
             <h2 class="form-title">Edit Unit: {{ $unit->serial_number ?? 'Unit #' . $unit->id }}</h2>
@@ -29,7 +30,7 @@
                     @if ($unit->photo)
                         <div style="margin-bottom: 0.75rem;">
                             <p class="form-helper" style="color: #475569;">Foto Saat Ini:</p>
-                            <img src="{{ Storage::url($unit->photo) }}" alt="Foto Saat Ini" class="w-24 h-24 object-cover rounded shadow" style="margin-bottom: 0.75rem;">
+                            <img src="{{ asset($unit->photo) }}" alt="Foto Saat Ini" class="w-24 h-24 object-cover rounded shadow" style="margin-bottom: 0.75rem;">
                         </div>
 
                         <div style="display: flex; align-items: center; margin-bottom: 0.75rem;">

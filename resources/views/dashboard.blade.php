@@ -1,4 +1,6 @@
 <x-app-layout>
+    <x-breadcrumbs :items="[]" />
+
     <div class="dashboard-header mb-4 sm:mb-6">
         <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Dashboard Inventaris</h1>
         <p class="text-sm sm:text-base text-gray-600 hidden sm:block">Monitoring dan pengelolaan inventaris barang Anda secara real-time</p>
@@ -75,6 +77,28 @@
             <a href="{{ route('inventories.index') }}" class="add-btn text-sm sm:text-base px-4 py-2">
                 Kelola Jenis Barang
             </a>
+        </div>
+
+        <div class="p-4 bg-gray-50 border-b">
+            <form action="{{ route('dashboard') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+                @if(request('condition'))
+                    <input type="hidden" name="condition" value="{{ request('condition') }}">
+                @endif
+                <div class="flex-1 relative">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari ID Unit atau Serial Number..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <div class="absolute left-3 top-2.5 text-gray-400">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Cari</button>
+                    @if(request('search') || request('condition'))
+                        <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Reset</a>
+                    @endif
+                </div>
+            </form>
         </div>
 
         @if ($units->isEmpty())
@@ -210,6 +234,10 @@
                     @endif
                 </div>
                 @endforeach
+            </div>
+
+            <div class="p-4 border-t bg-gray-50">
+                {{ $units->links() }}
             </div>
             @endif
     </div>

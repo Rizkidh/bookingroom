@@ -44,6 +44,19 @@ class InventoryUnitObserver
         $this->updateItemStock($inventoryUnit->inventory_item_id);
     }
 
+    public function restored(InventoryUnit $inventoryUnit): void
+    {
+        $note = request()->input('note') ?? 'Unit restored';
+        ActivityLogService::logCreate($inventoryUnit, $note);
+
+        $this->updateItemStock($inventoryUnit->inventory_item_id);
+    }
+
+    public function forceDeleted(InventoryUnit $inventoryUnit): void
+    {
+        $this->updateItemStock($inventoryUnit->inventory_item_id);
+    }
+
     protected function updateItemStock(int $itemId): void
     {
         $item = InventoryItem::find($itemId);

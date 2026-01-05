@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), 'Edit ' . $inventory->name => route('inventories.edit', $inventory->id)]" />
     <div class="form-container">
         <div class="form-card">
             <h2 class="form-title">Edit Item: {{ $inventory->name }}</h2>
