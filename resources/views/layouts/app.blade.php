@@ -17,9 +17,24 @@
 
     </head>
     <body class="font-sans antialiased h-screen overflow-hidden">
-        <div x-data="{ open: true }" class="flex h-full bg-gray-100">
+        <div x-data="{ open: false, mobileMenuOpen: false }" class="flex h-full bg-gray-100">
+            <!-- Mobile Overlay -->
+            <div x-show="mobileMenuOpen"
+                 @click="mobileMenuOpen = false"
+                 x-transition:enter="transition-opacity ease-linear duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition-opacity ease-linear duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 lg:hidden"></div>
+
             <!-- Fixed Sidebar Panel -->
-            <div :class="open ? 'w-64' : 'w-20'" class="fixed left-0 top-0 h-screen bg-blue-900 text-white transition-all duration-300 shadow-lg z-50 flex flex-col overflow-hidden">
+            <div :class="[
+                'fixed left-0 top-0 h-screen bg-blue-900 text-white transition-all duration-300 shadow-lg z-50 flex flex-col overflow-hidden',
+                open ? 'w-64' : 'w-20',
+                mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+            ]">
                 <!-- Logo Section -->
                 <div class="flex items-center justify-between h-16 px-4 border-b border-blue-800 flex-shrink-0">
                     <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -27,9 +42,15 @@
                         <span x-show="open" class="ms-3 font-bold text-lg">Inventory</span>
                     </a>
                     <!-- Toggle Button -->
-                    <button @click="open = !open" class="p-1 rounded hover:bg-blue-800 transition">
+                    <button @click="open = !open" class="hidden lg:block p-1 rounded hover:bg-blue-800 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <!-- Mobile Close Button -->
+                    <button @click="mobileMenuOpen = false" class="lg:hidden p-1 rounded hover:bg-blue-800 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -129,8 +150,15 @@
                 </div>
             </div>
 
+            <!-- Mobile Menu Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden fixed top-4 left-4 z-30 p-2 bg-blue-900 text-white rounded-lg shadow-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
             <!-- Main Content Area with margin to account for fixed sidebar -->
-            <div :style="open ? 'margin-left: 256px;' : 'margin-left: 80px;'" class="flex-1 transition-all duration-300 overflow-y-auto">
+            <div class="flex-1 w-full transition-all duration-300 overflow-y-auto" :class="{'lg:ml-64': open, 'lg:ml-20': !open}">
                 <!-- Page Heading -->
                 @isset($header)
                     <header class="bg-white shadow">
@@ -141,7 +169,7 @@
                 @endisset
 
                 <!-- Page Content -->
-                <main class="p-6">
+                <main class="p-4 sm:p-6 lg:p-8">
                     {{ $slot }}
                 </main>
             </div>

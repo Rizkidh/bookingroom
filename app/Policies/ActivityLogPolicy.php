@@ -9,12 +9,11 @@ class ActivityLogPolicy
 {
     /**
      * Determine whether the user can view any activity logs.
-     * Only admin/supervisor can view
+     * Only admin can view
      */
     public function viewAny(User $user): bool
     {
-        // Allow all authenticated users to view activity logs
-        return true;
+        return $user->role === 'admin';
     }
 
     /**
@@ -22,8 +21,7 @@ class ActivityLogPolicy
      */
     public function view(User $user, ActivityLog $activityLog): bool
     {
-        // Allow all authenticated users
-        return true;
+        return $user->role === 'admin';
     }
 
     /**

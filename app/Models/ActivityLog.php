@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class ActivityLog extends Model
 {
+    use HasFactory;
     protected $table = 'activity_logs';
 
     protected $fillable = [

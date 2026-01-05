@@ -88,9 +88,8 @@ class InventoryUnitController extends Controller
         $data = $request->validate([
             'serial_number'    => 'nullable|string|max:255|unique:inventory_units,serial_number',
             'photo'            => 'nullable|image|max:2048',
-            'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
+            'condition_status' => 'required|in:available,in_use,maintenance,damaged',
             'current_holder'   => 'required|string|max:255',
-            'note'             => 'nullable|string|max:500',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -117,9 +116,8 @@ class InventoryUnitController extends Controller
         $data = $request->validate([
             'serial_number'    => 'nullable|string|max:255|unique:inventory_units,serial_number,' . $unitId . ',id',
             'photo'            => 'nullable|image|max:2048',
-            'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
+            'condition_status' => 'required|in:available,in_use,maintenance,damaged',
             'current_holder'   => 'required|string|max:255',
-            'note'             => 'nullable|string|max:500',
         ]);
 
         if ($request->hasFile('photo')) {

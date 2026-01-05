@@ -293,25 +293,52 @@
     }
 }
 
+@media (max-width: 640px) {
+    .dashboard-header {
+        padding: 0 10px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .inventory-section {
+        border-radius: 8px;
+    }
+
+    .section-header {
+        padding: 20px 16px;
+    }
+
+    .section-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .add-btn {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+    }
+}
+
 @media (max-width: 480px) {
     .stats-grid {
         grid-template-columns: 1fr;
     }
 
     .dashboard-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
 
     .stat-card {
-        padding: 20px;
+        padding: 16px;
     }
 
     .stat-value {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .section-header h2 {
-        font-size: 1.4rem;
+        font-size: 1rem;
     }
 
     .inventory-table th,

@@ -12,11 +12,11 @@
         <div>
             <p class="text-xs font-semibold text-gray-500 uppercase">Action</p>
             <p class="text-lg font-bold">
-                @if ($log->action === 'CREATE')
+                @if ($activityLog->action === 'CREATE')
                     <span class="text-green-600">CREATE</span>
-                @elseif ($log->action === 'UPDATE')
+                @elseif ($activityLog->action === 'UPDATE')
                     <span class="text-blue-600">UPDATE</span>
-                @elseif ($log->action === 'DELETE')
+                @elseif ($activityLog->action === 'DELETE')
                     <span class="text-red-600">DELETE</span>
                 @endif
             </p>
@@ -25,18 +25,18 @@
         <div>
             <p class="text-xs font-semibold text-gray-500 uppercase">Waktu</p>
             <p class="text-lg font-bold text-gray-900">
-                {{ $log->created_at->format('d/m/Y H:i:s') }}
+                {{ $activityLog->created_at->format('d/m/Y H:i:s') }}
             </p>
         </div>
 
         <div>
             <p class="text-xs font-semibold text-gray-500 uppercase">Model Type</p>
-            <p class="text-sm font-mono text-gray-900">{{ class_basename($log->model_type) }}</p>
+            <p class="text-sm font-mono text-gray-900">{{ class_basename($activityLog->model_type) }}</p>
         </div>
 
         <div>
             <p class="text-xs font-semibold text-gray-500 uppercase">Model ID</p>
-            <p class="text-sm font-mono text-gray-900">{{ $log->model_id }}</p>
+            <p class="text-sm font-mono text-gray-900">{{ $activityLog->model_id }}</p>
         </div>
     </div>
 
@@ -46,39 +46,39 @@
         <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
                 <span class="font-semibold text-gray-700">User:</span>
-                <span class="text-gray-900">{{ $log->user_name ?? 'System' }}</span>
+                <span class="text-gray-900">{{ $activityLog->user_name ?? 'System' }}</span>
             </div>
             <div>
                 <span class="font-semibold text-gray-700">Role:</span>
-                <span class="text-gray-900">{{ $log->user_role ?? 'N/A' }}</span>
+                <span class="text-gray-900">{{ $activityLog->user_role ?? 'N/A' }}</span>
             </div>
             <div>
                 <span class="font-semibold text-gray-700">IP Address:</span>
-                <span class="text-gray-900 font-mono">{{ $log->ip_address ?? 'N/A' }}</span>
+                <span class="text-gray-900 font-mono">{{ $activityLog->ip_address ?? 'N/A' }}</span>
             </div>
             <div>
                 <span class="font-semibold text-gray-700">User Agent:</span>
-                <span class="text-gray-900 text-xs">{{ Str::limit($log->user_agent, 40) ?? 'N/A' }}</span>
+                <span class="text-gray-900 text-xs">{{ Str::limit($activityLog->user_agent, 40) ?? 'N/A' }}</span>
             </div>
         </div>
     </div>
 
     <!-- Catatan User -->
-    @if ($log->note)
+    @if ($activityLog->note)
         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
             <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Catatan</p>
-            <p class="text-gray-900 whitespace-pre-wrap">{{ $log->note }}</p>
+            <p class="text-gray-900 whitespace-pre-wrap">{{ $activityLog->note }}</p>
         </div>
     @endif
 
     <!-- Old vs New Values -->
-    @if ($log->action === 'UPDATE' && ($log->old_values || $log->new_values))
+    @if ($activityLog->action === 'UPDATE' && ($activityLog->old_values || $activityLog->new_values))
         <div class="space-y-4">
             <h3 class="text-lg font-semibold text-gray-900">Perubahan Data</h3>
 
             @php
-                $oldValues = $log->old_values ?? [];
-                $newValues = $log->new_values ?? [];
+                $oldValues = $activityLog->old_values ?? [];
+                $newValues = $activityLog->new_values ?? [];
                 $changedKeys = array_keys(array_merge($oldValues, $newValues));
             @endphp
 
@@ -105,21 +105,21 @@
     @endif
 
     <!-- Raw JSON Data -->
-    @if ($log->old_values || $log->new_values)
+    @if ($activityLog->old_values || $activityLog->new_values)
         <details class="border rounded-lg p-4">
             <summary class="cursor-pointer font-semibold text-gray-900 hover:text-blue-600">Raw JSON Data</summary>
             <div class="mt-4 space-y-4">
-                @if ($log->old_values)
+                @if ($activityLog->old_values)
                     <div>
                         <p class="text-sm font-semibold text-gray-700 mb-2">Old Values:</p>
-                        <pre class="bg-gray-900 text-green-400 p-3 rounded overflow-auto text-xs">{{ json_encode($log->old_values, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+                        <pre class="bg-gray-900 text-green-400 p-3 rounded overflow-auto text-xs">{{ json_encode($activityLog->old_values, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
                     </div>
                 @endif
 
-                @if ($log->new_values)
+                @if ($activityLog->new_values)
                     <div>
                         <p class="text-sm font-semibold text-gray-700 mb-2">New Values:</p>
-                        <pre class="bg-gray-900 text-green-400 p-3 rounded overflow-auto text-xs">{{ json_encode($log->new_values, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+                        <pre class="bg-gray-900 text-green-400 p-3 rounded overflow-auto text-xs">{{ json_encode($activityLog->new_values, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
                     </div>
                 @endif
             </div>
@@ -127,10 +127,10 @@
     @endif
 
     <!-- Description -->
-    @if ($log->description)
+    @if ($activityLog->description)
         <div class="bg-gray-50 p-4 rounded-lg">
             <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Deskripsi</p>
-            <p class="text-gray-900">{{ $log->description }}</p>
+            <p class="text-gray-900">{{ $activityLog->description }}</p>
         </div>
     @endif
 
