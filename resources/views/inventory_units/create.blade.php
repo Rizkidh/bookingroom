@@ -77,6 +77,12 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Catatan (Opsional)</label>
+                    <textarea name="note" rows="4" placeholder="Contoh: Alasan penambahan unit, keterangan khusus, dll" maxlength="500" class="form-input">{{ old('note') }}</textarea>
+                    <p class="form-helper">Maksimal 500 karakter</p>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit"
                             class="btn-submit">
@@ -191,7 +197,7 @@
                 Swal.hideLoading();
                 Swal.close();
             }
-            
+
             Swal.fire({
                 title: 'Berhasil!',
                 text: '{{ $successMessage }}',

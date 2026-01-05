@@ -7,25 +7,22 @@
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <div class="unit-detail-container">
-        <div class="unit-detail-card">
+    <div class="unit-detail-header">
+        <h2 class="unit-detail-title">{{ $inventory->name }}</h2>
+    </div>
 
-            <div class="unit-detail-header">
-                <h2 class="unit-detail-title">{{ $inventory->name }}</h2>
-            </div>
+    <div class="unit-section-header">
+        <h3 class="unit-section-title">
+            Unit Detail <span class="unit-count-badge">{{ $units->count() }} Unit</span>
+        </h3>
+        <a href="{{ route('inventories.units.create', $inventory->id) }}" class="btn-add-unit">
+            + Tambah Unit Satuan
+        </a>
+    </div>
 
-            <div class="unit-section-header">
-                <h3 class="unit-section-title">
-                    Unit Detail <span class="unit-count-badge">{{ $units->count() }} Unit</span>
-                </h3>
-                <a href="{{ route('inventories.units.create', $inventory->id) }}" class="btn-add-unit">
-                    + Tambah Unit Satuan
-                </a>
-            </div>
-
-            <div class="unit-table-container">
+    <div class="unit-table-container max-h-[400px] overflow-y-auto border rounded-lg">
                 <table class="unit-table">
-                    <thead>
+                    <thead class="sticky top-0 bg-gray-50 z-10">
                         <tr>
                             <th>Foto</th>
                             <th>Nomor Serial</th>
@@ -91,10 +88,7 @@
                 </table>
             </div>
 
-        </div>
-    </div>
-
-    @if ($successMessage)
+        @if ($successMessage)
     <script>
         /* eslint-disable */
         window.addEventListener('load', function() {

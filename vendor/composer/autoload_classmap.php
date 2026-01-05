@@ -6,6 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\DebugQrCodeGeneration' => $baseDir . '/app/Console/Commands/DebugQrCodeGeneration.php',
+    'App\\Console\\Commands\\DebugRelationship' => $baseDir . '/app/Console/Commands/DebugRelationship.php',
+    'App\\Console\\Commands\\DebugUnitScan' => $baseDir . '/app/Console/Commands/DebugUnitScan.php',
+    'App\\Console\\Commands\\TestUnitRelation' => $baseDir . '/app/Console/Commands/TestUnitRelation.php',
     'App\\Helpers\\ImageHelper' => $baseDir . '/app/Helpers/ImageHelper.php',
     'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => $baseDir . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',

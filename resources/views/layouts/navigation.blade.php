@@ -26,6 +26,13 @@
                         {{ __(' Scan') }}
                     </x-nav-link>
                 </div>
+                @can('viewAny', App\Models\ActivityLog::class)
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('activity-logs.index')" :active="request()->routeIs('activity-logs.*')">
+                        {{ __('Activity Logs') }}
+                    </x-nav-link>
+                </div>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
@@ -88,9 +95,16 @@
         </div>
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('units.scan')" :active="request()->routeIs('units.scan')">
-                {{ __('📱 Scan') }}
+                {{ __('Scan') }}
             </x-responsive-nav-link>
         </div>
+        @can('viewAny', App\Models\ActivityLog::class)
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('activity-logs.index')" :active="request()->routeIs('activity-logs.*')">
+                {{ __('Activity Logs') }}
+            </x-responsive-nav-link>
+        </div>
+        @endcan
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

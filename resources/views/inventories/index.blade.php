@@ -6,20 +6,17 @@
 
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <div class="management-container">
-        <div class="management-card">
 
-            <div class="management-header">
-                <h2 class="management-title">Manajemen Inventaris Barang</h2>
-                <a href="{{ route('inventories.create') }}" class="btn-add">
-                    + Tambah Barang Baru
-                </a>
-            </div>
+    <div class="management-header">
+        <h2 class="management-title">Manajemen Inventaris Barang</h2>
+        <a href="{{ route('inventories.create') }}" class="btn-add">
+            + Tambah Barang Baru
+        </a>
+    </div>
 
-            <div class="table-container">
+    <div class="table-container max-h-[400px] overflow-y-auto border rounded-lg">
                 <table class="management-table">
-                    <thead>
+                    <thead class="sticky top-0 bg-gray-50 z-10">
                         <tr>
                             <th>Nama Barang</th>
                             <th>Total Stok</th>
@@ -62,14 +59,11 @@
                 </table>
             </div>
 
-            @if ($inventoryItems->isEmpty())
-            <div class="empty-state">
-                <p>Belum ada item inventaris yang ditambahkan.</p>
-            </div>
-            @endif
-
+        @if ($inventoryItems->isEmpty())
+        <div class="empty-state">
+            <p>Belum ada item inventaris yang ditambahkan.</p>
         </div>
-    </div>
+        @endif
 
     @if ($successMessage)
     <script>

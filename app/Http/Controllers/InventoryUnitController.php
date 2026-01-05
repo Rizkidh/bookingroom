@@ -90,6 +90,7 @@ class InventoryUnitController extends Controller
             'photo'            => 'nullable|image|max:2048',
             'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
             'current_holder'   => 'required|string|max:255',
+            'note'             => 'nullable|string|max:500',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -118,6 +119,7 @@ class InventoryUnitController extends Controller
             'photo'            => 'nullable|image|max:2048',
             'condition_status' => 'required|in:available,in_use,maintenance,damaged,lost',
             'current_holder'   => 'required|string|max:255',
+            'note'             => 'nullable|string|max:500',
         ]);
 
         if ($request->hasFile('photo')) {

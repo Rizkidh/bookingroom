@@ -31,6 +31,7 @@ class InventoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:inventory_items,name',
+            'note' => 'nullable|string|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +67,7 @@ class InventoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', Rule::unique('inventory_items')->ignore($inventory->id)],
+            'note' => 'nullable|string|max:500',
         ]);
 
         if ($validator->fails()) {
@@ -82,7 +84,9 @@ class InventoryController extends Controller
     {
         $this->authorize('delete', $inventory);
 
-        Storage::disk('public')->delete($inventory->photo);
+        if ($inventory->photo) {
+            Storage::disk('public')->delete($inventory->photo);
+        }
         $inventory->delete();
 
         return redirect()->route('inventories.index')->with('success', 'Item berhasil dihapus');

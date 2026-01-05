@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\InventoryUnit; // Wajib diimport
-use App\Observers\InventoryUnitObserver; // Wajib diimport
-use App\Policies\InventoryItemPolicy;
 use App\Models\InventoryItem;
+use App\Observers\InventoryUnitObserver; // Wajib diimport
+use App\Observers\InventoryItemObserver;
+use App\Policies\InventoryItemPolicy;
 use App\Policies\InventoryUnitPolicy;
 use Illuminate\Support\Facades\URL;
 
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        // Register observers for activity logging
         InventoryUnit::observe(InventoryUnitObserver::class);
+        InventoryItem::observe(InventoryItemObserver::class);
     }
 }

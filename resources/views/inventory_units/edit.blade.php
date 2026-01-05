@@ -64,6 +64,15 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="note" class="form-label">Catatan (Opsional)</label>
+                    <textarea name="note" id="note" rows="4" placeholder="Contoh: Alasan perubahan status, keterangan update, dll" maxlength="500" class="form-input @error('note') input-error @enderror">{{ old('note') }}</textarea>
+                    <p class="form-helper">Maksimal 500 karakter</p>
+                    @error('note')
+                    <p class="form-helper" style="color: #dc2626;">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn-submit" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
                         Update Unit
@@ -84,12 +93,12 @@
     @endphp
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
         /* eslint-disable */
         document.getElementById('editUnitForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const conditionStatus = document.querySelector('select[name="condition_status"]').value;
             const currentHolder = document.querySelector('select[name="current_holder"]').value;
 
@@ -124,7 +133,7 @@
                     Swal.showLoading();
                 }
             });
-            
+
             setTimeout(() => {
                 this.submit();
             }, 500);
@@ -140,7 +149,7 @@
                 Swal.hideLoading();
                 Swal.close();
             }
-            
+
             Swal.fire({
                 title: 'Berhasil!',
                 text: '{{ $successMessage }}',

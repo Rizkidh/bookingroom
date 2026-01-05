@@ -24,6 +24,15 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="note" class="form-label">Catatan (Opsional)</label>
+                    <textarea name="note" id="note" rows="4" placeholder="Contoh: Alasan penambahan item, keterangan khusus, dll" maxlength="500" class="form-input @error('note') input-error @enderror">{{ old('note') }}</textarea>
+                    <p class="form-helper">Maksimal 500 karakter</p>
+                    @error('note')
+                    <p class="form-helper" style="color: #dc2626;">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn-submit">
                         Simpan Item
@@ -42,12 +51,12 @@
     @endphp
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
         /* eslint-disable */
         document.getElementById('inventoryForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             Swal.fire({
                 title: 'Menambahkan Item...',
                 html: 'Mohon tunggu',
@@ -58,7 +67,7 @@
                     Swal.showLoading();
                 }
             });
-            
+
             setTimeout(() => {
                 this.submit();
             }, 500);
@@ -74,7 +83,7 @@
                 Swal.hideLoading();
                 Swal.close();
             }
-            
+
             Swal.fire({
                 title: 'Berhasil!',
                 text: '{{ $successMessage }}',
