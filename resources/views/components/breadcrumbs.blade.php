@@ -1,6 +1,6 @@
 @props(['items'])
 
-<nav class="inline-flex py-2 px-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 mb-6 shadow-sm" aria-label="Breadcrumb">
+<nav class="flex w-fit py-2 px-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 mb-6 shadow-sm" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3 list-none p-0 m-0">
         <li class="inline-flex items-center">
             <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200">

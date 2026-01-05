@@ -1,4 +1,5 @@
 import './bootstrap';
+import './spa-navigation';
 
 import '../css/theme.css';
 import '../css/dashboard.css';

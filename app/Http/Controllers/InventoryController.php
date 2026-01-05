@@ -15,7 +15,7 @@ class InventoryController extends Controller
 
     public function index()
     {
-        $inventoryItems = InventoryItem::orderBy('name')->get();
+        $inventoryItems = InventoryItem::orderBy('name')->paginate(10);
         return view('inventories.index', compact('inventoryItems'));
     }
 
@@ -50,7 +50,7 @@ class InventoryController extends Controller
 
     public function show(InventoryItem $inventory)
     {
-        $units = $inventory->units()->get();
+        $units = $inventory->units()->paginate(10);
         $this->authorize('view', $inventory);
         return view('inventories.show', compact('inventory', 'units'));
     }
