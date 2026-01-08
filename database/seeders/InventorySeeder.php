@@ -13,12 +13,12 @@ class InventorySeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat 5 jenis barang jika belum ada
-        $items = InventoryItem::factory()->count(5)->create();
+        // Buat 12 jenis barang jika belum ada (untuk test pagination > 10)
+        $items = InventoryItem::factory()->count(12)->create();
 
-        // Buat 50 unit untuk mengetes pagination
+        // Buat 15 unit per item untuk mengetes pagination unit
         foreach ($items as $item) {
-            InventoryUnit::factory()->count(10)->create([
+            InventoryUnit::factory()->count(15)->create([
                 'inventory_item_id' => $item->id,
             ]);
         }

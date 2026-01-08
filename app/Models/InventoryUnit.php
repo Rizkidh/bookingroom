@@ -26,6 +26,7 @@ class InventoryUnit extends Model
         'photo',
         'condition_status',
         'current_holder',
+        'note',
         'qr_code',
     ];
 

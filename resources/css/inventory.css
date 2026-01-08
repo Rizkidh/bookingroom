@@ -31,7 +31,7 @@
 }
 
 .management-title {
-    font-size: 1.25rem;
+    font-size: 0.875rem;
     color: var(--primary-blue);
     font-weight: 700;
     margin: 0;
@@ -40,12 +40,14 @@
 .btn-add {
     background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     border: none;
     cursor: pointer;
 }
@@ -73,7 +75,7 @@
 
 .management-table th,
 .management-table td {
-    padding: 14px 16px;
+    padding: 8px 12px;
     border-bottom: 1px solid var(--border-gray);
 }
 
@@ -81,7 +83,7 @@
     background-color: var(--light-bg);
     color: var(--primary-blue);
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -97,7 +99,7 @@
 
 .management-table td {
     color: var(--text-dark);
-    font-size: 0.95rem;
+    font-size: 0.8125rem;
 }
 
 .item-name {
@@ -141,10 +143,10 @@
 .btn-edit, .btn-detail, .btn-action {
     background: var(--secondary-blue);
     color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 4px 8px; /* Downsized */
+    border-radius: 4px; /* Downsized */
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.75rem; /* Downsized */
     font-weight: 600;
     transition: all 0.3s ease;
     border: none;
@@ -162,10 +164,10 @@
 .btn-delete {
     background: var(--danger-red);
     color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 4px 8px; /* Downsized */
+    border-radius: 4px; /* Downsized */
     border: none;
-    font-size: 0.85rem;
+    font-size: 0.75rem; /* Downsized */
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -198,7 +200,7 @@
 }
 
 .unit-detail-title {
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-blue);
     margin: 0;
@@ -213,7 +215,7 @@
 }
 
 .unit-section-title {
-    font-size: 1.25rem;
+    font-size: 0.875rem;
     color: var(--primary-blue);
     font-weight: 700;
     margin: 0;
@@ -234,8 +236,9 @@
 .btn-add-unit {
     background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -290,13 +293,7 @@
     color: var(--primary-blue);
 }
 
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-block;
-}
+/* Status badges handled by theme.css */
 
 .status-available {
     background: #dcfce7;

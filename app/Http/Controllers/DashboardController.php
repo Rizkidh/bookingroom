@@ -33,7 +33,7 @@ class DashboardController extends Controller
             });
         }
 
-        $units = $query->orderBy('updated_at', 'desc')->paginate(15)->withQueryString();
+        $units = $query->orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
 
         $data = [
             'total' => $totalUnits,

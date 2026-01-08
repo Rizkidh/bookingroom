@@ -376,8 +376,7 @@
 .unit-status-damaged,
 .unit-status-maintenance {
     background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #991b1b;
-    border: 1px solid #fca5a5;
+    border: solid #fca5a5;
 }
 
 /* Actions Section */

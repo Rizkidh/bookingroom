@@ -27,13 +27,11 @@ class InventoryUnitPolicyTest extends TestCase
         $item = InventoryItem::factory()->create();
         $unit = InventoryUnit::factory()->create(['inventory_item_id' => $item->id]);
 
-        // The before() method returns true for admin, which bypasses all other checks
-        // So we can't directly test the other methods when before() returns true
-        // Instead, we test that before() works correctly
-        $this->assertTrue($this->policy->before($admin, 'view'));
-        $this->assertTrue($this->policy->before($admin, 'create'));
-        $this->assertTrue($this->policy->before($admin, 'update'));
-        $this->assertTrue($this->policy->before($admin, 'delete'));
+        $this->assertTrue($this->policy->before($admin, 'any'));
+        $this->assertTrue($this->policy->view($admin, $unit));
+        $this->assertTrue($this->policy->create($admin));
+        $this->assertTrue($this->policy->update($admin, $unit));
+        $this->assertTrue($this->policy->delete($admin, $unit));
     }
 
     public function test_pegawai_can_view()

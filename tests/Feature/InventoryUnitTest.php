@@ -97,6 +97,7 @@ class InventoryUnitTest extends TestCase
                 'serial_number' => 'SN123456',
                 'condition_status' => 'available',
                 'current_holder' => 'John Doe',
+                'note' => 'Test unit',
             ]);
 
         $response->assertRedirect();

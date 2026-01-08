@@ -104,8 +104,7 @@ class ActivityLogTest extends TestCase
             ->get('/activity-logs/export');
 
         $response->assertStatus(200);
-        $response->assertHeader('Content-Type');
-        $this->assertStringContainsString('text/csv', $response->headers->get('Content-Type'));
+        $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
         $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
     }
 

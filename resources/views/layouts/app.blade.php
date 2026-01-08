@@ -11,25 +11,26 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     </head>
-    <body class="font-sans antialiased h-screen overflow-hidden">
+    <body class="font-sans antialiased min-h-screen bg-gray-100">
         <div x-data="{ 
                 open: true, 
                 mobileMenuOpen: false,
-                sidebarWidth: 256,
+                sidebarWidth: 200,
                 updateWidth() {
                     if (window.innerWidth < 1024) {
                         this.sidebarWidth = 0;
                     } else {
-                        this.sidebarWidth = this.open ? 256 : 80;
+                        this.sidebarWidth = this.open ? 200 : 64;
                     }
                 }
              }" 
              x-init="updateWidth(); window.addEventListener('resize', () => updateWidth())"
              x-effect="updateWidth()"
              :style="'--sidebar-width: ' + sidebarWidth + 'px'"
-             class="flex h-full bg-gray-100">
+             class="flex min-h-screen">
             
             <style>
                 [x-cloak] { display: none !important; }
@@ -59,7 +60,7 @@
                      :class="open ? 'justify-between px-4' : 'justify-center'">
                     <a href="{{ route('dashboard') }}" class="flex items-center min-w-0">
                         <x-application-logo class="block h-8 w-auto fill-current text-white flex-shrink-0" />
-                        <span x-show="open" x-cloak class="ms-3 font-bold text-lg truncate">Inventory</span>
+                        <span x-show="open" x-cloak class="ms-2 font-bold text-sm truncate">Inventory</span>
                     </a>
                     <button @click="open = !open" class="hidden lg:block p-1 rounded hover:bg-blue-800 transition flex-shrink-0" x-show="open" x-cloak>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,58 +75,58 @@
                     </button>
                 </div>
 
-                <nav id="sidebar-nav" class="px-3 py-6 space-y-2 overflow-y-auto flex-1">
+                <nav id="sidebar-nav" class="px-3 py-6 space-y-1 overflow-y-auto flex-1">
                     <a href="{{ route('dashboard') }}" 
                        :title="!open ? 'Dashboard' : ''"
                        @class([
-                        'flex items-center px-4 py-3 rounded-lg transition',
-                        'bg-blue-800 text-white' => request()->routeIs('dashboard'),
-                        'text-blue-100 hover:bg-blue-800' => !request()->routeIs('dashboard'),
+                        'flex items-center px-3 py-2 rounded-lg transition',
+                        'bg-white/10 text-white' => request()->routeIs('dashboard'),
+                        'text-blue-100 hover:bg-white/10' => !request()->routeIs('dashboard'),
                        ])>
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11l4-4m0 0l4 4m-4-4v4" />
                         </svg>
-                        <span x-show="open" x-cloak class="ms-3 truncate">Dashboard</span>
+                        <span x-show="open" x-cloak class="ms-2 truncate text-xs">Dashboard</span>
                     </a>
 
                     <a href="{{ route('inventories.index') }}" 
                        :title="!open ? 'Inventaris' : ''"
                        @class([
-                        'flex items-center px-4 py-3 rounded-lg transition',
-                        'bg-blue-800 text-white' => request()->routeIs('inventories.*'),
-                        'text-blue-100 hover:bg-blue-800' => !request()->routeIs('inventories.*'),
+                        'flex items-center px-3 py-2 rounded-lg transition',
+                        'bg-white/10 text-white' => request()->routeIs('inventories.*'),
+                        'text-blue-100 hover:bg-white/10' => !request()->routeIs('inventories.*'),
                        ])>
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
-                        <span x-show="open" x-cloak class="ms-3 truncate">Inventaris</span>
+                        <span x-show="open" x-cloak class="ms-2 truncate text-xs">Inventaris</span>
                     </a>
 
                     <a href="{{ route('units.scan') }}" 
                        :title="!open ? 'Scan QR' : ''"
                        @class([
-                        'flex items-center px-4 py-3 rounded-lg transition',
-                        'bg-blue-800 text-white' => request()->routeIs('units.scan'),
-                        'text-blue-100 hover:bg-blue-800' => !request()->routeIs('units.scan'),
+                        'flex items-center px-3 py-2 rounded-lg transition',
+                        'bg-white/10 text-white' => request()->routeIs('units.scan'),
+                        'text-blue-100 hover:bg-white/10' => !request()->routeIs('units.scan'),
                        ])>
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        <span x-show="open" x-cloak class="ms-3 truncate">Scan QR</span>
+                        <span x-show="open" x-cloak class="ms-2 truncate text-xs">Scan QR</span>
                     </a>
 
                     @can('viewAny', App\Models\ActivityLog::class)
                     <a href="{{ route('activity-logs.index') }}" 
                        :title="!open ? 'Activity Logs' : ''"
                        @class([
-                        'flex items-center px-4 py-3 rounded-lg transition',
-                        'bg-blue-800 text-white' => request()->routeIs('activity-logs.*'),
-                        'text-blue-100 hover:bg-blue-800' => !request()->routeIs('activity-logs.*'),
+                        'flex items-center px-3 py-2 rounded-lg transition',
+                        'bg-white/10 text-white' => request()->routeIs('activity-logs.*'),
+                        'text-blue-100 hover:bg-white/10' => !request()->routeIs('activity-logs.*'),
                        ])>
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        <span x-show="open" x-cloak class="ms-3 truncate">Activity Logs</span>
+                        <span x-show="open" x-cloak class="ms-2 truncate text-xs">Activity Logs</span>
                     </a>
                     @endcan
                 </nav>
@@ -134,40 +135,40 @@
                     <div class="border-t border-blue-800"></div>
                 </div>
 
-                <div class="px-3 py-6 flex-shrink-0 border-t border-blue-800">
-                    <div x-data="{ userMenuOpen: false }" class="space-y-3">
-                        <div class="flex items-center rounded-lg bg-blue-800"
-                             :class="open ? 'px-4 py-3' : 'justify-center py-3'">
-                            <svg class="w-5 h-5 flex-shrink-0 text-blue-200" fill="currentColor" viewBox="0 0 20 20">
+                <div class="px-3 py-4 flex-shrink-0">
+                    <div x-data="{ userMenuOpen: false }" class="space-y-1">
+                        <div class="flex items-center rounded-lg bg-white/10"
+                             :class="open ? 'px-3 py-2' : 'justify-center py-2'">
+                            <svg class="w-4 h-4 flex-shrink-0 text-blue-200" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                             </svg>
-                            <div x-show="open" x-cloak class="ms-3 overflow-hidden">
-                                <div class="text-sm font-semibold truncate">{{ Auth::user()->name }}</div>
-                                <div class="text-xs text-blue-200 truncate">{{ Auth::user()->role ?? 'User' }}</div>
+                            <div x-show="open" x-cloak class="ms-2 overflow-hidden">
+                                <div class="text-[11px] font-semibold truncate">{{ Auth::user()->name }}</div>
+                                <div class="text-[9px] text-blue-200 truncate">{{ Auth::user()->role ?? 'User' }}</div>
                             </div>
                         </div>
 
                         <a href="{{ route('profile.edit') }}" 
                            :title="!open ? 'Profile' : ''"
-                           class="flex items-center rounded-lg transition text-blue-100 hover:bg-blue-800"
-                           :class="open ? 'px-4 py-2 text-sm' : 'justify-center py-2'">
-                            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           class="flex items-center rounded-lg transition text-blue-100 hover:bg-white/10"
+                           :class="open ? 'px-3 py-1.5 text-[11px]' : 'justify-center py-1.5'">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span x-show="open" x-cloak class="ms-3 truncate text-sm">Profile</span>
+                            <span x-show="open" x-cloak class="ms-2 truncate text-[11px]">Profile</span>
                         </a>
 
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
                             <button type="submit" 
                                     :title="!open ? 'Logout' : ''"
-                                    class="w-full flex items-center rounded-lg transition text-blue-100 hover:bg-blue-800"
-                                    :class="open ? 'px-4 py-2 text-sm' : 'justify-center py-2'">
-                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-full flex items-center rounded-lg transition text-blue-100 hover:bg-white/10"
+                                    :class="open ? 'px-3 py-1.5 text-[11px]' : 'justify-center py-1.5'">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                <span x-show="open" x-cloak class="ms-3 truncate text-sm">Logout</span>
+                                <span x-show="open" x-cloak class="ms-2 truncate text-[11px]">Logout</span>
                             </button>
                         </form>
                     </div>
@@ -184,19 +185,118 @@
 
             <!-- Main Content -->
             <div id="main-content" 
-                 class="relative z-0 flex-1 w-full flex flex-col overflow-hidden transition-custom content-margin-var h-screen">
+                 class="relative z-0 flex-1 w-full flex flex-col transition-custom content-margin-var min-h-screen">
                 @isset($header)
-                    <header class="bg-white shadow flex-shrink-0">
-                        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <header class="bg-transparent flex-shrink-0">
+                        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 border-b border-gray-200">
                             {{ $header }}
                         </div>
                     </header>
                 @endisset
 
-                <main class="flex-1 flex flex-col p-4 sm:p-6 pt-16 lg:pt-6 overflow-hidden min-h-0">
+                <main class="flex-1 p-2 sm:p-4 md:p-6 pt-14 sm:pt-16 lg:pt-6">
                     {{ $slot }}
                 </main>
             </div>
         </div>
+        <script>
+            // Standard SweetAlert Config
+            const swalConfig = {
+                reverseButtons: true,
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn-success px-4 py-2 rounded-lg text-sm font-bold ml-2', 
+                    cancelButton: 'btn-secondary px-4 py-2 rounded-lg text-sm font-bold' 
+                }
+            };
+
+            function confirmDelete(title, text, formId) {
+                Swal.fire({
+                    ...swalConfig,
+                    title: title || 'Apakah Anda yakin?',
+                    text: text || "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    customClass: {
+                        confirmButton: 'btn-danger px-4 py-2 rounded-lg text-sm font-bold ml-2',
+                        cancelButton: 'btn-secondary px-4 py-2 rounded-lg text-sm font-bold'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Mohon Tunggu',
+                            html: 'Sedang memproses penghapusan...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        document.getElementById(formId).submit();
+                    }
+                });
+            }
+
+            document.addEventListener('submit', function(e) {
+                if (e.target && e.target.classList.contains('swal-delete')) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const itemName = form.dataset.itemName || 'data ini';
+                    
+                    Swal.fire({
+                        ...swalConfig,
+                        title: 'Konfirmasi Hapus',
+                        text: `Apakah Anda yakin ingin menghapus ${itemName}?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal',
+                        focusCancel: true,
+                        customClass: {
+                            confirmButton: 'btn-danger px-4 py-2 rounded-lg text-sm font-bold ml-2',
+                            cancelButton: 'btn-secondary px-4 py-2 rounded-lg text-sm font-bold'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Memproses...',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                            form.submit();
+                        }
+                    });
+                }
+            });
+
+            // Global Success Alert
+            @if(session('success'))
+                Swal.fire({
+                    ...swalConfig,
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            @endif
+
+            // Global Error Alert
+            @if(session('error'))
+                Swal.fire({
+                    ...swalConfig,
+                    title: 'Gagal!',
+                    text: "{{ session('error') }}",
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn-danger px-4 py-2 rounded-lg text-sm font-bold',
+                        cancelButton: 'hidden'
+                    }
+                });
+            @endif
+        </script>
     </body>
 </html>

@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class, // Untuk tabel users
             InventorySeeder::class,
+            ActivityLogSeeder::class,
         ]);
     }
 }

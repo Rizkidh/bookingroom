@@ -1,47 +1,59 @@
 <x-app-layout>
     <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), 'Edit ' . $inventory->name => route('inventories.edit', $inventory->id)]" />
-    <div class="form-container">
-        <div class="form-card">
-            <h2 class="form-title">Edit Item: {{ $inventory->name }}</h2>
 
-            <form action="{{ route('inventories.update', $inventory->id) }}" method="POST" id="editInventoryForm">
+    <div class="flex-1 flex flex-col min-h-0 bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+        <div class="section-header p-3 flex-shrink-0">
+            <h2 class="text-xs font-bold text-white uppercase tracking-wider">Edit Item: {{ $inventory->name }}</h2>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-5">
+            <form action="{{ route('inventories.update', $inventory->id) }}" method="POST" id="editInventoryForm" class="h-full flex flex-col max-w-3xl mx-auto">
                 @csrf
                 @method('PATCH')
 
                 @if ($errors->any())
-                <div class="error-alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                    <div class="mb-4 bg-red-50 border-l-4 border-red-500 p-3">
+                        <ul class="list-disc pl-4 text-xs text-red-700">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
 
-                <div class="form-group">
-                    <label for="name" class="form-label">Nama Barang <span>*</span></label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $inventory->name) }}" required placeholder="Contoh: Laptop, Printer, Monitor, dll" class="form-input @error('name') input-error @enderror">
-                    @error('name')
-                    <p class="form-helper" style="color: #dc2626;">{{ $message }}</p>
-                    @enderror
+                <div class="flex flex-col gap-6 flex-1">
+                    <!-- Name Input -->
+                    <div>
+                        <label for="name" class="form-label text-[10px] uppercase mb-1 block">Nama Barang / Kategori <span class="text-red-500">*</span></label>
+                        <input type="text" 
+                               name="name" 
+                               id="name" 
+                               value="{{ old('name', $inventory->name) }}" 
+                               required 
+                               placeholder="Contoh: Laptop, Printer..." 
+                               class="form-input w-full text-sm font-semibold text-gray-800 placeholder:font-normal placeholder:text-gray-400 py-2.5">
+                    </div>
+
+                    <!-- Note Input -->
+                    <div class="flex-1 flex flex-col">
+                        <label for="note" class="form-label text-[10px] uppercase mb-1 block">Catatan / Deskripsi (Opsional)</label>
+                        <textarea name="note" 
+                                  id="note" 
+                                  placeholder="Alasan perubahan atau deskripsi..." 
+                                  maxlength="500" 
+                                  class="form-input w-full flex-1 resize-none text-sm p-3 leading-relaxed">{{ old('note', $inventory->note) }}</textarea>
+                        <p class="text-right text-[9px] text-gray-400 mt-1">Maksimal 500 karakter</p>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="note" class="form-label">Catatan (Opsional)</label>
-                    <textarea name="note" id="note" rows="4" placeholder="Contoh: Alasan perubahan, keterangan update, dll" maxlength="500" class="form-input @error('note') input-error @enderror">{{ old('note') }}</textarea>
-                    <p class="form-helper">Maksimal 500 karakter</p>
-                    @error('note')
-                    <p class="form-helper" style="color: #dc2626;">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-                        Update Item
-                    </button>
-                    <a href="{{ route('inventories.index') }}" class="btn-cancel">
+                <!-- Footer Actions -->
+                <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
+                    <a href="{{ route('inventories.index') }}" class="btn-secondary">
                         Batal
                     </a>
+                    <button type="submit" class="btn-success px-8">
+                        Simpan Perubahan
+                    </button>
                 </div>
             </form>
         </div>
@@ -55,9 +67,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        /* eslint-disable */
         document.getElementById('editInventoryForm').addEventListener('submit', function(e) {
             e.preventDefault();
+
+            const nameInput = document.getElementById('name').value;
+             if (!nameInput.trim()) {
+                 Swal.fire({
+                    title: 'Nama Wajib Diisi',
+                    text: 'Mohon masukkan nama barang.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#10b981'
+                });
+                return;
+            }
 
             Swal.fire({
                 title: 'Mengupdate Item...',
@@ -73,33 +96,5 @@
                 this.submit();
             }, 500);
         });
-        /* eslint-enable */
     </script>
-
-    @if ($successMessage)
-    <script>
-        /* eslint-disable */
-        window.addEventListener('load', function() {
-            if (Swal.isVisible()) {
-                Swal.hideLoading();
-                Swal.close();
-            }
-
-            Swal.fire({
-                title: 'Berhasil!',
-                text: '{{ $successMessage }}',
-                icon: 'success',
-                confirmButtonText: 'Lanjut',
-                confirmButtonColor: '#3b82f6',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '{{ $successRoute }}';
-                }
-            });
-        });
-        /* eslint-enable */
-    </script>
-    @endif
 </x-app-layout>

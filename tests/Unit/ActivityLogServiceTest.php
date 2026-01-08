@@ -95,25 +95,14 @@ class ActivityLogServiceTest extends TestCase
         ActivityLogService::logCreate($item, '<script>alert("xss")</script>Test note');
 
         $log = ActivityLog::where('model_id', (string) $item->id)->first();
-        // Note might be null if sanitization removes everything, or it should contain Test note without script tags
-        if ($log->note !== null) {
-            $this->assertStringNotContainsString('<script>', $log->note);
-            $this->assertStringContainsString('Test note', $log->note);
-        } else {
-            // If note is null, that's also acceptable as it means dangerous content was removed
-            $this->assertNull($log->note);
-        }
+        $this->assertStringNotContainsString('<script>', $log->note);
+        $this->assertStringContainsString('Test note', $log->note);
     }
 
     public function test_get_model_logs_returns_paginated_results()
     {
         $item = InventoryItem::factory()->create();
-        
-        // Clear any existing logs for this model
-        ActivityLog::where('model_type', InventoryItem::class)
-            ->where('model_id', (string) $item->id)
-            ->delete();
-        
+
         ActivityLog::factory()->count(5)->create([
             'model_type' => InventoryItem::class,
             'model_id' => (string) $item->id,
@@ -121,7 +110,7 @@ class ActivityLogServiceTest extends TestCase
 
         $logs = ActivityLogService::getModelLogs(InventoryItem::class, (string) $item->id, 10);
 
-        $this->assertGreaterThanOrEqual(5, count($logs->items()));
+        $this->assertCount(5, $logs->items());
     }
 
     public function test_get_user_logs_returns_paginated_results()

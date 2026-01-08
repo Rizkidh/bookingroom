@@ -40,6 +40,7 @@ class InventoryController extends Controller
 
         InventoryItem::create([
             'name' => $request->name,
+            'note' => $request->note,
             'total_stock' => 0,
             'available_stock' => 0,
             'damaged_stock' => 0,
@@ -74,7 +75,7 @@ class InventoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $data = $request->only(['name']);
+        $data = $request->only(['name', 'note']);
         $inventory->update($data);
 
         return redirect()->route('inventories.index')->with('success', 'Item berhasil diperbarui');
@@ -83,6 +84,11 @@ class InventoryController extends Controller
     public function destroy(InventoryItem $inventory)
     {
         $this->authorize('delete', $inventory);
+
+        // Cek apakah ada unit yang terhubung
+        if ($inventory->units()->exists()) {
+            return back()->with('error', "Gagal menghapus! Masih ada {$inventory->units()->count()} unit yang terhubung dengan kategori {$inventory->name}. Hapus semua unit terlebih dahulu.");
+        }
 
         if ($inventory->photo) {
             Storage::disk('public')->delete($inventory->photo);

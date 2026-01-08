@@ -1,117 +1,129 @@
 <x-app-layout>
     <x-breadcrumbs :items="['Inventaris' => route('inventories.index'), $inventory->name => route('inventories.show', $inventory->id), 'Detail Unit' => route('inventories.units.show', [$inventory->id, $unit->id])]" />
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
 
-                <h2 class="text-2xl font-semibold text-gray-800 mb-2">
-                    Detail Unit: {{ $unit->serial_number ?? 'Unit #' . $unit->id }}
-                </h2>
-
-                <p class="text-gray-500 mb-6">
-                    Bagian dari item:
-                    <a href="{{ route('inventories.show', $inventory->id) }}"
-                        class="text-indigo-600 hover:text-indigo-800 font-medium">
-                        {{ $inventory->name }}
-                    </a>
-                </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+    <div class="flex-1 flex flex-col min-h-0">
+        <!-- Top Title Section -->
+        <div class="mb-4 flex-shrink-0">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div>
-                        <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Foto Unit</p>
-
-                        @if ($unit->photo)
-                        <img
-                            src="{{ asset($unit->photo) }}"
-                            class="w-full h-auto rounded-lg shadow border mb-4"
-                            alt="Foto Unit">
-                        @else
-                        <div class="bg-gray-100 p-8 rounded text-center text-gray-500 mb-4">
-                            Tidak ada foto unit
-                        </div>
-                        @endif
-
-                        <div class="mt-4 text-center">
-                            <p class="text-sm font-semibold text-gray-700 mb-2">QR Code</p>
-
-                            @if($unit->qr_code)
-                            <img
-                                src="{{ asset($unit->qr_code) }}"
-                                alt="QR Code"
-                                class="mx-auto w-40 h-40 border rounded shadow">
-
-                            <a href="{{ asset($unit->qr_code) }}"
-                                download
-                                class="inline-block mt-2 text-sm text-indigo-600 hover:underline">
-                                Download QR Code
-                            </a>
-                            @else
-                            <p class="text-sm text-gray-500">QR Code belum tersedia</p>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="text-lg font-semibold text-gray-700 mb-2 border-b">Informasi Unit</p>
-
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-500">Nomor Serial</p>
-                            <p class="font-bold">{{ $unit->serial_number ?? 'N/A' }}</p>
-                        </div>
-
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-500">Status</p>
-                            <span class="px-3 py-1 rounded-full text-sm font-semibold
-                                @class([
-                                    'bg-green-100 text-green-800' => $unit->condition_status === 'available',
-                                    'bg-yellow-100 text-yellow-800' => $unit->condition_status === 'in_use',
-                                    'bg-red-100 text-red-800' => in_array($unit->condition_status, ['damaged','maintenance']),
-                                ])">
+                        <div class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-1">Status Unit Saat Ini</div>
+                        @php
+                            $statusClass = match($unit->condition_status) {
+                                'available' => 'status-available',
+                                'in_use' => 'badge-primary',
+                                'maintenance' => 'status-maintenance',
+                                'damaged' => 'status-damaged',
+                                default => 'badge-secondary'
+                            };
+                        @endphp
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-base font-bold text-gray-900">{{ $unit->serial_number ?? 'Unit #' . $unit->id }}</h2>
+                            <span class="status-badge {{ $statusClass }}">
                                 {{ ucfirst(str_replace('_', ' ', $unit->condition_status)) }}
                             </span>
                         </div>
+                    </div>
+                    <div class="flex gap-2">
+                        @can('update', $unit)
+                            <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}" 
+                               class="add-btn">
+                                Edit Unit
+                            </a>
+                        @endcan
+                        <a href="{{ route('inventories.show', $inventory->id) }}" 
+                           class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-[11px] font-semibold hover:bg-gray-200 transition-all">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-500">Pemegang</p>
-                            <p>{{ $unit->current_holder ?? 'Gudang' }}</p>
+        <!-- Main Info Section -->
+        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col min-h-0">
+            <div class="section-header p-3 flex-shrink-0">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">Informasi Lengkap Unit</h3>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Left Column: Media -->
+                    <div class="lg:col-span-4 space-y-4">
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100 text-center">
+                            <div class="text-[9px] font-bold text-gray-400 uppercase mb-2">Foto Unit</div>
+                            <div class="min-h-[150px] flex items-center justify-center bg-white rounded border border-gray-100 overflow-hidden">
+                                @if ($unit->photo)
+                                    <img src="{{ asset($unit->photo) }}" class="max-w-full max-h-[250px] object-contain">
+                                @else
+                                    <div class="text-gray-300 py-10">Tidak ada foto</div>
+                                @endif
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-500">Dibuat</p>
-                            <p>{{ $unit->created_at->format('d M Y H:i') }}</p>
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100 text-center">
+                            <div class="text-[9px] font-bold text-gray-400 uppercase mb-2">QR Code</div>
+                            <div class="bg-white p-2 rounded border border-gray-100 inline-block">
+                                @if($unit->qr_code)
+                                    <img src="{{ asset($unit->qr_code) }}" class="w-24 h-24 mx-auto mb-1">
+                                    <a href="{{ asset($unit->qr_code) }}" download class="text-[9px] font-bold text-blue-600 hover:underline px-1">Download</a>
+                                @else
+                                    <span class="text-[10px] text-gray-400">N/A</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Details List -->
+                    <div class="lg:col-span-8 flex flex-col">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <div class="border-b border-gray-50 pb-2">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">ID Sistem</label>
+                                <div class="text-sm font-mono font-bold text-blue-600">{{ $unit->id }}</div>
+                            </div>
+
+                            <div class="border-b border-gray-50 pb-2">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Nomor Serial</label>
+                                <div class="text-sm font-bold text-gray-900">{{ $unit->serial_number ?: '-' }}</div>
+                            </div>
+
+                            <div class="border-b border-gray-50 pb-2">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Kategori Barang</label>
+                                <div class="text-sm font-bold text-gray-900">{{ $inventory->name }}</div>
+                            </div>
+
+                            <div class="border-b border-gray-50 pb-2">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Pemegang Saat Ini</label>
+                                <div class="text-sm font-bold text-gray-900">{{ $unit->current_holder ?: 'Gudang' }}</div>
+                            </div>
+
+                            <div class="border-b border-gray-50 pb-2 md:col-span-2">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Catatan / Keterangan</label>
+                                <div class="text-xs text-gray-600 italic leading-relaxed">
+                                    {{ $unit->note ?: 'Tidak ada catatan tambahan untuk unit ini.' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-6 flex justify-end">
+                            @can('delete', $unit)
+                                <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}" 
+                                      method="POST" 
+                                      class="swal-delete"
+                                      data-item-name="unit {{ $unit->serial_number ?? $unit->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="px-3 py-1.5 bg-red-600 text-white rounded-lg text-[11px] font-semibold hover:bg-red-700 transition-all">
+                                        Hapus Permanen
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
-
-                <div class="flex flex-wrap gap-3 mt-8 pt-4 border-t">
-
-                    @can('update', $unit)
-                    <a href="{{ route('inventories.units.edit', [$inventory->id, $unit->id]) }}"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Unit
-                    </a>
-                    @endcan
-
-                    @can('delete', $unit)
-                    <form action="{{ route('inventories.units.destroy', [$inventory->id, $unit->id]) }}"
-                        method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus unit ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Hapus Unit
-                        </button>
-                    </form>
-                    @endcan
-
-                    <a href="{{ route('inventories.show', $inventory->id) }}"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                        Kembali
-                    </a>
-                </div>
-
             </div>
         </div>
     </div>
+
+
 </x-app-layout>

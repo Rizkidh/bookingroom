@@ -113,6 +113,7 @@ header {
 header h1, header h2 {
     color: var(--primary-blue);
     font-weight: 700;
+    font-size: 1rem;
 }
 
 /* ==================== FORM STYLES ==================== */
@@ -137,69 +138,99 @@ header h1, header h2 {
 
 /* ==================== BUTTON STYLES ==================== */
 
-.btn-primary, .btn-submit, button[type="submit"] {
-    background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
+/* ==================== BUTTON STYLES (STANDARDIZED) ==================== */
+
+/* Base Button Style */
+.btn-primary, .btn-submit, button[type="submit"],
+.btn-secondary, button[type="button"],
+.btn-danger, .btn-delete, .btn-cancel,
+.btn-success, .add-btn, .pro-btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 8px; /* Standard Rounded Shape */
+    font-size: 0.8125rem;
+    font-weight: 700; /* Bold weight */
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s ease;
+    border: none;
+    gap: 6px;
+    letter-spacing: 0.01em;
+    font-family: inherit;
 }
 
-.btn-primary:hover, .btn-submit:hover, button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+/* Primary / Edit / Blue Buttons */
+.btn-primary, .btn-submit, .btn-edit, .pro-btn-action.btn-edit {
+    background: #2563eb !important; /* Blue */
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
 }
 
+.btn-primary:hover, .btn-submit:hover, .btn-edit:hover {
+    background: #1d4ed8 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Danger / Delete / Red Buttons */
+.btn-danger, .btn-delete, .btn-cancel, .pro-btn-action.btn-delete, button[type="submit"].btn-danger, button[type="submit"].bg-red-600 {
+    background: #ef4444 !important; /* Red */
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.btn-danger:hover, .btn-delete:hover, .btn-cancel:hover, button[type="submit"].btn-danger:hover, button[type="submit"].bg-red-600:hover {
+    background: #dc2626 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* Specialized: Icon Text Buttons (Like in Index Delete) - Reset Background */
+button[type="submit"].text-red-600 {
+    background: transparent !important;
+    color: #dc2626 !important; /* Red 600 */
+    box-shadow: none !important;
+    border: none !important;
+    padding: 6px !important;
+}
+
+button[type="submit"].text-red-600:hover {
+    background: #fee2e2 !important; /* Red 50 */
+    color: #991b1b !important; /* Red 800 */
+    box-shadow: none !important;
+}
+
+/* Success / Add / Yes / Green Buttons */
+.btn-success, .add-btn {
+    background: #10b981 !important; /* Green */
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+}
+
+.btn-success:hover, .add-btn:hover {
+    background: #059669 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Secondary / Gray Buttons */
 .btn-secondary, button[type="button"] {
-    background: var(--text-light);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
 }
 
 .btn-secondary:hover, button[type="button"]:hover {
-    background: var(--text-dark);
-    transform: translateY(-2px);
+    background: #e5e7eb;
+    transform: translateY(-1px);
 }
 
-.btn-danger, .btn-delete, .btn-cancel {
-    background: var(--danger-red);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-danger:hover, .btn-delete:hover, .btn-cancel:hover {
-    background: #b91c1c;
-    transform: translateY(-2px);
-}
-
-.btn-success {
-    background: var(--success-green);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-success:hover {
-    background: #15803d;
-    transform: translateY(-2px);
+/* Row Action Exceptions (smaller size for tables) */
+.pro-btn-action {
+    padding: 4px 10px !important;
+    font-size: 0.65rem !important;
+    border-radius: 6px !important;
 }
 
 /* ==================== CARD & CONTAINER STYLES ==================== */
@@ -218,9 +249,9 @@ header h1, header h2 {
 /* ==================== BADGE & STATUS STYLES ==================== */
 
 .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.55rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -276,9 +307,9 @@ header h1, header h2 {
 }
 
 .pro-table th {
-    padding: 10px 16px;
+    padding: 6px 10px;
     text-align: left;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -288,8 +319,8 @@ header h1, header h2 {
 }
 
 .pro-table td {
-    padding: 12px 16px;
-    font-size: 0.8125rem;
+    padding: 6px 10px;
+    font-size: 0.7rem;
     color: var(--text-dark);
     border-bottom: 1px solid var(--border-gray);
     vertical-align: middle;
@@ -320,20 +351,11 @@ header h1, header h2 {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 /* Row Action Buttons */
-.pro-btn-action {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 6px;
-    transition: all 0.2s;
-    gap: 6px;
-}
+/* Row Action Buttons Standard - Handled by .pro-btn-action base */
 
 /* Mobile Card View (shown when screen < 768px) */
 .pro-card-view {
@@ -436,6 +458,7 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
     color: var(--primary-blue);
     font-weight: 700;
+    font-size: 0.9375rem;
 }
 
 .text-muted {
@@ -468,19 +491,438 @@ hr {
     margin: 20px 0;
 }
 
-/* ==================== RESPONSIVE ==================== */
+/* ==================== RESPONSIVE - MOBILE OPTIMIZED ==================== */
 
+/* Tablet & Below (768px and down) */
 @media (max-width: 768px) {
+    :root {
+        font-size: 14px; /* Reduce base font size */
+    }
+
+    body {
+        font-size: 0.75rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 0.75rem !important;
+    }
+
     .form-label {
-        font-size: 0.9rem;
+        font-size: 0.65rem !important;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-input, input, select, textarea {
+        padding: 6px 8px !important;
+        font-size: 0.7rem !important;
+        border-radius: 6px;
     }
 
     .card, .form-card {
         border-radius: 8px;
+        padding: 0.75rem !important;
     }
 
-    button, .btn-primary, .btn-secondary {
-        padding: 8px 16px;
-        font-size: 0.9rem;
+    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+        padding: 5px 10px !important;
+        font-size: 0.65rem !important;
+        border-radius: 6px;
+    }
+
+    .pro-btn-action {
+        padding: 3px 6px !important;
+        font-size: 0.55rem !important;
+    }
+
+    .status-badge {
+        padding: 1px 3px !important;
+        font-size: 0.5rem !important;
+    }
+
+    /* Table mobile optimization */
+    .pro-table th {
+        padding: 4px 6px !important;
+        font-size: 0.5rem !important;
+    }
+
+    .pro-table td {
+        padding: 4px 6px !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* Section headers */
+    .section-header {
+        padding: 0.5rem !important;
+    }
+
+    .section-header h2 {
+        font-size: 0.65rem !important;
+    }
+
+    /* Compact spacing */
+    .p-4, .p-5, .p-6 {
+        padding: 0.75rem !important;
+    }
+
+    .px-4, .px-5, .px-6 {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    .py-4, .py-5, .py-6 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+
+    .gap-4, .gap-5, .gap-6 {
+        gap: 0.5rem !important;
+    }
+
+    .gap-8 {
+        gap: 0.75rem !important;
+    }
+
+    /* Mobile card view adjustments */
+    .pro-card {
+        padding: 0.75rem !important;
+    }
+
+    .pro-card-label {
+        font-size: 0.6rem !important;
+    }
+
+    .pro-card-value {
+        font-size: 0.65rem !important;
+    }
+
+    /* Pagination mobile */
+    nav[role="navigation"] .inline-flex a,
+    nav[role="navigation"] .inline-flex span > span {
+        min-width: 24px !important;
+        height: 24px !important;
+        padding: 0 6px !important;
+        font-size: 0.65rem !important;
+    }
+
+    nav[role="navigation"] svg {
+        width: 10px !important;
+        height: 10px !important;
+    }
+}
+
+/* Extra Small Mobile (480px and down) */
+@media (max-width: 480px) {
+    :root {
+        font-size: 12px;
+    }
+
+    body {
+        font-size: 0.7rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 0.7rem !important;
+    }
+
+    .form-label {
+        font-size: 0.6rem !important;
+    }
+
+    .form-input, input, select, textarea {
+        padding: 5px 6px !important;
+        font-size: 0.65rem !important;
+    }
+
+    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+        padding: 4px 8px !important;
+        font-size: 0.6rem !important;
+    }
+
+    .pro-btn-action {
+        padding: 2px 5px !important;
+        font-size: 0.5rem !important;
+    }
+
+    .status-badge {
+        padding: 1px 2px !important;
+        font-size: 0.45rem !important;
+    }
+
+    .pro-table th {
+        padding: 3px 4px !important;
+        font-size: 0.45rem !important;
+    }
+
+    .pro-table td {
+        padding: 3px 4px !important;
+        font-size: 0.55rem !important;
+    }
+
+    .section-header h2 {
+        font-size: 0.6rem !important;
+    }
+
+    .p-4, .p-5, .p-6 {
+        padding: 0.5rem !important;
+    }
+
+    .px-4, .px-5, .px-6 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .py-4, .py-5, .py-6 {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .gap-4, .gap-5, .gap-6, .gap-8 {
+        gap: 0.4rem !important;
+    }
+
+    .pro-card-label {
+        font-size: 0.55rem !important;
+    }
+
+    .pro-card-value {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* ==================== CLEAN MODERN PAGINATION ==================== */
+/* 
+   FORCE TRANSPARENCY ON ALL CONTAINERS 
+   This kills the white background and shadow that often wraps pagination links.
+*/
+.pro-pagination-container,
+.pro-pagination-container *,
+nav[role="navigation"],
+nav[role="navigation"] div,
+nav[role="navigation"] span {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Container Wrapper - Right Aligned */
+.pro-pagination-container {
+    padding: 12px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Hide summary text ("Showing X to Y...") */
+nav[role="navigation"] .hidden.sm\:flex-1 > div:first-child {
+    display: none !important;
+}
+
+nav[role="navigation"] .hidden.sm\:flex-1 {
+    display: flex !important;
+}
+
+/* Pagination Link Group - Add gap */
+nav[role="navigation"] .inline-flex,
+nav[role="navigation"] .relative.z-0.inline-flex {
+    gap: 4px !important;
+    display: flex !important;
+    padding: 0 !important;
+}
+
+
+/* 
+   BASE PAGINATION ITEM (NUMBERS & ARROWS)
+   We restore borders and sizing for the actual clickable items.
+*/
+nav[role="navigation"] .inline-flex a,
+nav[role="navigation"] .inline-flex span > span,
+nav[role="navigation"] .inline-flex span > a,
+nav[role="navigation"] .relative.z-0.inline-flex a,
+nav[role="navigation"] .relative.z-0.inline-flex span > span {
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 0.8125rem !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+    background-color: white !important; /* Forced White Background */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(229, 231, 235, 0.8) !important; /* Restore border for items */
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+}
+
+/* Hover Effect */
+nav[role="navigation"] .inline-flex a:hover,
+nav[role="navigation"] .relative.z-0.inline-flex a:hover {
+    background-color: #f3f4f6 !important; /* Light Gray on Hover */
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+}
+
+/* Active Page - Highlighted with border */
+nav[role="navigation"] .inline-flex span[aria-current="page"] > span,
+nav[role="navigation"] .relative.z-0.inline-flex span[aria-current="page"] > span {
+    color: #2563eb !important;
+    font-weight: 700 !important;
+    border: 2px solid #2563eb !important;
+    background-color: white !important;
+}
+
+/* Disabled State */
+nav[role="navigation"] .inline-flex span[aria-disabled="true"] > span,
+nav[role="navigation"] .relative.z-0.inline-flex span[aria-disabled="true"] > span {
+    color: #9ca3af !important;
+    cursor: not-allowed;
+    border-color: rgba(229, 231, 235, 0.4) !important;
+    opacity: 0.5;
+    background-color: white !important;
+}
+
+/* Dots (...) */
+nav[role="navigation"] .inline-flex span[aria-disabled="true"]:not([aria-label]) > span,
+nav[role="navigation"] .relative.z-0.inline-flex span[aria-disabled="true"]:not([aria-label]) > span {
+    border-color: transparent !important;
+    cursor: default;
+    background-color: transparent !important;
+}
+
+/* Icons sizing */
+nav[role="navigation"] svg {
+    width: 14px !important;
+    height: 14px !important;
+    display: block !important;
+}
+
+/* ==================== MOBILE-SPECIFIC OPTIMIZATIONS ==================== */
+
+/* Mobile Scanner & Form Optimizations */
+@media (max-width: 768px) {
+    /* Grid layouts become single column on mobile */
+    .grid-cols-2, .md\\:grid-cols-2, .lg\\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    .lg\\:grid-cols-12 {
+        grid-template-columns: 1fr !important;
+    }
+
+    .lg\\:col-span-4, .lg\\:col-span-8, .md\\:col-span-2 {
+        grid-column: span 1 !important;
+    }
+
+    /* Scanner QR Code Reader */
+    #reader {
+        min-height: 200px !important;
+        max-height: 250px !important;
+    }
+
+    /* Compact breadcrumbs */
+    nav[aria-label="breadcrumb"] {
+        font-size: 0.6rem !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+
+    nav[aria-label="breadcrumb"] a,
+    nav[aria-label="breadcrumb"] span {
+        font-size: 0.6rem !important;
+    }
+
+    /* Compact search bars */
+    input[type="search"],
+    input[placeholder*="Cari"] {
+        padding: 4px 6px !important;
+        font-size: 0.65rem !important;
+    }
+
+    /* Mobile-friendly action buttons in tables */
+    .flex.items-center.gap-2,
+    .flex.gap-2 {
+        gap: 0.25rem !important;
+    }
+
+    /* Compact modals/alerts */
+    .swal2-popup {
+        font-size: 0.7rem !important;
+        padding: 1rem !important;
+    }
+
+    .swal2-title {
+        font-size: 0.85rem !important;
+    }
+
+    .swal2-html-container {
+        font-size: 0.65rem !important;
+    }
+
+    /* Reduce border radius for cleaner look */
+    .rounded-xl {
+        border-radius: 8px !important;
+    }
+
+    .rounded-lg {
+        border-radius: 6px !important;
+    }
+
+    /* Compact photo upload */
+    input[type="file"] {
+        font-size: 0.6rem !important;
+    }
+
+    input[type="file"]::file-selector-button {
+        padding: 3px 6px !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* Textarea compact */
+    textarea {
+        min-height: 60px !important;
+    }
+
+    /* Mobile menu button positioning */
+    .lg\\:hidden.fixed {
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+    }
+
+    /* Compact shadows */
+    .shadow-lg {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra compact for very small screens */
+    #reader {
+        min-height: 180px !important;
+        max-height: 220px !important;
+    }
+
+    textarea {
+        min-height: 50px !important;
+    }
+
+    /* Hide less important icons on very small screens */
+    .hidden-xs {
+        display: none !important;
+    }
+
+    /* Stack action buttons vertically if needed */
+    .flex.justify-end.gap-3 {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .flex.justify-end.gap-3 > * {
+        width: 100% !important;
     }
 }

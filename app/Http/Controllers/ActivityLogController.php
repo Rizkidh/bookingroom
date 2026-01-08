@@ -10,53 +10,71 @@ class ActivityLogController extends Controller
 {
     use AuthorizesRequests;
 
+    /**
+     * Display a listing of the activity logs
+     */
     public function index(Request $request)
     {
+        // Authorization: Only Admin/Supervisor can view activity logs
         $this->authorize('viewAny', ActivityLog::class);
 
         $query = ActivityLog::query();
 
+        // Filter by model type
         if ($request->filled('model_type')) {
             $query->where('model_type', $request->input('model_type'));
         }
 
+        // Filter by action
         if ($request->filled('action')) {
             $query->where('action', $request->input('action'));
         }
 
+        // Search in description and note
         if ($request->filled('search')) {
             $query->search($request->input('search'));
         }
 
-        $logs = $query->latest('created_at')->paginate(20);
+        // Get logs with pagination
+        $logs = $query->latest('created_at')->paginate(10);
 
         return view('activity_logs.index', compact('logs'));
     }
 
+    /**
+     * Display the specified activity log detail
+     */
     public function show(ActivityLog $activityLog)
     {
         $this->authorize('view', $activityLog);
 
-        return view('activity_logs.show', compact('activityLog'));
+        return view('activity_logs.show', compact('activityLog'))->render();
     }
 
+    /**
+     * Get activity logs for specific model
+     */
     public function getModelLogs($modelType, $modelId)
     {
         $this->authorize('viewAny', ActivityLog::class);
 
         $logs = ActivityLog::byModel($modelType, $modelId)
             ->latest('created_at')
-            ->paginate(20);
+            ->paginate(10);
 
         return view('activity_logs.model_logs', compact('logs', 'modelType', 'modelId'));
     }
 
+    /**
+     * Export activity logs to CSV
+     */
     public function export(Request $request)
     {
         $this->authorize('viewAny', ActivityLog::class);
 
         $query = ActivityLog::query();
 
+        // Apply filters
         if ($request->filled('model_type')) {
             $query->where('model_type', $request->input('model_type'));
         }
@@ -71,6 +89,7 @@ class ActivityLogController extends Controller
 
         $logs = $query->latest('created_at')->get();
 
+        // Generate CSV
         $filename = 'activity-logs-' . now()->format('Y-m-d-His') . '.csv';
         $headers = [
             'Content-Type' => 'text/csv',
@@ -80,11 +99,7 @@ class ActivityLogController extends Controller
         $columns = ['ID', 'Waktu', 'Action', 'Model', 'Model ID', 'User', 'Role', 'Catatan', 'IP Address'];
         $callback = function () use ($logs, $columns) {
             $file = fopen('php://output', 'w');
-            
-            // Add BOM for Excel UTF-8 compatibility
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-            
-            fputcsv($file, $columns);
+            fputcsv($file, $columns, ';');
 
             foreach ($logs as $log) {
                 fputcsv($file, [
@@ -97,7 +112,7 @@ class ActivityLogController extends Controller
                     $log->user_role,
                     $log->note,
                     $log->ip_address,
-                ]);
+                ], ';');
             }
 
             fclose($file);

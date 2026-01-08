@@ -15,6 +15,7 @@ class InventoryItem extends Model
 
     protected $fillable = [
         'name',
+        'note',
         'total_stock',
         'available_stock',
         'damaged_stock',

@@ -5,19 +5,17 @@ use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventoryController;
 use App\Models\InventoryItem; // Pastikan Model InventoryItem sudah diimpor
-use App\Models\InventoryUnit;
 use App\Http\Controllers\InventoryUnitController;
 
 // 1. Rute Publik (Tambahkan kembali jika hilang, atau asumsikan ada di luar)
 // Misalnya:
 
 
-use App\Http\Controllers\DashboardController;
-
 // 2. Rute Terotentikasi dan Terverifikasi
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // A. Rute Dashboard (TANPA middleware tambahan)
+    Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // Rute CRUD Inventaris Baru
     Route::get('/inventories/export', [InventoryController::class, 'export'])->name('inventories.export');
@@ -26,19 +24,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- RUTE SCAN BARCODE ---
     Route::get('/scan', [InventoryUnitController::class, 'scanPage'])->name('units.scan');
-    Route::post('/scan/process', [InventoryUnitController::class, 'processScan'])
-        ->middleware('throttle:form')
-        ->name('units.process-scan');
+    Route::post('/scan/process', [InventoryUnitController::class, 'processScan'])->name('units.process-scan');
 
     // --- RUTE INVENTARIS UNIT SATUAN (NESTED RESOURCE) ---
-    Route::resource('inventories.units', InventoryUnitController::class)
-        ->except(['index'])
-        ->middleware(['throttle:form']);
+    Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
 
     // --- RUTE ACTIVITY LOG (Audit Trail) ---
+    Route::resource('activity-logs', ActivityLogController::class)->only(['index', 'show']);
     Route::get('/activity-logs/export', [ActivityLogController::class, 'export'])->name('activity-logs.export');
     Route::get('/activity-logs/model/{modelType}/{modelId}', [ActivityLogController::class, 'getModelLogs'])->name('activity-logs.model-logs');
-    Route::resource('activity-logs', ActivityLogController::class)->only(['index', 'show']);
 
     // B. Rute Profil (Tambahkan semua rute profil di sini)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

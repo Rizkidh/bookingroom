@@ -24,8 +24,9 @@ class InventoryUnitFactory extends Factory
             'inventory_item_id' => InventoryItem::factory(),
             'serial_number' => fake()->unique()->numerify('SN#######'),
             'photo' => null,
-            'condition_status' => fake()->randomElement(['available', 'in_use', 'maintenance', 'damaged']),
+            'condition_status' => fake()->randomElement(['available', 'in_use', 'maintenance', 'damaged', 'lost']),
             'current_holder' => fake()->name(),
+            'note' => fake()->optional()->sentence(),
             'qr_code' => null,
         ];
     }

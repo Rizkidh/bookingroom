@@ -41,14 +41,6 @@ class ActivityLogTest extends TestCase
     public function test_activity_log_scope_by_model()
     {
         $item = InventoryItem::factory()->create();
-        
-        // Clear any existing logs
-        ActivityLog::where('model_type', InventoryItem::class)
-            ->where('model_id', (string) $item->id)
-            ->delete();
-        ActivityLog::where('model_type', 'App\Models\OtherModel')
-            ->delete();
-        
         ActivityLog::factory()->create([
             'model_type' => InventoryItem::class,
             'model_id' => (string) $item->id,
@@ -60,10 +52,8 @@ class ActivityLogTest extends TestCase
 
         $logs = ActivityLog::byModel(InventoryItem::class)->get();
 
-        $this->assertGreaterThanOrEqual(1, $logs->count());
-        $this->assertTrue($logs->contains(function ($log) {
-            return $log->model_type === InventoryItem::class;
-        }));
+        $this->assertCount(1, $logs);
+        $this->assertEquals(InventoryItem::class, $logs->first()->model_type);
     }
 
     public function test_activity_log_scope_by_action()
