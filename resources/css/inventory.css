@@ -1,9 +1,10 @@
 /* ==================== INVENTORY LIST STYLES ==================== */
+/* KAI Theme - Navy Blue & Orange */
 
 .management-container {
     padding: 40px 20px;
     min-height: calc(100vh - 64px);
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #fff7ed 100%);
 }
 
 .management-card {
@@ -38,7 +39,7 @@
 }
 
 .btn-add {
-    background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
     color: white;
     padding: 6px 12px;
     border-radius: 6px;
@@ -50,11 +51,13 @@
     align-items: center;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .btn-add:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
     text-decoration: none;
     color: white;
 }
@@ -141,7 +144,7 @@
 }
 
 .btn-edit, .btn-detail, .btn-action {
-    background: var(--secondary-blue);
+    background: linear-gradient(135deg, #1a365d 0%, #0f2540 100%);
     color: white;
     padding: 4px 8px; /* Downsized */
     border-radius: 4px; /* Downsized */
@@ -155,10 +158,11 @@
 }
 
 .btn-edit:hover, .btn-detail:hover, .btn-action:hover {
-    background: var(--primary-blue);
+    background: linear-gradient(135deg, #0f2540 0%, #0a1a2e 100%);
     transform: translateY(-1px);
     text-decoration: none;
     color: white;
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
 }
 
 .btn-delete {
@@ -234,7 +238,7 @@
 }
 
 .btn-add-unit {
-    background: linear-gradient(135deg, var(--secondary-blue) 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
     color: white;
     padding: 6px 12px;
     border-radius: 6px;
@@ -244,11 +248,13 @@
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .btn-add-unit:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
     text-decoration: none;
     color: white;
 }

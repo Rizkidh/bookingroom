@@ -1,11 +1,19 @@
 /* ==================== GLOBAL THEME - PROFESSIONAL BLUE ==================== */
 
 :root {
-    --primary-blue: #1e3a8a;
-    --secondary-blue: #2563eb;
-    --accent-blue: #3b82f6;
-    --light-blue: #eff6ff;
-    --dark-blue: #1e293b;
+    /* KAI Brand Colors - Same as Login Page */
+    --kai-navy: #1a365d;
+    --kai-navy-dark: #0f2540;
+    --kai-orange: #f97316;
+    --kai-orange-light: #fb923c;
+    --kai-orange-dark: #ea580c;
+    
+    /* Legacy aliases for compatibility */
+    --primary-blue: #1a365d;
+    --secondary-blue: #2c4a7c;
+    --accent-blue: #3b5998;
+    --light-blue: #fff7ed; /* Changed to orange tint */
+    --dark-blue: #0f2540;
     --border-gray: #e2e8f0;
     --table-header-bg: #f1f5f9;
     --text-dark: #1f2937;
@@ -19,14 +27,14 @@
 /* ==================== NAVBAR STYLES ==================== */
 
 .navbar-bg {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%) !important;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+    background: linear-gradient(135deg, #1a365d 0%, #0f2540 100%) !important;
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
     border: none !important;
 }
 
 nav {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, #2563eb 100%);
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+    background: linear-gradient(135deg, #1a365d 0%, #0f2540 100%);
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
 }
 
 nav a, nav button {
@@ -92,10 +100,10 @@ nav .dropdown-toggle:hover, nav .x-dropdown > button:hover {
 }
 
 .dropdown-link:hover, .x-dropdown a:hover, [x-dropdown] a:hover {
-    background-color: #dbeafe !important;
-    color: #1e3a8a !important;
+    background-color: #fff7ed !important;
+    color: #ea580c !important;
     padding-left: 20px !important;
-    border-bottom-color: #bfdbfe;
+    border-bottom-color: #fed7aa;
 }
 
 .dropdown-link:last-child, .x-dropdown a:last-child, [x-dropdown] a:last-child {
@@ -132,8 +140,8 @@ header h1, header h2 {
 
 .form-input:focus, input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: var(--secondary-blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: var(--kai-orange);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 
 /* ==================== BUTTON STYLES ==================== */
@@ -160,17 +168,30 @@ header h1, header h2 {
     font-family: inherit;
 }
 
-/* Primary / Edit / Blue Buttons */
-.btn-primary, .btn-submit, .btn-edit, .pro-btn-action.btn-edit {
-    background: #2563eb !important; /* Blue */
+/* Primary / Submit / Orange Buttons (KAI Theme) */
+.btn-primary, .btn-submit, .pro-btn-action.btn-edit {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
     color: white !important;
-    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
 }
 
-.btn-primary:hover, .btn-submit:hover, .btn-edit:hover {
-    background: #1d4ed8 !important;
+.btn-primary:hover, .btn-submit:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+}
+
+/* Edit Button - Navy Blue */
+.btn-edit, .pro-btn-action.btn-edit {
+    background: linear-gradient(135deg, #1a365d 0%, #0f2540 100%) !important;
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(26, 54, 93, 0.2);
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #0f2540 0%, #0a1a2e 100%) !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
 }
 
 /* Danger / Delete / Red Buttons */
@@ -443,13 +464,13 @@ button[type="submit"].text-red-600:hover {
 /* ==================== LINK STYLES ==================== */
 
 a {
-    color: var(--secondary-blue);
+    color: var(--kai-orange);
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 a:hover {
-    color: var(--primary-blue);
+    color: var(--kai-orange-dark);
     text-decoration: underline;
 }
 

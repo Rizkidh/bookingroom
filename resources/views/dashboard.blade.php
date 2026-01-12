@@ -25,6 +25,112 @@
             </a>
         </div>
 
+        <!-- Status Chart Section -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-4 flex-shrink-0">
+            <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                </svg>
+                Perbandingan Status Unit Inventaris
+            </h3>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-6">
+                <!-- Donut Chart -->
+                <div class="relative w-48 h-48 flex-shrink-0">
+                    @php
+                        $chartTotal = $available + $in_use + $maintenance + $damaged;
+                        $availablePercent = $chartTotal > 0 ? ($available / $chartTotal) * 100 : 0;
+                        $inUsePercent = $chartTotal > 0 ? ($in_use / $chartTotal) * 100 : 0;
+                        $maintenancePercent = $chartTotal > 0 ? ($maintenance / $chartTotal) * 100 : 0;
+                        $damagedPercent = $chartTotal > 0 ? ($damaged / $chartTotal) * 100 : 0;
+                        
+                        // Calculate cumulative percentages for conic-gradient
+                        $availableEnd = $availablePercent;
+                        $inUseEnd = $availableEnd + $inUsePercent;
+                        $maintenanceEnd = $inUseEnd + $maintenancePercent;
+                    @endphp
+                    
+                    @if($chartTotal > 0)
+                    <div class="w-full h-full rounded-full relative" 
+                         style="background: conic-gradient(
+                            #10b981 0% {{ $availableEnd }}%,
+                            #3b82f6 {{ $availableEnd }}% {{ $inUseEnd }}%,
+                            #f59e0b {{ $inUseEnd }}% {{ $maintenanceEnd }}%,
+                            #ef4444 {{ $maintenanceEnd }}% 100%
+                         );">
+                        <!-- Inner circle for donut effect -->
+                        <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-inner">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gray-800">{{ $chartTotal }}</div>
+                                <div class="text-[10px] text-gray-500 font-medium uppercase tracking-wide">Total Unit</div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
+                    <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-gray-400">0</div>
+                            <div class="text-[10px] text-gray-400">Tidak ada data</div>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                
+                <!-- Legend -->
+                <div class="flex-1 grid grid-cols-2 lg:grid-cols-2 gap-3 w-full">
+                    <!-- Available -->
+                    <a href="?condition=available" class="flex items-center gap-3 p-3 rounded-lg bg-green-50 hover:bg-green-100 border border-green-100 transition-all group">
+                        <div class="w-4 h-4 rounded-full bg-green-500 flex-shrink-0 ring-4 ring-green-100 group-hover:ring-green-200 transition-all"></div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-green-700">Tersedia (Available)</div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-green-600">{{ $available }}</span>
+                                <span class="text-[10px] text-green-500">({{ number_format($availablePercent, 1) }}%)</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- In Use -->
+                    <a href="?condition=in_use" class="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-100 transition-all group">
+                        <div class="w-4 h-4 rounded-full bg-blue-500 flex-shrink-0 ring-4 ring-blue-100 group-hover:ring-blue-200 transition-all"></div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-blue-700">Digunakan (In Use)</div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-blue-600">{{ $in_use }}</span>
+                                <span class="text-[10px] text-blue-500">({{ number_format($inUsePercent, 1) }}%)</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Maintenance -->
+                    <a href="?condition=maintenance" class="flex items-center gap-3 p-3 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-100 transition-all group">
+                        <div class="w-4 h-4 rounded-full bg-yellow-500 flex-shrink-0 ring-4 ring-yellow-100 group-hover:ring-yellow-200 transition-all"></div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-yellow-700">Perbaikan (Maintenance)</div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-yellow-600">{{ $maintenance }}</span>
+                                <span class="text-[10px] text-yellow-500">({{ number_format($maintenancePercent, 1) }}%)</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Damaged -->
+                    <a href="?condition=damaged" class="flex items-center gap-3 p-3 rounded-lg bg-red-50 hover:bg-red-100 border border-red-100 transition-all group">
+                        <div class="w-4 h-4 rounded-full bg-red-500 flex-shrink-0 ring-4 ring-red-100 group-hover:ring-red-200 transition-all"></div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold text-red-700">Rusak (Damaged)</div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-bold text-red-600">{{ $damaged }}</span>
+                                <span class="text-[10px] text-red-500">({{ number_format($damagedPercent, 1) }}%)</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Main Content Area (Table Wrapper) -->
         <div class="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 min-h-0 overflow-hidden">
             <!-- Table Header & Controls (Fixed) -->
