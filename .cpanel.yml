@@ -1,9 +1,28 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/rdhd8957/public_html
-    - /usr/bin/rsync -avz --delete --exclude='.git*' --exclude='node_modules' --exclude='tests' --exclude='storage/logs/*' --exclude='storage/framework/cache/data/*' --exclude='storage/framework/sessions/*' --exclude='storage/framework/views/*.php' . $DEPLOYPATH
-    - /bin/cp .env.hosting $DEPLOYPATH/.env
-    - cd $DEPLOYPATH && php artisan storage:link --force
-    - cd $DEPLOYPATH && php artisan optimize
-    - /bin/chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
+    - export COREPATH=/home/rdhd8957/inventory
+    - export PUBLICPATH=/home/rdhd8957/public_html
+    
+    # 1. Create core folder if it doesn't exist
+    - /bin/mkdir -p $COREPATH
+    
+    # 2. Sync Core Files (excluding public folder and git files)
+    - /usr/bin/rsync -avz --delete --exclude='.git*' --exclude='node_modules' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
+    
+    # 3. Sync Public Files to public_html and patch index.php paths
+    - /usr/bin/rsync -avz --delete public/ $PUBLICPATH
+    - /bin/sed -i "s|require __DIR__.'/../vendor/autoload.php'|require __DIR__.'/../inventory/vendor/autoload.php'|g" $PUBLICPATH/index.php
+    - /bin/sed -i "s|require_once __DIR__.'/../bootstrap/app.php'|require_once __DIR__.'/../inventory/bootstrap/app.php'|g" $PUBLICPATH/index.php
+    
+    # 4. Copy production environment (Make sure .env.hosting exists locally)
+    - /bin/cp $COREPATH/.env.hosting $COREPATH/.env
+    
+    # 5. Run Laravel optimization and maintenance
+    - cd $COREPATH && php artisan storage:link --force
+    - cd $COREPATH && php artisan optimize
+    - cd $COREPATH && php artisan migrate --force
+    
+    # 6. Correct Permissions
+    - /bin/chmod -R 755 $COREPATH/storage $COREPATH/bootstrap/cache
+    - /bin/chmod 600 $COREPATH/.env
