@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/rdhd8957/public_html
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp .env.hosting $DEPLOYPATH/.env
+    - cd $DEPLOYPATH && php artisan config:cache
+    - cd $DEPLOYPATH && php artisan route:cache
+    - cd $DEPLOYPATH && php artisan view:cache
