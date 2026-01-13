@@ -31,6 +31,77 @@
                         <div class="bg-blue-50/50 rounded-lg p-3 border border-blue-100">
                             <label class="text-[10px] font-bold text-blue-600 uppercase mb-2 block">Scan Barcode (HP)</label>
                             
+                            <style>
+                                #reader video {
+                                    width: 100% !important;
+                                    height: auto !important;
+                                    border-radius: 8px !important;
+                                    object-fit: cover !important;
+                                }
+                                #reader canvas {
+                                    display: none;
+                                }
+                                #reader {
+                                    border: none !important;
+                                    position: relative;
+                                }
+                                #reader__status_span {
+                                    display: none !important;
+                                }
+                                /* Premium Scanning UI */
+                                .scan-line {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 3px;
+                                    background: linear-gradient(to right, transparent, #22c55e, transparent);
+                                    box-shadow: 0 0 15px #22c55e;
+                                    z-index: 10;
+                                    animation: scan-move 2.5s ease-in-out infinite;
+                                    display: none;
+                                    opacity: 0.7;
+                                }
+                                @keyframes scan-move {
+                                    0% { top: 5%; }
+                                    50% { top: 95%; }
+                                    100% { top: 5%; }
+                                }
+                                .scanning-indicator {
+                                    position: absolute;
+                                    bottom: 1rem;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                    background: rgba(0, 0, 0, 0.6);
+                                    backdrop-filter: blur(4px);
+                                    padding: 4px 10px;
+                                    border-radius: 15px;
+                                    color: white;
+                                    font-size: 9px;
+                                    font-weight: 700;
+                                    letter-spacing: 0.1em;
+                                    text-transform: uppercase;
+                                    display: none;
+                                    align-items: center;
+                                    gap: 6px;
+                                    z-index: 20;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    white-space: nowrap;
+                                }
+                                .pulse-dot {
+                                    width: 5px;
+                                    height: 5px;
+                                    background: #22c55e;
+                                    border-radius: 50%;
+                                    animation: pulse 1.5s ease-in-out infinite;
+                                }
+                                @keyframes pulse {
+                                    0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+                                    70% { transform: scale(1.2); opacity: 0.5; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+                                    100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+                                }
+                            </style>
+                            
                             <div class="flex flex-col gap-2">
                                 <button type="button" id="startScanBtn" class="w-full btn-primary text-xs py-2 justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 16h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
@@ -41,7 +112,15 @@
                                 </button>
                             </div>
 
-                            <div id="reader" class="rounded overflow-hidden mt-2 border border-gray-200" style="display:none;"></div>
+                            <div class="w-full relative overflow-hidden rounded-lg mt-2 border border-blue-200 bg-gray-900 min-h-[200px] flex items-center justify-center">
+                                <div id="reader" class="w-full h-full">
+                                    <div class="scan-line" id="scanLine"></div>
+                                    <div class="scanning-indicator" id="scanIndicator">
+                                        <div class="pulse-dot"></div>
+                                        Memindai...
+                                    </div>
+                                </div>
+                            </div>
                             <p class="text-[9px] text-gray-500 mt-2 text-center">Arahkan kamera ke barcode/QR unit</p>
                         </div>
 
@@ -145,7 +224,8 @@
             startBtn.innerHTML = 'Memulai...';
 
             // Show container
-            reader.style.display = 'block';            startBtn.classList.add('hidden');
+            reader.parentElement.style.display = 'block';
+            startBtn.classList.add('hidden');
             stopBtn.classList.remove('hidden');
 
             // Clear any existing instance
@@ -156,41 +236,53 @@
             html5QrCode = new Html5Qrcode("reader");
             
             const config = {
-                fps: 10,
-                qrbox: { width: 280, height: 280 },
-                aspectRatio: 1.0,
+                fps: 20,
+                showTorchButtonIfSupported: true,
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
                 },
                 rememberLastUsedCamera: true
             };
 
-            html5QrCode.start(
-                { facingMode: "environment" },
-                config,
-                (decodedText) => {
-                    serialInput.value = decodedText;
-                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3');
-                    audio.play().catch(e => console.log('Audio error', e));
-                    stopScan();
-                    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Serial: ' + decodedText, timer: 1500, showConfirmButton: false });
-                },
-                (errorMessage) => { /* ignore */ }
-            ).then(() => {
-                isScanning = true;
-                startBtn.classList.add('hidden');
-                startBtn.disabled = false;
-                startBtn.innerHTML = 'Mulai Scan';
-                stopBtn.classList.remove('hidden');
-            }).catch(err => {
-                console.error("Scanner error:", err);
-                startBtn.disabled = false;
-                startBtn.innerHTML = 'Mulai Scan';
-                let msg = "Gagal membuka kamera.";
-                if (err.toString().includes("NotAllowedError")) msg = "Izin kamera ditolak.";
-                Swal.fire({ icon: 'error', title: 'Kamera Gagal', text: msg });
-                stopScan();
-            });
+            const startWithFallback = (facingMode) => {
+                html5QrCode.start(
+                    facingMode ? { facingMode: facingMode } : undefined,
+                    config,
+                    (decodedText) => {
+                        serialInput.value = decodedText;
+                        const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3');
+                        audio.play().catch(e => console.log('Audio error', e));
+                        stopScan();
+                        Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Serial: ' + decodedText, timer: 1500, showConfirmButton: false });
+                    },
+                    (errorMessage) => { /* ignore */ }
+                ).then(() => {
+                    isScanning = true;
+                    document.getElementById('scanLine').style.display = 'block';
+                    document.getElementById('scanIndicator').style.display = 'flex';
+                    startBtn.classList.add('hidden');
+                    startBtn.disabled = false;
+                    startBtn.innerHTML = 'Mulai Scan';
+                    stopBtn.classList.remove('hidden');
+                }).catch(err => {
+                    console.warn(`Camera failed with ${facingMode}:`, err);
+                    if (facingMode === "environment") {
+                        console.log("Retrying with default camera...");
+                        startWithFallback(null);
+                    } else {
+                        console.error("Scanner error:", err);
+                        startBtn.disabled = false;
+                        startBtn.innerHTML = 'Mulai Scan';
+                        let msg = "Gagal membuka kamera.";
+                        if (err.toString().includes("NotAllowedError")) msg = "Izin kamera ditolak.";
+                        if (err.toString().includes("NotFoundError")) msg = "Kamera tidak ditemukan.";
+                        Swal.fire({ icon: 'error', title: 'Kamera Gagal', text: msg });
+                        stopScan();
+                    }
+                });
+            };
+
+            startWithFallback("environment");
         });
 
         stopBtn.addEventListener('click', stopScan);
@@ -204,7 +296,9 @@
                     console.error("Failed to stop", err);
                 }
                 
-                reader.style.display = 'none';
+                document.getElementById('scanLine').style.display = 'none';
+                document.getElementById('scanIndicator').style.display = 'none';
+                reader.parentElement.style.display = 'none';
                 startBtn.classList.remove('hidden');
                 stopBtn.classList.add('hidden');
                 isScanning = false;

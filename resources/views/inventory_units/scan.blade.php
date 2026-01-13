@@ -6,18 +6,96 @@
             <h2 class="text-xs font-bold text-white uppercase tracking-wider">Scan Barcode / QR Code Unit</h2>
         </div>
 
+        <style>
+            #reader video {
+                width: 100% !important;
+                height: auto !important;
+                border-radius: 12px !important;
+                object-fit: cover !important;
+            }
+            #reader canvas {
+                display: none;
+            }
+            #reader {
+                border: none !important;
+                position: relative;
+            }
+            #reader__status_span {
+                display: none !important;
+            }
+            /* Premium Scanning UI */
+            .scan-line {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(to right, transparent, #22c55e, transparent);
+                box-shadow: 0 0 15px #22c55e;
+                z-index: 10;
+                animation: scan-move 2.5s ease-in-out infinite;
+                display: none;
+                opacity: 0.7;
+            }
+            @keyframes scan-move {
+                0% { top: 5%; }
+                50% { top: 95%; }
+                100% { top: 5%; }
+            }
+            .scanning-indicator {
+                position: absolute;
+                bottom: 1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(4px);
+                padding: 6px 14px;
+                border-radius: 20px;
+                color: white;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                display: none;
+                align-items: center;
+                gap: 8px;
+                z-index: 20;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .pulse-dot {
+                width: 6px;
+                height: 6px;
+                background: #22c55e;
+                border-radius: 50%;
+                animation: pulse 1.5s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+                70% { transform: scale(1.2); opacity: 0.5; box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+                100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+            }
+        </style>
+
         <div class="flex-1 p-3 sm:p-5 overflow-y-auto">
             <div class="h-full grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 align-items-start">
                 
                 <!-- Left Column: Camera Scanner -->
                 <div class="flex flex-col gap-3 sm:gap-4 h-full">
-                    <div class="bg-gray-900 rounded-lg sm:rounded-xl overflow-hidden shadow-lg border border-gray-800 relative flex-1 min-h-[250px] sm:min-h-[300px] flex items-center justify-center">
-                        <div id="reader" class="w-full h-full"></div>
-                        
-                        <!-- Polder Placeholder Animation (visible when not scanning) -->
-                        <div id="scanPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
-                            <svg class="w-12 h-12 sm:w-16 sm:h-16 opacity-20 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 16h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                            <span class="text-[10px] sm:text-xs font-mono uppercase tracking-widest opacity-40">Kamera Nonaktif</span>
+                    <div class="bg-gray-900 rounded-lg sm:rounded-xl overflow-hidden shadow-lg border border-gray-800 relative flex-1 flex items-center justify-center min-h-[300px]">
+                        <div class="w-full h-full relative overflow-hidden flex items-center justify-center">
+                            <div id="reader" class="w-full h-full">
+                                <div class="scan-line" id="scanLine"></div>
+                                <div class="scanning-indicator" id="scanIndicator">
+                                    <div class="pulse-dot"></div>
+                                    Memindai...
+                                </div>
+                            </div>
+                            
+                            <!-- Polder Placeholder Animation (visible when not scanning) -->
+                            <div id="scanPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 bg-gray-900">
+                                <svg class="w-12 h-12 sm:w-16 sm:h-16 opacity-20 mb-2 sm:mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 16h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                                <span class="text-[10px] sm:text-xs font-mono uppercase tracking-widest opacity-40">Kamera Nonaktif</span>
+                            </div>
                         </div>
                     </div>
 
@@ -125,38 +203,51 @@
             html5QrCode = new Html5Qrcode("reader");
             
             const config = { 
-                fps: 10, 
-                qrbox: { width: 280, height: 280 },
-                aspectRatio: 1.0,
+                fps: 20, 
+                showTorchButtonIfSupported: true,
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
                 },
                 rememberLastUsedCamera: true
             };
 
-            html5QrCode.start(
-                { facingMode: "environment" },
-                config,
-                onScanSuccess,
-                (errorMessage) => { /* ignore */ }
-            ).then(() => {
-                isScanning = true;
-                startBtn.classList.add('hidden');
-                startBtn.disabled = false;
-                startBtn.innerHTML = 'Mulai Scan';
-                stopBtn.classList.remove('hidden');
-                switchCameraBtn.classList.remove('hidden');
-            }).catch(err => {
-                console.error("Scanner error:", err);
-                startBtn.disabled = false;
-                startBtn.innerHTML = 'Mulai Scan';
-                
-                let msg = "Gagal membuka kamera.";
-                if (err.toString().includes("NotAllowedError")) msg = "Izin kamera ditolak.";
-                
-                Swal.fire({ icon: 'error', title: 'Kamera Gagal', text: msg });
-                stopScanning();
-            });
+            const startWithFallback = (facingMode) => {
+                html5QrCode.start(
+                    facingMode ? { facingMode: facingMode } : undefined,
+                    config,
+                    onScanSuccess,
+                    (errorMessage) => { /* ignore */ }
+                ).then(() => {
+                    isScanning = true;
+                    document.getElementById('scanLine').style.display = 'block';
+                    document.getElementById('scanIndicator').style.display = 'flex';
+                    startBtn.classList.add('hidden');
+                    startBtn.disabled = false;
+                    startBtn.innerHTML = 'Mulai Scan';
+                    stopBtn.classList.remove('hidden');
+                    switchCameraBtn.classList.remove('hidden');
+                }).catch(err => {
+                    console.warn(`Camera failed with ${facingMode}:`, err);
+                    if (facingMode === "environment") {
+                        // If environment fails, try fallback to any default camera
+                        console.log("Retrying with default camera...");
+                        startWithFallback(null);
+                    } else {
+                        console.error("Scanner error:", err);
+                        startBtn.disabled = false;
+                        startBtn.innerHTML = 'Mulai Scan';
+                        
+                        let msg = "Gagal membuka kamera.";
+                        if (err.toString().includes("NotAllowedError")) msg = "Izin kamera ditolak.";
+                        if (err.toString().includes("NotFoundError")) msg = "Kamera tidak ditemukan.";
+                        
+                        Swal.fire({ icon: 'error', title: 'Kamera Gagal', text: msg });
+                        stopScanning();
+                    }
+                });
+            };
+
+            startWithFallback("environment");
         }
 
         async function stopScanning() {
@@ -168,6 +259,8 @@
                     console.error("Failed to stop", err);
                 }
                 
+                document.getElementById('scanLine').style.display = 'none';
+                document.getElementById('scanIndicator').style.display = 'none';
                 placeholder.style.display = 'flex';
                 startBtn.classList.remove('hidden');
                 stopBtn.classList.add('hidden');
@@ -188,9 +281,8 @@
                     switchCameraBtn.dataset.facingMode = newFacingMode;
 
                     const config = { 
-                        fps: 10, 
-                        qrbox: { width: 250, height: 250 },
-                        aspectRatio: 1.0
+                        fps: 20, 
+                        showTorchButtonIfSupported: true
                     };
 
                     await html5QrCode.start(

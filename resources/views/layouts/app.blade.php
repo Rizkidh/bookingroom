@@ -315,8 +315,8 @@
                 reverseButtons: true,
                 buttonsStyling: false,
                 customClass: {
-                    confirmButton: 'kai-btn kai-btn-primary ml-2', 
-                    cancelButton: 'kai-btn kai-btn-outline' 
+                    confirmButton: 'kai-btn kai-btn-success', 
+                    cancelButton: 'kai-btn kai-btn-danger' 
                 }
             };
 
@@ -330,8 +330,8 @@
                     confirmButtonText: 'Ya, Hapus!',
                     cancelButtonText: 'Batal',
                     customClass: {
-                        confirmButton: 'kai-btn kai-btn-danger ml-2',
-                        cancelButton: 'kai-btn kai-btn-outline'
+                        confirmButton: 'kai-btn kai-btn-success',
+                        cancelButton: 'kai-btn kai-btn-danger'
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -364,8 +364,8 @@
                         cancelButtonText: 'Batal',
                         focusCancel: true,
                         customClass: {
-                            confirmButton: 'kai-btn kai-btn-danger ml-2',
-                            cancelButton: 'kai-btn kai-btn-outline'
+                            confirmButton: 'kai-btn kai-btn-success',
+                            cancelButton: 'kai-btn kai-btn-danger'
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -389,7 +389,11 @@
                     title: 'Berhasil!',
                     text: "{{ session('success') }}",
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'kai-btn kai-btn-success',
+                        cancelButton: 'hidden'
+                    }
                 });
             @endif
 

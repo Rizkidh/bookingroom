@@ -1022,3 +1022,81 @@ nav .bg-gradient-to-br svg {
 nav .bg-gradient-to-br {
     animation: pulse-orange 2s infinite;
 }
+
+/* =============================================
+   SWEETALERT CUSTOM STYLES (RESPONSIVE)
+   ============================================= */
+
+.swal2-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 1.5rem !important;
+    padding: 0 1rem !important;
+}
+
+.swal2-confirm, .swal2-cancel {
+    margin: 0 !important;
+    flex: 1 !important;
+    max-width: 160px !important;
+    min-width: 100px !important;
+    height: auto !important;
+    border: none !important;
+    font-weight: 700 !important;
+    font-size: 0.875rem !important;
+    padding: 10px 16px !important;
+    border-radius: 9px !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.swal2-confirm {
+    background: var(--kai-success) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+}
+
+.swal2-confirm:hover {
+    background: var(--kai-success-dark) !important;
+    transform: translateY(-1px) !important;
+}
+
+.swal2-cancel {
+    background: var(--kai-danger) !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2) !important;
+}
+
+.swal2-cancel:hover {
+    background: var(--kai-danger-dark) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Ensure buttons stay side-by-side even on very small screens */
+@media (max-width: 480px) {
+    .swal2-popup {
+        padding: 1.25rem 0.75rem !important;
+        width: 95% !important;
+        border-radius: 1.25rem !important;
+    }
+    .swal2-title {
+        font-size: 1.125rem !important;
+        padding-top: 0.5rem !important;
+    }
+    .swal2-html-container {
+        font-size: 0.8125rem !important;
+        margin: 1rem 0.5rem 0 !important;
+    }
+    .swal2-actions {
+        gap: 8px !important;
+        margin-top: 1.5rem !important;
+    }
+    .swal2-confirm, .swal2-cancel {
+        font-size: 0.8125rem !important;
+        padding: 0.75rem 0.5rem !important;
+        border-radius: 0.75rem !important;
+    }
+}
