@@ -8,17 +8,20 @@ deployment:
     - /bin/mkdir -p $COREPATH
     
     # 2. Sync Core Files (excluding public folder and git files)
-    - /usr/bin/rsync -avz --delete --exclude='.git*' --exclude='node_modules' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
+    # 2. Sync Core Files (excluding public folder and git files)
+    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='vendor' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
     
     # 3. Sync Public Files to public_html and patch index.php paths
-    - /usr/bin/rsync -avz --delete public/ $PUBLICPATH
+    # 3. Sync Public Files to public_html and patch index.php paths
+    - /usr/bin/rsync -av --delete public/ $PUBLICPATH
     - /bin/sed -i "s|require __DIR__.'/../vendor/autoload.php'|require __DIR__.'/../inventory/vendor/autoload.php'|g" $PUBLICPATH/index.php
     - /bin/sed -i "s|require_once __DIR__.'/../bootstrap/app.php'|require_once __DIR__.'/../inventory/bootstrap/app.php'|g" $PUBLICPATH/index.php
     
     # 4. Copy production environment (Make sure .env.hosting exists locally)
     - /bin/cp $COREPATH/.env.hosting $COREPATH/.env
     
-    # 5. Run Laravel optimization and maintenance
+    # 5. Install Dependencies & Run Laravel optimization
+    - cd $COREPATH && composer install --no-dev --optimize-autoloader
     - cd $COREPATH && php artisan storage:link --force
     - cd $COREPATH && php artisan optimize
     - cd $COREPATH && php artisan migrate --force
