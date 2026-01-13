@@ -859,9 +859,17 @@
     padding-bottom: env(safe-area-inset-bottom, 16px);
 }
 
+/* Mobile - Premium Navy Theme */
 @media (max-width: 1023px) {
+    /* Increase base sizing for mobile */
+    html {
+        font-size: 16px;
+    }
+
     body {
         background-color: var(--kai-gray-100);
+        /* Prevent font scaling issues */
+        -webkit-text-size-adjust: 100%;
     }
     
     .main-content {
@@ -869,30 +877,39 @@
     }
     
     .kai-card {
-        border-radius: 1.25rem;
+        border-radius: 1.5rem; /* Larger radius */
         border: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     }
     
     .page-header {
         background: transparent;
         border-bottom: none;
         box-shadow: none;
-        padding: 1rem 0;
+        padding: 1.25rem 0;
     }
     
     .kai-btn {
         border-radius: 1rem;
-        padding: 0.875rem 1.25rem;
-        font-size: 0.9375rem;
+        padding: 1rem 1.5rem; /* Larger padding */
+        font-size: 1rem; /* Larger font */
     }
 
-    /* Mobile Top Bar - Centered Title */
+    /* Mobile Top Bar - Centered Title & Larger */
     .mobile-top-bar {
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
+        padding: 0.5rem 0;
+    }
+    
+    .mobile-top-bar img {
+        height: 2.25rem; /* Larger logo */
+    }
+    
+    .mobile-top-bar span {
+        font-size: 1.125rem; /* Larger text */
     }
 
     /* Hide sidebar toggle in mobile sidebar */
@@ -921,7 +938,7 @@
 }
 
 /* =============================================
-   MOBILE BOTTOM NAVIGATION
+   MOBILE BOTTOM NAVIGATION (LARGER)
    ============================================= */
 
 .mobile-nav-item {
@@ -929,9 +946,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.75rem;
+    gap: 0.35rem; /* More gap */
+    padding: 0.6rem 1rem; /* Larger touch target */
+    border-radius: 1rem;
     color: #9ca3af;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
@@ -940,14 +957,14 @@
 }
 
 .mobile-nav-item span {
-    font-size: 0.625rem;
+    font-size: 0.75rem; /* Larger text (was 0.625rem) */
     font-weight: 700;
     letter-spacing: 0.01em;
 }
 
 .mobile-nav-item svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem; /* Larger icon (was 1.5rem) */
+    height: 1.75rem;
 }
 
 /* Active State - Orange matching QR button */
@@ -958,6 +975,17 @@
 
 .mobile-nav-item.active svg {
     stroke-width: 2.5;
+}
+
+/* Central Scan Button - Larger */
+nav .bg-gradient-to-br {
+    width: 4rem; /* Larger button */
+    height: 4rem;
+}
+
+nav .bg-gradient-to-br svg {
+    width: 2rem;
+    height: 2rem;
 }
 
 /* Touch/Tap State - Remove hover bug on mobile */

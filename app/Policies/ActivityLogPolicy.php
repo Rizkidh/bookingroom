@@ -13,8 +13,7 @@ class ActivityLogPolicy
      */
     public function viewAny(User $user): bool
     {
-        // Allow all authenticated users to view activity logs
-        return true;
+        return in_array($user->role, ['admin', 'supervisor']);
     }
 
     /**
@@ -22,8 +21,7 @@ class ActivityLogPolicy
      */
     public function view(User $user, ActivityLog $activityLog): bool
     {
-        // Allow all authenticated users
-        return true;
+        return in_array($user->role, ['admin', 'supervisor']);
     }
 
     /**

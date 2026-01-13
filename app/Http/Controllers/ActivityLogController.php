@@ -48,7 +48,8 @@ class ActivityLogController extends Controller
     {
         $this->authorize('view', $activityLog);
 
-        return view('activity_logs.show', compact('activityLog'))->render();
+        $log = $activityLog;
+        return view('activity_logs.show', compact('log'))->render();
     }
 
     /**

@@ -38,7 +38,7 @@ class InventoryItemPolicy
         return in_array($user->role, ['admin', 'pegawai']);
     }
 
-    public function delete(User $user, InventoryItem $inventory)
+    public function delete(User $user, InventoryItem $inventory): Response
     {
         return $user->role === 'admin'
             ? Response::allow()

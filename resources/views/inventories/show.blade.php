@@ -35,18 +35,26 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100 flex flex-col gap-2">
-                        <a href="{{ route('inventories.edit', $inventory->id) }}" class="btn-primary w-full justify-center py-2 text-xs">
-                            Edit Informasi Barang
+                        <div class="flex gap-2">
+                            <a href="{{ route('inventories.edit', $inventory->id) }}" class="btn-primary flex-1 justify-center py-2.5 text-[11px]">
+                                Edit Barang
+                            </a>
+                            @can('delete', $inventory)
+                            <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST" class="swal-delete flex-1" data-item-name="kategori {{ $inventory->name }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-full px-2 py-2.5 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition text-[11px] shadow-sm shadow-red-100">
+                                    Hapus Barang
+                                </button>
+                            </form>
+                            @endcan
+                        </div>
+                        <a href="{{ route('inventories.units.create', $inventory->id) }}" 
+                           data-no-spa="true"
+                           class="btn-success w-full justify-center py-2.5 text-[11px] flex items-center gap-2">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            <span>Tambah Unit Baru</span>
                         </a>
-                        @can('delete', $inventory)
-                        <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST" class="swal-delete w-full" data-item-name="kategori {{ $inventory->name }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition text-xs shadow-sm shadow-red-100">
-                                Hapus Barang
-                            </button>
-                        </form>
-                        @endcan
                     </div>
                 </div>
             </div>
@@ -54,15 +62,11 @@
             <!-- Right Panel: Unit List (Flex grow & Scrollable) -->
             <div class="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 min-h-0 overflow-hidden">
                 <!-- Header (Fixed) -->
-                <div class="p-4 border-b border-gray-100 flex-shrink-0 flex items-center justify-between">
-                    <h2 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                        Daftar Unit
+                <div class="p-4 border-b border-gray-100 flex-shrink-0">
+                    <h2 class="text-sm md:text-base font-bold text-gray-800 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Daftar Unit Tersedia
                     </h2>
-                    <a href="{{ route('inventories.units.create', $inventory->id) }}" class="btn-success px-4 py-2 text-xs flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        Tambah Unit
-                    </a>
                 </div>
 
                 <!-- Table Content (Scrollable) -->

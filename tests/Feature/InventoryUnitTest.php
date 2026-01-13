@@ -207,7 +207,7 @@ class InventoryUnitTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('success');
 
-        $this->assertDatabaseMissing('inventory_units', ['id' => $unit->id]);
+        $this->assertSoftDeleted('inventory_units', ['id' => $unit->id]);
     }
 
     public function test_pegawai_cannot_delete_inventory_unit()

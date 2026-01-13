@@ -123,7 +123,7 @@
         $successRoute = route('inventories.show', $inventory->id);
     @endphp
 
-    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/html5-qrcode.min.js"></script>
 
     <script>
         /* eslint-disable */
@@ -134,93 +134,59 @@
         const startBtn = document.getElementById('startScanBtn');
         const stopBtn = document.getElementById('stopScanBtn');
 
-        startBtn.addEventListener('click', async () => {
+        startBtn.addEventListener('click', () => {
             if (typeof Html5Qrcode === 'undefined') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Memuat Scanner',
-                    text: 'Library QR Code tidak dapat dimuat. Periksa koneksi internet Anda.',
-                    confirmButtonText: 'OK'
-                });
+                Swal.fire({ icon: 'error', title: 'Library Not Found', text: 'QR code library failed to load.' });
                 return;
             }
 
-            try {
-                reader.style.display = 'block';
-                startBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
+            // UI feedback
+            startBtn.disabled = true;
+            startBtn.innerHTML = 'Memulai...';
 
-                // Clear any existing instance
-                if (html5QrCode) {
-                    try {
-                        await html5QrCode.clear();
-                    } catch (e) {
-                        console.warn('Clearing existing instance failed', e);
-                    }
-                }
+            // Show container
+            reader.style.display = 'block';            startBtn.classList.add('hidden');
+            stopBtn.classList.remove('hidden');
 
-                html5QrCode = new Html5Qrcode("reader");
-                isScanning = true;
-
-                const config = {
-                    fps: 10,
-                    qrbox: { width: 200, height: 200 },
-                    aspectRatio: 1.0
-                };
-
-                // Get cameras first to ensure we have permission
-                const cameras = await Html5Qrcode.getCameras().catch(err => {
-                    throw new Error("Akses kamera ditolak atau tidak ada kamera terdeteksi.");
-                });
-
-                if (cameras && cameras.length) {
-                    await html5QrCode.start(
-                        { facingMode: "environment" },
-                        config,
-                        (decodedText) => {
-                            serialInput.value = decodedText;
-                            
-                            // Play sound
-                            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3');
-                            audio.play().catch(e => console.log('Audio error', e));
-                            
-                            stopScan();
-                            
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Scan Berhasil!',
-                                text: 'Serial: ' + decodedText,
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-                        },
-                        (errorMessage) => {
-                            // Ignore scan errors for better UX
-                        }
-                    );
-                } else {
-                    throw new Error("Tidak ada kamera yang ditemukan pada perangkat ini.");
-                }
-
-            } catch (err) {
-                console.error("Error starting scanner", err);
-                
-                let errorMessage = "Gagal mengakses kamera.";
-                if (err.name === 'NotAllowedError') {
-                    errorMessage = "Izin kamera ditolak. Mohon izinkan akses kamera di browser Anda.";
-                } else if (err.message) {
-                    errorMessage = err.message;
-                }
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Kamera Bermasalah',
-                    text: errorMessage,
-                    confirmButtonText: 'Tutup'
-                });
-                
-                stopScan();
+            // Clear any existing instance
+            if (html5QrCode) {
+                try { html5QrCode.clear(); } catch (e) {}
             }
+
+            html5QrCode = new Html5Qrcode("reader");
+            
+            const config = {
+                fps: 25,
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
+
+            html5QrCode.start(
+                { facingMode: "environment" },
+                config,
+                (decodedText) => {
+                    serialInput.value = decodedText;
+                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3');
+                    audio.play().catch(e => console.log('Audio error', e));
+                    stopScan();
+                    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Serial: ' + decodedText, timer: 1500, showConfirmButton: false });
+                },
+                (errorMessage) => { /* ignore */ }
+            ).then(() => {
+                isScanning = true;
+                startBtn.classList.add('hidden');
+                startBtn.disabled = false;
+                startBtn.innerHTML = 'Mulai Scan';
+                stopBtn.classList.remove('hidden');
+            }).catch(err => {
+                console.error("Scanner error:", err);
+                startBtn.disabled = false;
+                startBtn.innerHTML = 'Mulai Scan';
+                let msg = "Gagal membuka kamera.";
+                if (err.toString().includes("NotAllowedError")) msg = "Izin kamera ditolak.";
+                Swal.fire({ icon: 'error', title: 'Kamera Gagal', text: msg });
+                stopScan();
+            });
         });
 
         stopBtn.addEventListener('click', stopScan);

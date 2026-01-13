@@ -22,6 +22,7 @@
     --warning-orange: #f59e0b;
     --danger-red: #ef4444;
     --light-bg: #f8fafc;
+    --mobile-nav-height: 64px;
 }
 
 /* ==================== NAVBAR STYLES ==================== */
@@ -517,67 +518,67 @@ hr {
 /* Tablet & Below (768px and down) */
 @media (max-width: 768px) {
     :root {
-        font-size: 14px; /* Reduce base font size */
+        font-size: 16px; /* Increased from 14px */
     }
 
     body {
-        font-size: 0.75rem;
+        font-size: 1rem; /* Standard readable size */
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-size: 0.75rem !important;
+        font-size: 1.1rem !important;
     }
 
     .form-label {
-        font-size: 0.65rem !important;
-        margin-bottom: 0.25rem;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.4rem;
     }
 
     .form-input, input, select, textarea {
-        padding: 6px 8px !important;
-        font-size: 0.7rem !important;
-        border-radius: 6px;
+        padding: 10px 12px !important;
+        font-size: 1rem !important; /* Prevents auto-zoom on iOS */
+        border-radius: 8px;
     }
 
     .card, .form-card {
-        border-radius: 8px;
-        padding: 0.75rem !important;
+        border-radius: 12px;
+        padding: 1.25rem !important;
     }
 
     button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
-        padding: 5px 10px !important;
-        font-size: 0.65rem !important;
-        border-radius: 6px;
+        padding: 10px 18px !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px;
     }
 
     .pro-btn-action {
-        padding: 3px 6px !important;
-        font-size: 0.55rem !important;
+        padding: 6px 12px !important;
+        font-size: 0.75rem !important;
     }
 
     .status-badge {
-        padding: 1px 3px !important;
-        font-size: 0.5rem !important;
+        padding: 2px 6px !important;
+        font-size: 0.7rem !important;
     }
 
     /* Table mobile optimization */
     .pro-table th {
-        padding: 4px 6px !important;
-        font-size: 0.5rem !important;
+        padding: 8px 10px !important;
+        font-size: 0.75rem !important;
     }
 
     .pro-table td {
-        padding: 4px 6px !important;
-        font-size: 0.6rem !important;
+        padding: 10px 10px !important;
+        font-size: 0.875rem !important;
     }
 
     /* Section headers */
     .section-header {
-        padding: 0.5rem !important;
+        padding: 0.75rem 1rem !important;
     }
 
     .section-header h2 {
-        font-size: 0.65rem !important;
+        font-size: 0.9rem !important;
     }
 
     /* Compact spacing */
@@ -634,79 +635,80 @@ hr {
 /* Extra Small Mobile (480px and down) */
 @media (max-width: 480px) {
     :root {
-        font-size: 12px;
+        font-size: 15px; /* Increased from 12px */
     }
 
     body {
-        font-size: 0.7rem;
+        font-size: 1.0625rem; /* ~16px for readability */
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-size: 0.7rem !important;
+        font-size: 1.1rem !important;
     }
 
     .form-label {
-        font-size: 0.6rem !important;
+        font-size: 1rem !important;
     }
 
     .form-input, input, select, textarea {
-        padding: 5px 6px !important;
-        font-size: 0.65rem !important;
+        padding: 12px 14px !important;
+        font-size: 1.0625rem !important; /* Forces 16px to avoid iOS zoom */
     }
 
     button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
-        padding: 4px 8px !important;
-        font-size: 0.6rem !important;
+        padding: 12px 20px !important;
+        font-size: 1rem !important;
+        width: 100% !important; /* Stack buttons by default on small mobile */
     }
 
     .pro-btn-action {
-        padding: 2px 5px !important;
-        font-size: 0.5rem !important;
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
     }
 
     .status-badge {
-        padding: 1px 2px !important;
-        font-size: 0.45rem !important;
+        padding: 4px 8px !important;
+        font-size: 0.8rem !important;
     }
 
     .pro-table th {
-        padding: 3px 4px !important;
-        font-size: 0.45rem !important;
+        padding: 8px 6px !important;
+        font-size: 0.75rem !important;
     }
 
     .pro-table td {
-        padding: 3px 4px !important;
-        font-size: 0.55rem !important;
+        padding: 10px 6px !important;
+        font-size: 0.9rem !important;
     }
 
     .section-header h2 {
-        font-size: 0.6rem !important;
+        font-size: 1rem !important;
     }
 
     .p-4, .p-5, .p-6 {
-        padding: 0.5rem !important;
+        padding: 1rem !important;
     }
 
     .px-4, .px-5, .px-6 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 
     .py-4, .py-5, .py-6 {
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
     }
 
     .gap-4, .gap-5, .gap-6, .gap-8 {
-        gap: 0.4rem !important;
+        gap: 0.75rem !important;
     }
 
     .pro-card-label {
-        font-size: 0.55rem !important;
+        font-size: 0.85rem !important;
     }
 
     .pro-card-value {
-        font-size: 0.6rem !important;
+        font-size: 1rem !important;
     }
 }
 
@@ -839,8 +841,17 @@ nav[role="navigation"] svg {
 
     /* Scanner QR Code Reader */
     #reader {
-        min-height: 200px !important;
-        max-height: 250px !important;
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important; /* Force Square */
+        min-height: auto !important;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #reader video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* Fill square without distortion */
     }
 
     /* Compact breadcrumbs */
@@ -947,3 +958,83 @@ nav[role="navigation"] svg {
         width: 100% !important;
     }
 }
+
+/* ==================== MOBILE BOTTOM NAVIGATION ==================== */
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #64748b !important; /* Slate 500 */
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 0;
+    padding: 8px 0;
+    text-decoration: none !important;
+}
+
+.mobile-nav-item svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+.mobile-nav-item span {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.mobile-nav-item:active {
+    transform: scale(0.95);
+}
+
+.mobile-nav-item.active {
+    color: var(--kai-orange) !important;
+}
+
+.mobile-nav-item.active svg {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 6px rgba(249, 115, 22, 0.2));
+}
+
+.mobile-scan-btn-wrapper {
+    position: relative;
+    top: -12px;
+    z-index: 70;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+}
+
+.mobile-scan-btn {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--kai-orange) 0%, var(--kai-orange-dark) 100%);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    border: 4px solid white;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mobile-scan-btn:active {
+    transform: scale(0.9) rotate(-5deg);
+    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+}
+
+.mobile-nav-container {
+    height: var(--mobile-nav-height);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    position: relative;
+}
+

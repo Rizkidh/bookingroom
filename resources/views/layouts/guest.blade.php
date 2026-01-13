@@ -84,12 +84,12 @@
         <div class="auth-form-panel">
             <div class="auth-form-container">
                 <!-- Mobile Logo (shown only on mobile) -->
+                <!-- Mobile Logo (shown only on mobile) -->
                 <div class="auth-mobile-logo">
-                    <a href="/">
+                    <h2>SISTEM INVENTARIS</h2>
+                    <div class="logo-wrapper">
                         <img src="{{ asset('images/kai-logo.png') }}" alt="KAI Logo">
-                    </a>
-                    <h2>Sistem Inventaris</h2>
-                    <p>PT Kereta Api Indonesia (Persero)</p>
+                    </div>
                 </div>
 
                 <!-- Form Content -->

@@ -634,10 +634,32 @@
     }
 }
 
-/* Mobile - Stack layout */
+/* Mobile - Premium Navy Theme */
 @media (max-width: 768px) {
     .auth-page {
         flex-direction: column;
+        background: var(--kai-navy);
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Background Image & Overlay for Mobile */
+    .auth-page::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('/images/kai-background.png') center center / cover no-repeat;
+        opacity: 0.2;
+        z-index: -1;
+    }
+
+    .auth-page::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(26, 54, 93, 0.95) 0%, rgba(15, 37, 64, 0.9) 100%);
+        z-index: -1;
     }
     
     .auth-branding {
@@ -646,53 +668,210 @@
     
     .auth-form-panel {
         flex: 1;
-        padding: 2rem 1.5rem;
-        justify-content: flex-start;
-        padding-top: 3rem;
-    }
-    
-    .auth-mobile-logo {
-        display: block;
+        padding: 0;
+        justify-content: center;
+        background: transparent;
+        display: flex;
+        align-items: center;
     }
     
     .auth-form-container {
         max-width: 100%;
+        width: 100%;
+        padding: 2rem;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100vh;
     }
     
-    .auth-card-title {
-        font-size: 1.5rem;
+    .auth-mobile-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3rem;
+        width: 100%;
+    }
+    
+    .auth-mobile-logo h2 {
+        color: var(--kai-white);
+        font-size: 1.75rem; /* Bold & Big */
+        margin: 0 0 2rem 0;
+        font-weight: 900; /* Extra Bold */
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.5);
         text-align: center;
+        line-height: 1.2;
+    }
+
+    .logo-wrapper {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 2rem;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140px;
+        height: 140px;
     }
     
+    .auth-mobile-logo img {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+    }
+    
+    /* Hide the redundant "Selamat Datang" card titles on mobile */
+    .auth-card-title,
     .auth-card-subtitle {
-        text-align: center;
+        display: none !important;
+    }
+    
+    /* Form Group Glassmorphism */
+    .auth-form-group {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 1.25rem;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .auth-form-group:focus-within {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(249, 115, 22, 0.5);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .auth-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+    
+    .auth-input {
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid transparent;
+        border-radius: 0.875rem;
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        color: var(--kai-navy);
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-input:focus {
+        background: var(--kai-white);
+        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
+    }
+    
+    /* Remove icons on mobile */
+    .input-icon-wrapper .auth-input {
+        padding-left: 1rem;
+    }
+    
+    .input-icon {
+        display: none;
+    }
+    
+    .password-toggle {
+        right: 1rem;
+        color: var(--kai-navy);
+    }
+    
+    .auth-checkbox-wrapper {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .auth-checkbox-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
     }
     
     .auth-form-actions {
         flex-direction: column-reverse;
         align-items: stretch;
+        gap: 1.25rem;
+        margin-top: 2rem;
     }
     
     .auth-btn {
         width: 100%;
+        padding: 1.125rem 2rem;
+        font-size: 1.125rem;
+        border-radius: 1.25rem;
+        background: var(--kai-gradient-orange);
+        box-shadow: 0 10px 30px rgba(234, 88, 12, 0.4);
+        font-weight: 700;
+        border: none;
+    }
+    
+    .auth-btn:active {
+        transform: scale(0.97);
     }
     
     .auth-link {
         text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+        font-size: 0.9375rem;
+    }
+    
+    .auth-link:hover {
+        color: var(--kai-white);
+    }
+    
+    .auth-error {
+        color: #fca5a5;
+        background: rgba(239, 68, 68, 0.1);
+        padding: 0.625rem 1rem;
+        border-radius: 0.75rem;
+        margin-top: 0.75rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .auth-copyright {
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 3rem;
+        text-align: center;
+        font-size: 0.75rem;
     }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
-    .auth-form-panel {
-        padding: 1.5rem 1rem;
+    .auth-form-container {
+        padding: 1rem;
+    }
+    
+    .auth-card-title {
+        font-size: 1.5rem;
+    }
+    
+    .auth-mobile-logo img {
+        width: 80px;
     }
     
     .auth-input {
-        padding: 0.75rem 0.875rem;
+        padding: 0.875rem;
+        font-size: 0.9375rem;
     }
     
     .input-icon-wrapper .auth-input {
-        padding-left: 2.5rem;
+        padding-left: 2.75rem;
     }
 }

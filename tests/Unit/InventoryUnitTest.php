@@ -101,7 +101,7 @@ class InventoryUnitTest extends TestCase
 
         $unit->delete();
 
-        $this->assertDatabaseMissing('inventory_units', ['id' => $unit->id]);
+        $this->assertSoftDeleted('inventory_units', ['id' => $unit->id]);
     }
 
     public function test_inventory_unit_serial_number_can_be_null()

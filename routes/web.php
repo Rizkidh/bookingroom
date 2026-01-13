@@ -4,12 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InventoryController;
-use App\Models\InventoryItem; // Pastikan Model InventoryItem sudah diimpor
+use App\Models\InventoryItem; 
 use App\Http\Controllers\InventoryUnitController;
-
-// 1. Rute Publik (Tambahkan kembali jika hilang, atau asumsikan ada di luar)
-// Misalnya:
-
 
 // 2. Rute Terotentikasi dan Terverifikasi
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -30,9 +26,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('inventories.units', InventoryUnitController::class)->except(['index']);
 
     // --- RUTE ACTIVITY LOG (Audit Trail) ---
-    Route::resource('activity-logs', ActivityLogController::class)->only(['index', 'show']);
     Route::get('/activity-logs/export', [ActivityLogController::class, 'export'])->name('activity-logs.export');
     Route::get('/activity-logs/model/{modelType}/{modelId}', [ActivityLogController::class, 'getModelLogs'])->name('activity-logs.model-logs');
+    Route::resource('activity-logs', ActivityLogController::class)->only(['index', 'show']);
 
     // B. Rute Profil (Tambahkan semua rute profil di sini)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

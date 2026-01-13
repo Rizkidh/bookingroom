@@ -30,7 +30,7 @@ class InventoryItemPolicyTest extends TestCase
         $this->assertTrue($this->policy->view($admin, $item));
         $this->assertTrue($this->policy->create($admin));
         $this->assertTrue($this->policy->update($admin, $item));
-        $this->assertTrue($this->policy->delete($admin, $item));
+        $this->assertTrue($this->policy->delete($admin, $item)->allowed());
     }
 
     public function test_pegawai_can_view_any()

@@ -35,6 +35,21 @@
                         @include('profile.partials.delete-user-form')
                     </div>
                 </div>
+
+                <!-- LOGOUT (Mobile Only) -->
+                <div class="lg:hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Keluar</h3>
+                    <p class="text-sm text-gray-500 mb-6">Keluar dari sesi aplikasi.</p>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full flex justify-center items-center gap-2 px-4 py-3 bg-red-50 text-red-600 border border-red-200 rounded-xl font-bold text-sm uppercase tracking-wide hover:bg-red-100 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            Keluar Aplikasi
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

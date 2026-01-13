@@ -127,7 +127,7 @@ class InventoryTest extends TestCase
         $response->assertRedirect('/inventories');
         $response->assertSessionHas('success');
 
-        $this->assertDatabaseMissing('inventory_items', ['id' => $item->id]);
+        $this->assertSoftDeleted('inventory_items', ['id' => $item->id]);
     }
 
     public function test_pegawai_cannot_delete_inventory_item()

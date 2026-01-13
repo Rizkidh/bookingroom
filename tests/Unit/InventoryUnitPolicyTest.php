@@ -28,10 +28,10 @@ class InventoryUnitPolicyTest extends TestCase
         $unit = InventoryUnit::factory()->create(['inventory_item_id' => $item->id]);
 
         $this->assertTrue($this->policy->before($admin, 'any'));
-        $this->assertTrue($this->policy->view($admin, $unit));
-        $this->assertTrue($this->policy->create($admin));
-        $this->assertTrue($this->policy->update($admin, $unit));
-        $this->assertTrue($this->policy->delete($admin, $unit));
+        $this->assertTrue($this->policy->view($admin, $unit)->allowed());
+        $this->assertTrue($this->policy->create($admin)->allowed());
+        $this->assertTrue($this->policy->update($admin, $unit)->allowed());
+        $this->assertTrue($this->policy->delete($admin, $unit)->allowed());
     }
 
     public function test_pegawai_can_view()

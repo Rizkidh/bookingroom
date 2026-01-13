@@ -66,7 +66,7 @@ class InventoryItemTest extends TestCase
 
         $item->delete();
 
-        $this->assertDatabaseMissing('inventory_items', ['id' => $item->id]);
+        $this->assertSoftDeleted('inventory_items', ['id' => $item->id]);
     }
 }
 

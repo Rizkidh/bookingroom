@@ -16,28 +16,28 @@ class InventoryUnitPolicy
         return null; 
     }
     
-    public function view(User $user, InventoryUnit $unit): Response|bool
+    public function view(User $user, InventoryUnit $unit): Response
     {
-        return $user->role === 'pegawai'
+        return in_array($user->role, ['admin', 'pegawai'])
             ? Response::allow()
             : Response::deny('Anda tidak memiliki izin untuk melihat detail unit.');
     }
 
-    public function create(User $user): Response|bool
+    public function create(User $user): Response
     {
-        return $user->role === 'pegawai'
+        return in_array($user->role, ['admin', 'pegawai'])
             ? Response::allow()
             : Response::deny('Anda tidak memiliki izin untuk membuat unit baru.');
     }
 
-    public function update(User $user, InventoryUnit $unit): Response|bool
+    public function update(User $user, InventoryUnit $unit): Response
     {
-        return $user->role === 'pegawai'
+        return in_array($user->role, ['admin', 'pegawai'])
             ? Response::allow()
             : Response::deny('Anda tidak memiliki izin untuk mengedit unit.');
     }
 
-    public function delete(User $user, InventoryUnit $unit): Response|bool
+    public function delete(User $user, InventoryUnit $unit): Response
     {
         return $user->role === 'admin'
             ? Response::allow()
