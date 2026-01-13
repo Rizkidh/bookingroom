@@ -8,10 +8,9 @@ deployment:
     - /bin/mkdir -p $COREPATH
     
     # 2. Sync Core Files (excluding public folder and git files)
-    # 2. Sync Core Files (excluding public folder and git files)
-    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='vendor' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
+    # Added .env.hosting to excludes so it is not deleted from server
+    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='vendor' --exclude='.env.hosting' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
     
-    # 3. Sync Public Files to public_html and patch index.php paths
     # 3. Sync Public Files to public_html and patch index.php paths
     - /usr/bin/rsync -av --delete public/ $PUBLICPATH
     - /bin/sed -i "s|require __DIR__.'/../vendor/autoload.php'|require __DIR__.'/../inventory/vendor/autoload.php'|g" $PUBLICPATH/index.php
