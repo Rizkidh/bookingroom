@@ -23,10 +23,10 @@
         <link rel="manifest" href="{{ asset('manifest.json') }}">
         <meta name="theme-color" content="#1a365d">
 
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
         <!-- Auth Styles -->
         <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="auth-page">
         <!-- LEFT SIDE - Branding Panel -->
