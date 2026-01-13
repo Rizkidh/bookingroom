@@ -842,16 +842,15 @@ nav[role="navigation"] svg {
     /* Scanner QR Code Reader */
     #reader {
         width: 100% !important;
-        aspect-ratio: 1 / 1 !important; /* Force Square */
-        min-height: auto !important;
+        min-height: 250px !important;
         overflow: hidden;
         position: relative;
     }
 
     #reader video {
         width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important; /* Fill square without distortion */
+        height: auto !important;
+        object-fit: contain !important; /* Better for decoding consistency */
     }
 
     /* Compact breadcrumbs */

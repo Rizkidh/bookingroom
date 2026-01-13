@@ -125,9 +125,13 @@
             html5QrCode = new Html5Qrcode("reader");
             
             const config = { 
-                fps: 25, 
-                qrbox: { width: 250, height: 250 },
-                aspectRatio: 1.0
+                fps: 10, 
+                qrbox: { width: 280, height: 280 },
+                aspectRatio: 1.0,
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
+                rememberLastUsedCamera: true
             };
 
             html5QrCode.start(
