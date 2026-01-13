@@ -34,8 +34,8 @@
             <!-- Background Layer -->
             <div class="app-background"></div>
 
-            <div x-data="{ 
-                    open: true, 
+            <div x-data="{
+                    open: true,
                     mobileMenuOpen: false,
                     sidebarWidth: 220,
                     updateWidth() {
@@ -46,18 +46,18 @@
                             this.sidebarWidth = this.open ? 220 : 70;
                         }
                     }
-                 }" 
+                 }"
                  x-init="updateWidth(); window.addEventListener('resize', () => updateWidth())"
                  x-effect="updateWidth()"
                  :style="'--sidebar-width: ' + sidebarWidth + 'px'"
                  class="flex min-h-screen relative z-10">
-                
+
                 <style>
                     [x-cloak] { display: none !important; }
                     .sidebar-width-var { width: var(--sidebar-width); }
                     .content-margin-var { margin-left: var(--sidebar-width); }
                     .transition-custom { transition: all 0.3s ease; }
-                    
+
                     @media (max-width: 1023px) {
                         .content-margin-var { margin-left: 0; }
                     }
@@ -81,7 +81,7 @@
                         !open ? 'sidebar-collapsed' : ''
                      ]"
                      class="w-72">
-                    
+
                     <!-- Logo Section -->
                     <div class="flex items-center h-16 border-b sidebar-divider flex-shrink-0 px-4"
                          :class="open ? 'justify-between' : 'justify-center'">
@@ -103,7 +103,7 @@
 
                     <!-- Navigation -->
                     <nav id="sidebar-nav" class="px-3 py-6 space-y-1.5 overflow-y-auto flex-1 relative z-10">
-                        <a href="{{ route('dashboard') }}" 
+                        <a href="{{ route('dashboard') }}"
                            :title="!open ? 'Dashboard' : ''"
                            class="sidebar-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                             <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
                             <span x-show="open" x-cloak class="sidebar-nav-text">Dashboard</span>
                         </a>
 
-                        <a href="{{ route('inventories.index') }}" 
+                        <a href="{{ route('inventories.index') }}"
                            :title="!open ? 'Inventaris' : ''"
                            class="sidebar-nav-item {{ request()->routeIs('inventories.*') ? 'active' : '' }}">
                             <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,7 +121,7 @@
                             <span x-show="open" x-cloak class="sidebar-nav-text">Inventaris</span>
                         </a>
 
-                        <a href="{{ route('units.scan') }}" 
+                        <a href="{{ route('units.scan') }}"
                            data-no-spa="true"
                            :title="!open ? 'Scan QR' : ''"
                            class="sidebar-nav-item {{ request()->routeIs('units.scan') ? 'active' : '' }}">
@@ -132,7 +132,7 @@
                         </a>
 
                         @can('viewAny', App\Models\ActivityLog::class)
-                        <a href="{{ route('activity-logs.index') }}" 
+                        <a href="{{ route('activity-logs.index') }}"
                            :title="!open ? 'Activity Logs' : ''"
                            class="sidebar-nav-item {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
                             <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
 
-                            <a href="{{ route('profile.edit') }}" 
+                            <a href="{{ route('profile.edit') }}"
                                :title="!open ? 'Profile' : ''"
                                class="sidebar-nav-item"
                                :class="open ? '' : 'justify-center'">
@@ -178,7 +178,7 @@
 
                             <form method="POST" action="{{ route('logout') }}" class="w-full">
                                 @csrf
-                                <button type="submit" 
+                                <button type="submit"
                                         :title="!open ? 'Logout' : ''"
                                         class="w-full sidebar-nav-item hover:bg-red-500/20"
                                         :class="open ? '' : 'justify-center'">
@@ -196,7 +196,7 @@
                 <nav class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 z-[60] safe-area-bottom shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
                     <div class="mobile-nav-container">
                         <!-- Slot 1: Beranda -->
-                        <a href="{{ route('dashboard') }}" 
+                        <a href="{{ route('dashboard') }}"
                            class="mobile-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-4 7 4M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -205,7 +205,7 @@
                         </a>
 
                         <!-- Slot 2: Inventaris -->
-                        <a href="{{ route('inventories.index') }}" 
+                        <a href="{{ route('inventories.index') }}"
                            class="mobile-nav-item {{ request()->routeIs('inventories.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -224,7 +224,7 @@
 
                         <!-- Slot 4: Log (Admin/Supervisor) or Manual (User) -->
                         @can('viewAny', App\Models\ActivityLog::class)
-                            <a href="{{ route('activity-logs.index') }}" 
+                            <a href="{{ route('activity-logs.index') }}"
                                class="mobile-nav-item {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -232,7 +232,7 @@
                                 <span>Log</span>
                             </a>
                         @else
-                            <a href="{{ route('profile.edit') }}" 
+                            <a href="{{ route('profile.edit') }}"
                                class="mobile-nav-item {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -243,7 +243,7 @@
 
                         <!-- Slot 5: Logout (Symmetry and utility) -->
                         @can('viewAny', App\Models\ActivityLog::class)
-                            <a href="{{ route('profile.edit') }}" 
+                            <a href="{{ route('profile.edit') }}"
                                class="mobile-nav-item {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -265,9 +265,9 @@
                 </nav>
 
                 <!-- Main Content -->
-                <div id="main-content" 
+                <div id="main-content"
                      class="main-content relative z-0 flex-1 w-full flex flex-col transition-custom content-margin-var min-h-screen">
-                    
+
                     <!-- Mobile Top Bar (Enlarged) -->
                     <div class="lg:hidden sticky top-0 bg-gradient-to-r from-[#1a365d] to-[#0f2540] z-40 border-b border-white/10 flex items-center justify-center px-4 h-16 shadow-lg">
                         <div class="flex items-center gap-4">
@@ -315,8 +315,8 @@
                 reverseButtons: true,
                 buttonsStyling: false,
                 customClass: {
-                    confirmButton: 'kai-btn kai-btn-success', 
-                    cancelButton: 'kai-btn kai-btn-danger' 
+                    confirmButton: 'kai-btn kai-btn-success',
+                    cancelButton: 'kai-btn kai-btn-danger'
                 }
             };
 
@@ -353,7 +353,7 @@
                     e.preventDefault();
                     const form = e.target;
                     const itemName = form.dataset.itemName || 'data ini';
-                    
+
                     Swal.fire({
                         ...swalConfig,
                         title: 'Konfirmasi Hapus',
