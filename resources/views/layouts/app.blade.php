@@ -15,13 +15,21 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
+        <!-- PWA Meta Tags -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="KAI Inventaris">
+        <link rel="apple-touch-icon" href="{{ asset('images/kai-logo.png') }}">
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#1a365d">
+
         <!-- KAI Theme CSS -->
         <link rel="stylesheet" href="{{ asset('css/kai-theme.css') }}?v={{ time() }}">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased mobile-app-shell">
         <div class="app-wrapper">
             <!-- Background Layer -->
             <div class="app-background"></div>
@@ -33,6 +41,7 @@
                     updateWidth() {
                         if (window.innerWidth < 1024) {
                             this.sidebarWidth = 0;
+                            this.open = false;
                         } else {
                             this.sidebarWidth = this.open ? 220 : 70;
                         }
@@ -48,6 +57,10 @@
                     .sidebar-width-var { width: var(--sidebar-width); }
                     .content-margin-var { margin-left: var(--sidebar-width); }
                     .transition-custom { transition: all 0.3s ease; }
+                    
+                    @media (max-width: 1023px) {
+                        .content-margin-var { margin-left: 0; }
+                    }
                 </style>
 
                 <!-- Mobile Overlay -->
@@ -61,7 +74,7 @@
                      x-transition:leave-end="opacity-0"
                      class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden backdrop-blur-sm"></div>
 
-                <!-- Sidebar -->
+                <!-- Sidebar (Mainly for Desktop) -->
                 <div :class="[
                         'fixed left-0 top-0 h-screen kai-sidebar text-white shadow-2xl z-50 flex flex-col overflow-hidden transition-custom sidebar-width-var',
                         mobileMenuOpen ? 'translate-x-0 !w-72' : '-translate-x-full lg:translate-x-0',
@@ -178,32 +191,77 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" 
-                        class="lg:hidden fixed top-4 right-4 z-50 p-3 mobile-menu-btn text-white rounded-xl shadow-lg"
-                        style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                <!-- Bottom Navigation (Mobile Only) -->
+                <nav class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-200 z-[60] flex justify-around items-center px-1 py-2 safe-area-bottom shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+                    <a href="{{ route('dashboard') }}" 
+                       class="mobile-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-4 7 4M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span>Beranda</span>
+                    </a>
+                    <a href="{{ route('inventories.index') }}" 
+                       class="mobile-nav-item {{ request()->routeIs('inventories.*') ? 'active' : '' }}">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span>Inventaris</span>
+                    </a>
+                    <div class="relative -mt-6">
+                        <a href="{{ route('units.scan') }}" class="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-2xl shadow-lg shadow-orange-500/30 ring-4 ring-white active:scale-95 transition-transform">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h2m16 0h2M4 20h2m9-16V4m2 2h2M4 8h2m2-4h2" />
+                            </svg>
+                        </a>
+                    </div>
+                    @can('viewAny', App\Models\ActivityLog::class)
+                    <a href="{{ route('activity-logs.index') }}" 
+                       class="mobile-nav-item {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Log</span>
+                    </a>
+                    @endcan
+                    <a href="{{ route('profile.edit') }}" 
+                       class="mobile-nav-item {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>Profil</span>
+                    </a>
+                </nav>
 
                 <!-- Main Content -->
                 <div id="main-content" 
                      class="main-content relative z-0 flex-1 w-full flex flex-col transition-custom content-margin-var min-h-screen">
+                    
+                    <!-- Mobile Top Bar -->
+                    <div class="lg:hidden sticky top-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100 flex items-center justify-center px-4 h-14">
+                        <div class="flex items-center gap-2">
+                            <img src="{{ asset('images/kai-logo.png') }}" alt="KAI Logo" class="h-7 w-auto">
+                            <span class="font-bold text-kai-navy text-sm">Inventaris KAI</span>
+                        </div>
+                    </div>
+
                     @isset($header)
-                        <header class="page-header flex-shrink-0">
+                        <header class="page-header flex-shrink-0 hidden lg:block">
                             <div class="max-w-7xl mx-auto">
                                 {{ $header }}
                             </div>
                         </header>
+                        <!-- Mobile Header -->
+                        <div class="lg:hidden px-4 py-3 pb-1">
+                            {{ $header }}
+                        </div>
                     @endisset
 
-                    <main class="flex-1 p-3 sm:p-4 md:p-6 pt-16 sm:pt-18 lg:pt-6">
+                    <main class="flex-1 p-3 sm:p-4 md:p-6 pb-24 lg:pb-6">
                         {{ $slot }}
                     </main>
 
-                    <!-- Footer -->
-                    <footer class="kai-footer">
+                    <!-- Footer (Only for Desktop) -->
+                    <footer class="kai-footer hidden lg:block">
                         &copy; {{ date('Y') }} PT Kereta Api Indonesia (Persero). All rights reserved.
                     </footer>
                 </div>
@@ -211,7 +269,16 @@
         </div>
 
         <script>
-            // Standard SweetAlert Config with KAI Theme
+            // Register Service Worker for PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js').then(registration => {
+                        console.log('SW registered: ', registration);
+                    }).catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+                });
+            }
             const swalConfig = {
                 reverseButtons: true,
                 buttonsStyling: false,

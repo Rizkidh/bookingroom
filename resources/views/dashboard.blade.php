@@ -1,9 +1,11 @@
 <x-app-layout>
-    <x-breadcrumbs :items="[]" />
+    <div class="hidden lg:block">
+        <x-breadcrumbs :items="[]" />
+    </div>
 
     <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
         <!-- Stats Grid (Fixed Top) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4 flex-shrink-0">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-4 flex-shrink-0">
             <a href="{{ route('dashboard') }}" class="stat-card total">
                 <div class="stat-label">Total Barang</div>
                 <div class="stat-value">{{ $total }}</div>

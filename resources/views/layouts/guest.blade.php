@@ -15,6 +15,14 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
+        <!-- PWA Meta Tags -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="KAI Inventaris">
+        <link rel="apple-touch-icon" href="{{ asset('images/kai-logo.png') }}">
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+        <meta name="theme-color" content="#1a365d">
+
         <!-- Auth Styles -->
         <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
