@@ -2,8 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/rdhd8957/public_html
-    - /bin/cp -R * $DEPLOYPATH
+    - /usr/bin/rsync -avz --delete --exclude='.git*' --exclude='node_modules' --exclude='tests' --exclude='storage/logs/*' --exclude='storage/framework/cache/data/*' --exclude='storage/framework/sessions/*' --exclude='storage/framework/views/*.php' . $DEPLOYPATH
     - /bin/cp .env.hosting $DEPLOYPATH/.env
-    - cd $DEPLOYPATH && php artisan config:cache
-    - cd $DEPLOYPATH && php artisan route:cache
-    - cd $DEPLOYPATH && php artisan view:cache
+    - cd $DEPLOYPATH && php artisan storage:link --force
+    - cd $DEPLOYPATH && php artisan optimize
+    - /bin/chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
