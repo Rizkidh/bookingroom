@@ -21,13 +21,33 @@
         <meta name="apple-mobile-web-app-title" content="KAI Inventaris">
         <link rel="apple-touch-icon" href="{{ asset('images/kai-logo.png') }}">
         <link rel="manifest" href="{{ asset('manifest.json') }}">
-        <meta name="theme-color" content="#1a365d">
+        <meta name="turbo-cache-control" content="no-preview">
+        <meta name="turbo-prefetch" content="false">
 
         <!-- KAI Theme CSS -->
-        <link rel="stylesheet" href="{{ asset('css/kai-theme.css') }}?v={{ time() }}">
+        <link rel="stylesheet" href="{{ asset('css/kai-theme.css') }}" data-turbo-track="reload">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" data-turbo-track="reload"></script>
+        
+        <!-- Hotwire Turbo -->
+        <script src="https://unpkg.com/@hotwired/turbo@8.0.0-beta.2/dist/turbo.es2017-umd.js"></script>
+        <style>
+            .turbo-progress-bar {
+                background-color: #ff6b00 !important; /* KAI Orange */
+                height: 3px !important;
+            }
+            
+            /* Seamless Fade-in Animation - Subtler to avoid flash */
+            @keyframes fadeIn {
+                from { opacity: 0.95; }
+                to { opacity: 1; }
+            }
+            
+            #main-content {
+                animation: fadeIn 0.2s ease-out;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased mobile-app-shell">
         <div class="app-wrapper">
@@ -300,7 +320,7 @@
             </div>
         </div>
 
-        <script>
+        <script data-turbo-eval="false">
             // Register Service Worker for PWA
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -382,20 +402,24 @@
                 }
             });
 
-            // Global Success Alert
-            @if(session('success'))
+            // Global Login Success Alert
+            @if(session('login_success'))
                 Swal.fire({
                     ...swalConfig,
-                    title: 'Berhasil!',
-                    text: "{{ session('success') }}",
+                    title: 'Login Berhasil!',
+                    text: "{{ session('login_success') }}",
                     icon: 'success',
-                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    confirmButtonText: 'Mulai',
                     customClass: {
                         confirmButton: 'kai-btn kai-btn-success',
                         cancelButton: 'hidden'
                     }
                 });
             @endif
+
+            // Global Success Alert
 
             // Global Error Alert
             @if(session('error'))

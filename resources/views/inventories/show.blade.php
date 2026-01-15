@@ -36,25 +36,25 @@
 
                     <div class="pt-4 border-t border-gray-100 flex flex-col gap-2">
                         <div class="flex gap-2">
-                            <a href="{{ route('inventories.edit', $inventory->id) }}" class="btn-primary flex-1 justify-center py-2.5 text-[11px]">
+                            <a href="{{ route('inventories.edit', $inventory->id) }}" class="btn-primary flex-1 justify-center py-2.5">
                                 Edit Barang
                             </a>
-                            @can('delete', $inventory)
-                            <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST" class="swal-delete flex-1" data-item-name="kategori {{ $inventory->name }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="w-full px-2 py-2.5 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition text-[11px] shadow-sm shadow-red-100">
-                                    Hapus Barang
-                                </button>
-                            </form>
-                            @endcan
-                        </div>
-                        <a href="{{ route('inventories.units.create', $inventory->id) }}" 
-                           data-no-spa="true"
-                           class="btn-success w-full justify-center py-2.5 text-[11px] flex items-center gap-2">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                            <span>Tambah Unit Baru</span>
-                        </a>
+                        @can('delete', $inventory)
+                        <form action="{{ route('inventories.destroy', $inventory->id) }}" method="POST" class="swal-delete flex-1" data-item-name="kategori {{ $inventory->name }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-cancel w-full py-2.5">
+                                Hapus Barang
+                            </button>
+                        </form>
+                        @endcan
+                    </div>
+                    <a href="{{ route('inventories.units.create', $inventory->id) }}" 
+                       data-no-spa="true"
+                       class="btn-success w-full justify-center py-2.5 flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        <span>Tambah Unit Baru</span>
+                    </a>
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                             <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex gap-3">
                                 <div class="w-16 h-16 bg-gray-50 rounded-lg border border-gray-100 flex-shrink-0 flex items-center justify-center overflow-hidden">
                                     @if($unit->photo)
-                                        <img src="{{ asset($unit->photo) }}" class="w-full h-full object-cover">
+                                        <img src="{{ asset($unit->photo) }}" class="w-full h-full object-cover" loading="lazy">
                                     @else
                                         <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     @endif

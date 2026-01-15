@@ -248,6 +248,19 @@ button[type="submit"].text-red-600:hover {
     transform: translateY(-1px);
 }
 
+/* Cancel specifically for Red */
+.btn-cancel, .btn-batal {
+    background: #ef4444 !important;
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.btn-cancel:hover, .btn-batal:hover {
+    background: #dc2626 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
 /* Row Action Exceptions (smaller size for tables) */
 .pro-btn-action {
     padding: 4px 10px !important;
@@ -655,10 +668,10 @@ hr {
         font-size: 1.0625rem !important; /* Forces 16px to avoid iOS zoom */
     }
 
-    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-cancel, .btn-batal {
         padding: 12px 20px !important;
         font-size: 1rem !important;
-        width: 100% !important; /* Stack buttons by default on small mobile */
+        width: auto !important; /* Prevent full width to allow horizontal layout */
     }
 
     .pro-btn-action {

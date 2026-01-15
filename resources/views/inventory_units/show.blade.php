@@ -32,7 +32,7 @@
                             </a>
                         @endcan
                         <a href="{{ route('inventories.show', $inventory->id) }}" 
-                           class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-[11px] font-semibold hover:bg-gray-200 transition-all">
+                           class="btn-cancel">
                             Kembali
                         </a>
                     </div>
@@ -54,7 +54,7 @@
                             <div class="text-[9px] font-bold text-gray-400 uppercase mb-2">Foto Unit</div>
                             <div class="min-h-[150px] flex items-center justify-center bg-white rounded border border-gray-100 overflow-hidden">
                                 @if ($unit->photo)
-                                    <img src="{{ asset($unit->photo) }}" class="max-w-full max-h-[250px] object-contain">
+                                    <img src="{{ asset($unit->photo) }}" class="max-w-full max-h-[250px] object-contain" loading="lazy">
                                 @else
                                     <div class="text-gray-300 py-10">Tidak ada foto</div>
                                 @endif

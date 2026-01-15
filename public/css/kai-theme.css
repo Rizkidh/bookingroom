@@ -433,6 +433,19 @@
     color: var(--kai-white);
 }
 
+/* Specific Batal class for compatibility and color */
+.kai-btn-batal {
+    background: linear-gradient(135deg, var(--kai-danger) 0%, var(--kai-danger-dark) 100%);
+    color: var(--kai-white);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.kai-btn-batal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    color: var(--kai-white);
+}
+
 .kai-btn-outline {
     background: transparent;
     color: var(--kai-navy);
@@ -776,7 +789,8 @@
     }
     
     .kai-btn {
-        width: 100%;
+        width: auto !important;
+        flex: 1;
     }
 }
 

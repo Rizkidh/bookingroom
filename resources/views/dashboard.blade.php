@@ -161,7 +161,7 @@
                         </button>
                     </div>
                     @if(request('search') || request('condition'))
-                        <a href="{{ route('dashboard') }}" class="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg text-xs font-bold hover:bg-gray-200 transition-all flex items-center">
+                        <a href="{{ route('dashboard') }}" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition-all flex items-center">
                             Reset
                         </a>
                     @endif
