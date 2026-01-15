@@ -8,23 +8,21 @@ deployment:
     - /bin/mkdir -p $COREPATH
     
     # 2. Sync Core Files (excluding public folder and git files)
-    # Added .env.hosting to excludes so it is not deleted from server
-    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='vendor' --exclude='.env.hosting' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
+    # We INCLUDE vendor here because the user is pushing it to Git
+    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
     
     # 3. Sync Public Files to public_html and patch index.php paths
     - /usr/bin/rsync -av --delete public/ $PUBLICPATH
     - /bin/sed -i "s|require __DIR__.'/../vendor/autoload.php'|require __DIR__.'/../inventory/vendor/autoload.php'|g" $PUBLICPATH/index.php
     - /bin/sed -i "s|require_once __DIR__.'/../bootstrap/app.php'|require_once __DIR__.'/../inventory/bootstrap/app.php'|g" $PUBLICPATH/index.php
     
-    # 4. Copy production environment (Make sure .env.hosting exists locally)
-    - /bin/cp $COREPATH/.env.hosting $COREPATH/.env
+    # 4. Copy production environment
+    - if [ -f $COREPATH/.env.hosting ]; then /bin/cp $COREPATH/.env.hosting $COREPATH/.env; fi
     
-    # 5. Install Dependencies & Run Laravel optimization
-    - cd $COREPATH && composer install --no-dev --optimize-autoloader
-    - cd $COREPATH && php artisan storage:link --force
-    - cd $COREPATH && php artisan optimize
-    - cd $COREPATH && php artisan migrate --force
+    # 5. Run Laravel optimization (skip composer install as user has no SSH/CLI support for it)
+    - if [ -f $COREPATH/artisan ]; then php $COREPATH/artisan storage:link --force; fi
+    - if [ -f $COREPATH/vendor/autoload.php ]; then php $COREPATH/artisan optimize; fi
     
     # 6. Correct Permissions
-    - /bin/chmod -R 755 $COREPATH/storage $COREPATH/bootstrap/cache
+    - /bin/chmod -R 775 $COREPATH/storage $COREPATH/bootstrap/cache
     - /bin/chmod 600 $COREPATH/.env

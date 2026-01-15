@@ -1,6 +1,7 @@
 # ===== Environment =====
 .env
 .env.*
+!.env.hosting
 !.env.example
 
 # ===== Laravel cache & logs =====
@@ -13,7 +14,7 @@
 /storage/framework/testing/*
 
 # ===== Composer =====
-/vendor/
+# /vendor/
 
 # ===== Node / Frontend =====
 /node_modules/
