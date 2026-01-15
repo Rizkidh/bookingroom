@@ -3,7 +3,7 @@
         <x-breadcrumbs :items="[]" />
     </div>
 
-    <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <div class="flex-1 flex flex-col min-h-0 overflow-hidden" data-auto-refresh="60">
         <!-- Stats Grid (Fixed Top) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-4 flex-shrink-0">
             <a href="{{ route('dashboard') }}" class="stat-card total">

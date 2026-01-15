@@ -39,11 +39,17 @@
 
         <!-- Content Area -->
         <div class="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 min-h-0 overflow-hidden">
-            <div class="section-header p-4 border-b border-gray-100 flex-shrink-0">
+            <div class="section-header p-4 border-b border-gray-100 flex-shrink-0 flex items-center justify-between">
                 <h2 class="text-base font-bold text-gray-800 flex items-center gap-2">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Riwayat Aktivitas & Audit Trail
                 </h2>
+                <a href="{{ route('activity-logs.export', request()->all()) }}" 
+                   data-turbo="false"
+                   class="btn-success px-4 py-2 text-xs flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Export CSV</span>
+                </a>
             </div>
             
             <div class="flex-1 overflow-y-auto min-h-0 bg-gray-50/50">

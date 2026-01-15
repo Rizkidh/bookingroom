@@ -214,7 +214,7 @@
 
                 <!-- Bottom Navigation (Mobile Only) - Symmetrical 5-Slot Layout -->
                 <nav class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-100 z-[60] safe-area-bottom shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-                    <div class="mobile-nav-container">
+                    <div class="mobile-nav-container flex justify-around items-center h-full">
                         <!-- Slot 1: Beranda -->
                         <a href="{{ route('dashboard') }}"
                            class="mobile-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -235,14 +235,16 @@
 
                         <!-- Slot 3: Center Scan Button -->
                         <div class="mobile-scan-btn-wrapper">
-                            <a href="{{ route('units.scan') }}" data-no-spa="true" class="mobile-scan-btn">
+                            <a href="{{ route('units.scan') }}" 
+                               data-turbo="false" 
+                               class="mobile-scan-btn {{ request()->routeIs('units.scan') ? 'active' : '' }}">
                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h2m16 0h2M4 20h2m9-16V4m2 2h2M4 8h2m2-4h2" />
                                 </svg>
                             </a>
                         </div>
 
-                        <!-- Slot 4: Log (Admin/Supervisor) or Manual (User) -->
+                        <!-- Slot 4: Log or Profile -->
                         @can('viewAny', App\Models\ActivityLog::class)
                             <a href="{{ route('activity-logs.index') }}"
                                class="mobile-nav-item {{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
@@ -261,7 +263,7 @@
                             </a>
                         @endcan
 
-                        <!-- Slot 5: Logout (Symmetry and utility) -->
+                        <!-- Slot 5: Logout or Profile -->
                         @can('viewAny', App\Models\ActivityLog::class)
                             <a href="{{ route('profile.edit') }}"
                                class="mobile-nav-item {{ request()->routeIs('profile.*') ? 'active' : '' }}">
@@ -331,6 +333,40 @@
                     });
                 });
             }
+
+            // Auto-Refresh Logic
+            let refreshTimer = null;
+
+            function startRefreshTimer() {
+                stopRefreshTimer();
+                const refreshElement = document.querySelector('[data-auto-refresh]');
+                if (refreshElement) {
+                    const seconds = parseInt(refreshElement.dataset.autoRefresh) || 60;
+                    console.log(`Auto-refresh active: ${seconds}s`);
+                    refreshTimer = setTimeout(() => {
+                        if (typeof Turbo !== 'undefined') {
+                            console.log('Refreshing page via Turbo...');
+                            Turbo.visit(window.location.href, { action: 'replace' });
+                        } else {
+                            window.location.reload();
+                        }
+                    }, seconds * 1000);
+                }
+            }
+
+            function stopRefreshTimer() {
+                if (refreshTimer) {
+                    clearTimeout(refreshTimer);
+                    refreshTimer = null;
+                }
+            }
+
+            document.addEventListener('turbo:load', startRefreshTimer);
+            document.addEventListener('turbo:before-cache', stopRefreshTimer);
+            // Fallback for non-turbo navigations
+            window.addEventListener('pageshow', startRefreshTimer);
+            window.addEventListener('pagehide', stopRefreshTimer);
+
             const swalConfig = {
                 reverseButtons: true,
                 buttonsStyling: false,
