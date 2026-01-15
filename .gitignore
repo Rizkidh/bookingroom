@@ -14,7 +14,7 @@
 /storage/framework/testing/*
 
 # ===== Composer =====
-# /vendor/
+/vendor/
 
 # ===== Node / Frontend =====
 /node_modules/

@@ -7,9 +7,8 @@ deployment:
     # 1. Create core folder if it doesn't exist
     - /bin/mkdir -p $COREPATH
     
-    # 2. Sync Core Files (excluding public folder and git files)
-    # We INCLUDE vendor here because the user is pushing it to Git
-    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
+    # 2. Sync Core Files (excluding public folder, git files, and vendor)
+    - /usr/bin/rsync -av --delete --exclude='.git*' --exclude='node_modules' --exclude='/vendor' --exclude='/public' --exclude='storage/logs/*' . $COREPATH
     
     # 3. Sync Public Files to public_html and patch index.php paths
     - /usr/bin/rsync -av --delete public/ $PUBLICPATH
