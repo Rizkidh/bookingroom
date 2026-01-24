@@ -16,7 +16,13 @@ class ImageHelper
             mkdir($destinationPath, 0755, true);
         }
 
-        $file->move($destinationPath, $filename);
+        // Compress and resize image using Intervention Image
+        \Intervention\Image\Facades\Image::make($file)
+            ->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->save($destinationPath . '/' . $filename, 75);
 
         return $folder . '/' . $filename;
     }

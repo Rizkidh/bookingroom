@@ -10,11 +10,16 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $totalUnits = InventoryUnit::count();
-        $availableUnits = InventoryUnit::where('condition_status', 'available')->count();
-        $damagedUnits = InventoryUnit::where('condition_status', 'damaged')->count();
-        $inUseUnits = InventoryUnit::where('condition_status', 'in_use')->count();
-        $maintenanceUnits = InventoryUnit::where('condition_status', 'maintenance')->count();
+        $statusCounts = InventoryUnit::selectRaw('condition_status, count(*) as count')
+            ->groupBy('condition_status')
+            ->pluck('count', 'condition_status')
+            ->toArray();
+
+        $totalUnits = array_sum($statusCounts);
+        $availableUnits = $statusCounts['available'] ?? 0;
+        $damagedUnits = $statusCounts['damaged'] ?? 0;
+        $inUseUnits = $statusCounts['in_use'] ?? 0;
+        $maintenanceUnits = $statusCounts['maintenance'] ?? 0;
 
         $query = InventoryUnit::with('item');
 

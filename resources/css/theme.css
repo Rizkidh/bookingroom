@@ -248,6 +248,19 @@ button[type="submit"].text-red-600:hover {
     transform: translateY(-1px);
 }
 
+/* Cancel specifically for Red */
+.btn-cancel, .btn-batal {
+    background: #ef4444 !important;
+    color: white !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.btn-cancel:hover, .btn-batal:hover {
+    background: #dc2626 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
 /* Row Action Exceptions (smaller size for tables) */
 .pro-btn-action {
     padding: 4px 10px !important;
@@ -655,10 +668,10 @@ hr {
         font-size: 1.0625rem !important; /* Forces 16px to avoid iOS zoom */
     }
 
-    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+    button, .btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-cancel, .btn-batal {
         padding: 12px 20px !important;
         font-size: 1rem !important;
-        width: 100% !important; /* Stack buttons by default on small mobile */
+        width: auto !important; /* Prevent full width to allow horizontal layout */
     }
 
     .pro-btn-action {
@@ -989,51 +1002,56 @@ nav[role="navigation"] svg {
 
 .mobile-nav-item:active {
     transform: scale(0.95);
+    opacity: 0.8;
 }
 
 .mobile-nav-item.active {
     color: var(--kai-orange) !important;
+    background-color: rgba(249, 115, 22, 0.08);
+    transform: translateY(-2px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mobile-nav-item.active svg {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 4px 6px rgba(249, 115, 22, 0.2));
+    stroke-width: 2.5;
+    filter: drop-shadow(0 2px 4px rgba(249, 115, 22, 0.2));
 }
 
 .mobile-scan-btn-wrapper {
     position: relative;
-    top: -12px;
+    top: -15px;
     z-index: 70;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70px;
 }
 
 .mobile-scan-btn {
-    width: 56px;
-    height: 56px;
+    width: 4.5rem;
+    height: 4.5rem;
     background: linear-gradient(135deg, var(--kai-orange) 0%, var(--kai-orange-dark) 100%);
-    border-radius: 18px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white !important;
-    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
     border: 4px solid white;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobile-scan-btn:active {
-    transform: scale(0.9) rotate(-5deg);
-    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+.mobile-scan-btn.active {
+    transform: scale(1.1) translateY(-5px);
+    border-color: var(--kai-orange-light);
+    box-shadow: 0 15px 35px rgba(249, 115, 22, 0.6);
 }
 
 .mobile-nav-container {
     height: var(--mobile-nav-height);
     display: flex;
-    align-items: stretch;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
     position: relative;
+    width: 100%;
 }
 

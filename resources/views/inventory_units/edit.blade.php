@@ -33,7 +33,7 @@
                             
                             @if ($unit->photo)
                                 <div class="relative group rounded-lg overflow-hidden border border-gray-200 bg-white shadow-sm aspect-square flex items-center justify-center">
-                                    <img src="{{ asset($unit->photo) }}" class="max-full max-h-full object-contain">
+                                    <img src="{{ asset($unit->photo) }}" class="max-full max-h-full object-contain" loading="lazy">
                                     <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <p class="text-white text-[10px] font-bold">Foto Terpasang</p>
                                     </div>
@@ -113,7 +113,7 @@
                 <!-- Footer Actions -->
                 <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
                     <a href="{{ route('inventories.show', $inventory->id) }}" 
-                       class="btn-secondary">
+                       class="btn-cancel">
                         Batal
                     </a>
                     <button type="submit" class="btn-success px-8">

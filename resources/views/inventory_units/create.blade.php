@@ -186,7 +186,7 @@
                 <!-- Footer Actions -->
                 <div class="mt-auto pt-10 border-t border-gray-100 flex items-center justify-end gap-3">
                     <a href="{{ route('inventories.show', $inventory->id) }}" 
-                       class="btn-secondary">
+                       class="btn-cancel">
                         Batal
                     </a>
                     <button type="submit" class="btn-success px-8">

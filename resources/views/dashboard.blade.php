@@ -3,7 +3,7 @@
         <x-breadcrumbs :items="[]" />
     </div>
 
-    <div class="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <div class="flex-1 flex flex-col min-h-0 overflow-hidden" data-auto-refresh="60">
         <!-- Stats Grid (Fixed Top) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-4 flex-shrink-0">
             <a href="{{ route('dashboard') }}" class="stat-card total">
@@ -161,7 +161,7 @@
                         </button>
                     </div>
                     @if(request('search') || request('condition'))
-                        <a href="{{ route('dashboard') }}" class="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg text-xs font-bold hover:bg-gray-200 transition-all flex items-center">
+                        <a href="{{ route('dashboard') }}" class="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200 transition-all flex items-center">
                             Reset
                         </a>
                     @endif

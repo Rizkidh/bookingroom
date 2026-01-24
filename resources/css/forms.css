@@ -134,12 +134,13 @@
 
 .form-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* Align to the right */
     align-items: center;
     gap: 1rem;
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 2px solid var(--border-gray);
+    flex-wrap: nowrap; /* Prevent wrapping unless necessary */
 }
 
 .btn-submit {
@@ -173,21 +174,22 @@
     align-items: center;
     gap: 0.5rem;
     padding: 6px 16px;
-    background: linear-gradient(135deg, var(--text-light) 0%, var(--text-dark) 100%);
+    background: #ef4444; /* Changed to Red */
     color: white;
     text-decoration: none;
     border-radius: 6px;
     font-size: 0.8125rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(107, 114, 128, 0.2);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
     border: none;
     cursor: pointer;
 }
 
 .btn-cancel:hover {
+    background: #dc2626;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
     color: white;
     text-decoration: none;
 }
@@ -253,10 +255,16 @@ select {
 
     .btn-submit,
     .btn-cancel {
-        width: 100%;
+        width: auto !important; /* Prevent full width */
+        flex: 1; /* Allow equal width buttons */
         justify-content: center;
         padding: 12px 20px;
         font-size: 1rem;
+    }
+    
+    .form-actions {
+        flex-direction: row !important; /* Force horizontal */
+        gap: 0.75rem;
     }
 }
 

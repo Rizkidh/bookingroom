@@ -48,7 +48,7 @@
 
                 <!-- Footer Actions -->
                 <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-end gap-3">
-                    <a href="{{ route('inventories.index') }}" class="btn-secondary">
+                    <a href="{{ route('inventories.index') }}" class="btn-cancel">
                         Batal
                     </a>
                     <button type="submit" class="btn-success px-8">
