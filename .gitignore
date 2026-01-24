@@ -1,5 +1,7 @@
 # ===== Environment =====
 .env
+.env.backup
+.env.production
 .env.*
 !.env.example
 
@@ -11,33 +13,55 @@
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/framework/testing/*
+.phpunit.result.cache
+
+# ===== Database =====
+*.sqlite
+*.sqlite-journal
+*.sql
+*.dump
 
 # ===== Composer =====
 /vendor/
+auth.json
 
-# ===== Node / Frontend =====
+# ===== Node / Frontend (Vite) =====
 /node_modules/
-/npm-debug.log*
-/yarn-debug.log*
-/yarn-error.log*
-
-# ===== Build assets =====
 /public/hot
+# /public/build <- Keep this UN-IGNORED for shared hosting so built assets are committed
 /public/storage
 /public/mix-manifest.json
+npm-debug.log
+yarn-error.log
+
+# ===== Compressed / Backup Files =====
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*.swp
 
 # ===== IDE / OS =====
 .idea/
 .vscode/
-*.swp
+.settings/
 *.swo
 *.DS_Store
 Thumbs.db
+desktop.ini
 
-# ===== cPanel / Hosting =====
+# ===== Server / Hosting =====
 .htaccess.bak
 .error_log
-.user.ini
+error_log
+php_error.log
+public/info.php
+server.php
+web.config
 
-# ===== Tests & temp =====
-/.phpunit.result.cache
+# ===== Testing =====
+/coverage/
+/reports/
+phpunit.xml
+!phpunit.xml.dist
